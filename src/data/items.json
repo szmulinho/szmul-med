@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "name": "apap",
+    "price": 9.99,
+    "imgUrl": "/images/apap.jpg"
+  },
+{
+   "id": "2",
+  "name": "ibuprom",
+  "price": "8.99",
+  "imgUrl": "/images/ibuprom.jpg"
+},
+{
+  "id": "3",
+  "name": "glimbax",
+  "price": 59.99,
+  "imgUrl": "/images/glimbax.jpg"
+},
+{
+  "id": "4",
+  "name": "cbd",
+  "price": 50,
+  "imgUrl": "/images/cbd.jpg"
+}
+]
+
+
+
