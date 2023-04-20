@@ -1,24 +1,30 @@
 [
   {
-    "id": "1",
+    "id": 5,
+    "name": "medical bagniak 5g",
+    "price": 100,
+    "imgUrl": "/images/btn.jpg"
+  },
+  {
+    "id": 1,
     "name": "apap",
     "price": 9.99,
     "imgUrl": "/images/apap.jpg"
   },
 {
-   "id": "2",
+   "id": 2,
   "name": "ibuprom",
   "price": "8.99",
   "imgUrl": "/images/ibuprom.jpg"
 },
 {
-  "id": "3",
+  "id": 3,
   "name": "glimbax",
   "price": 59.99,
   "imgUrl": "/images/glimbax.jpg"
 },
 {
-  "id": "4",
+  "id": 4,
   "name": "cbd",
   "price": 50,
   "imgUrl": "/images/cbd.jpg"

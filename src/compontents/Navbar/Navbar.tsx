@@ -3,15 +3,14 @@ import {NavLink} from "react-router-dom";
 import myLogo from "./images/logo.png"
 
 export function Navbar() {
-    return <NavbarBs sticky="top" className="shadow-sm mb-3" style={{height: "6rem", backgroundColor: "#aff09e"}}>
+    return <NavbarBs sticky="top" className="shadow-sm mb-0" style={{height: "6rem", backgroundColor: "#aff09e"}}>
         <Container>
-            <Button>
-            <Image src={myLogo} fluid style={{width: "280px", height: "120px", position: "absolute", left: 20}}></Image>
+            <Button variant="link" style={{width: "300px", height: "100px", position: "relative", right: 250, bottom: 16, backgroundColor: "#aff09e"}}
+            href={"/"}>
+            <Image src={myLogo} fluid style={{width: "280px", height: "120px", position: "relative", left: 20}}></Image>
             </Button>
             <Nav className="me-auto" style={{position: "absolute", right: 100}}>
-                <Nav.Link to={"/"} as={NavLink}>
-                    Home
-                </Nav.Link>
+
                 <Nav.Link to={"/clinic"} as={NavLink}>
                     Clinic
                 </Nav.Link>
@@ -20,6 +19,9 @@ export function Navbar() {
                 </Nav.Link>
                 <Nav.Link to={"/contact"} as={NavLink}>
                     Contact
+                </Nav.Link>
+                <Nav.Link to={"/about"} as={NavLink}>
+                    About
                 </Nav.Link>
             </Nav>
         </Container>

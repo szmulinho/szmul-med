@@ -1,11 +1,9 @@
-import {Container, Nav, Navbar} from "react-bootstrap";
 import {NavbarCl} from "../compontents/Navbar/NavbarCl";
+import {GetComp} from "../compontents/ShowPresc";
 
-
-export function Clinic() {
+export function ShowPresc() {
     return <h1>
         <NavbarCl />
-
-
+        <GetComp />
     </h1>
 }
