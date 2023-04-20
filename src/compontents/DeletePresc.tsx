@@ -5,7 +5,8 @@ import { CreatePrescInput } from '../data/api';
 
 export function DeletePresc() {
     const [prescId, setPrescId] = useState('');
-    const [prescs, setPrescs] = useState<CreatePrescInput[]>([]);
+    const [prescs, setPrescs] = useState<CreatePrescInput[] | null>(null);
+
 
     useEffect(() => {
         const fetchPrescs = async () => {
@@ -32,20 +33,25 @@ export function DeletePresc() {
             <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
                 <div className="form-group">
                     <label htmlFor="prescId">Select Prescription:</label>
-                    <select
-                        id="prescId"
-                        className="form-control"
-                        value={prescId}
-                        onChange={(event) => setPrescId(event.target.value)}
-                    >
-                        <option value="">-- Select a Prescription --</option>
-                        {prescs.map((presc) => (
-                            <option key={presc.preid} value={presc.preid}>
-                                {presc.preid} - {presc.drugs} - {presc.expiration}
-                            </option>
-                        ))}
-                    </select>
+                    {prescs === null ? (
+                        <p>No prescriptions available</p>
+                    ) : (
+                        <select
+                            id="prescId"
+                            className="form-control"
+                            value={prescId}
+                            onChange={(event) => setPrescId(event.target.value)}
+                        >
+                            <option value="">-- Select a Prescription --</option>
+                            {prescs.map((presc) => (
+                                <option key={presc.preid} value={presc.preid}>
+                                    {presc.preid} - {presc.drugs} - {presc.expiration}
+                                </option>
+                            ))}
+                        </select>
+                    )}
                 </div>
+
                 <Button variant="danger" type="submit" className="mt-3">
                     Delete Prescription
                 </Button>

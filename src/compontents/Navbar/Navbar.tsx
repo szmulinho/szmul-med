@@ -3,7 +3,11 @@ import {NavLink} from "react-router-dom";
 import myLogo from "./images/logo.png"
 
 export function Navbar() {
-    return <NavbarBs sticky="top" className="shadow-sm mb-0" style={{height: "6rem", backgroundColor: "#aff09e"}}>
+    return  <NavbarBs
+        sticky="top"
+        className="shadow-sm mb-0"
+        style={{height: "6rem", backgroundColor: "#aff09e"}}
+    >
         <Container>
             <Button variant="link" style={{width: "300px", height: "100px", position: "relative", right: 250, bottom: 16, backgroundColor: "#aff09e"}}
             href={"/"}>

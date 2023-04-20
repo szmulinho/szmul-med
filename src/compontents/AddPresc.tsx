@@ -28,7 +28,6 @@ export function AddPresc() {
         await postPresc(postData);
     };
 
-
     const handleDrugChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const drugId = event.target.value;
         const selectedDrugs = postData.drugs;
@@ -45,6 +44,7 @@ export function AddPresc() {
 
         setPostData({ ...postData, drugs: selectedDrugs });
     };
+
 
 
 
@@ -67,23 +67,25 @@ export function AddPresc() {
                 </div>
                 <div>
                     <label className="mt-auto d-flex flex-column align-items-center justify-content-center" htmlFor="drugs">Drugs:</label>
-                    <select
-                        id="drugs"
-                        className="form-control"
-                        style={{ width: "20rem", height: "10rem", fontSize: "1rem", color: "grey" }}
-                        multiple
-                        value={postData.drugs}
-                        onChange={handleDrugChange}
-                    >
-                        {drugsData.map((drug) => {
-                            console.log(drug); // add this line to check the drug object
-                            return (
+                    {drugsData && drugsData.length > 0 ? (
+                        <select
+                            id="drugs"
+                            className="form-control"
+                            style={{ width: "20rem", height: "10rem", fontSize: "1rem", color: "grey" }}
+                            multiple
+                            value={postData.drugs}
+                            onChange={handleDrugChange}
+                        >
+                            {drugsData.map((drug) => (
                                 <option key={drug.drugid}>
                                     {drug.name} - {drug.price}
                                 </option>
-                            );
-                        })}
-                    </select>
+                            ))}
+                        </select>
+                    ) : (
+                        <p>No drugs found.</p>
+                    )}
+
 
                 </div>
                 <div className="form-group">

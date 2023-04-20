@@ -5,7 +5,7 @@ import { Drug } from '../data/api';
 
 export function DeleteDrug() {
     const [drugId, setDrugId] = useState('');
-    const [drugs, setDrugs] = useState<Drug[]>([]);
+    const [drugs, setDrugs] = useState<Drug[] | null>(null);
 
     useEffect(() => {
         const fetchDrugs = async () => {
@@ -32,20 +32,24 @@ export function DeleteDrug() {
         <Container className="mt-5">
             <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
                 <div className="form-group">
-                    <label htmlFor="drugId">Select drugs:</label>
+                    <label className="d-flex flex-column align-items-center" htmlFor="drugId">Select drugs:</label>
+                    {drugs === null ? (
+                        <p>No drugs avalible</p>
+                        ) : (
                     <select
                         id="drugId"
                         className="form-control"
                         value={drugId}
                         onChange={(event) => setDrugId(event.target.value)}
                     >
-                        <option value="">-- Select drug --</option>
+                        <option value="">-- Select a Prescription --</option>
                         {drugs.map((drug) => (
                             <option key={drug.drugid} value={drug.drugid}>
                                 {drug.drugid} - {drug.name} - {drug.price}
                             </option>
                         ))}
                     </select>
+                        )}
                 </div>
                 <Button variant="danger" type="submit" className="mt-3">
                     Delete drug
