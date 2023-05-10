@@ -18,6 +18,8 @@ import { Add_drug } from "./pages/add_drug";
 import {Delete_presc} from "./pages/delete_presc";
 import {Delete_drug} from "./pages/delete_drug";
 import {Update_drug} from "./pages/update_drug";
+import {Log} from "./pages/users/login";
+import {Register} from "./pages/users/register";
 
 function App() {
  return (
@@ -39,6 +41,8 @@ function App() {
        <Route path="/clinic/delete_presc" element={<Delete_presc/>}></Route>
        <Route path="/clinic/delete_drug" element={<Delete_drug/>}></Route>
        <Route path="/clinic/update_drug" element={<Update_drug/>}></Route>
+       <Route path="/login" element={<Log/>}></Route>
+       <Route path="/register" element={<Register/>}></Route>
    </Routes>
   </Container>
          </ShoppingCartProvider>

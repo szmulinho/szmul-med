@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import {Button, Container} from 'react-bootstrap';
-import { postPresc, CreatePrescInput, Drug, getDrug } from '../data/api';
+import { postPresc, CreatePrescInput } from '../data/prescription';
+import { Drug , getDrug } from '../data/drugstore';
 import {AddDrug} from "./AddDrug";
 import {Image} from "react-bootstrap";
 
@@ -16,7 +17,6 @@ export function AddPresc() {
     useEffect(() => {
         const fetchData = async () => {
             const result = await getDrug();
-            console.log(result);
             setDrugsData(result);
         };
 
@@ -35,10 +35,8 @@ export function AddPresc() {
         const isSelected = drugIndex >= 0;
 
         if (isSelected) {
-            // If the drug is already selected, remove it from the list
             selectedDrugs.splice(drugIndex, 1);
         } else {
-            // If the drug is not yet selected, add it to the list
             selectedDrugs.push(drugId);
         }
 

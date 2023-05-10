@@ -9,7 +9,7 @@ export function Navbar() {
         style={{height: "6rem", backgroundColor: "#aff09e"}}
     >
         <Container>
-            <Button variant="link" style={{width: "300px", height: "100px", position: "relative", right: 250, bottom: 16, backgroundColor: "#aff09e"}}
+            <Button className={"mt-4s d-flex flex-column align-items-center justify-content-center"} variant="link" style={{width: "300px", height: "95px", position: "relative", backgroundColor: "#aff09e"}}
             href={"/"}>
             <Image src={myLogo} fluid style={{width: "280px", height: "120px", position: "relative", left: 20}}></Image>
             </Button>

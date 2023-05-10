@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
-import {deleteDrug, deletePresc, getPresc} from '../data/api';
-import { CreatePrescInput } from '../data/api';
+import { deleteDrug } from '../data/drugstore';
+import { CreatePrescInput, deletePresc, getPresc } from '../data/prescription';
 
 export function DeletePresc() {
     const [prescId, setPrescId] = useState('');

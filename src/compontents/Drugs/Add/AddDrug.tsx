@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {Button, Container} from 'react-bootstrap';
-import { postDrug, Drug } from '../data/api';
+import { postDrug, Drug } from '../data/drugstore';
 
 export function AddDrug() {
     const [postData, setPostData] = useState<Drug>({
