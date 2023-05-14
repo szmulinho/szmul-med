@@ -1,5 +1,5 @@
-import {NavbarCl} from "../compontents/Navbar/NavbarCl";
-import {GetComp} from "../compontents/ShowPresc";
+import {NavbarCl} from "../../compontents/Navbar/NavbarCl";
+import {GetComp} from "../../compontents/Prescriptions/Show/ShowPresc";
 
 export function ShowPresc() {
     return <h1>

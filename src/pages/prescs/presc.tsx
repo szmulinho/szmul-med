@@ -1,5 +1,5 @@
-import {NavbarCl} from "../compontents/Navbar/NavbarCl";
-import {AddPresc} from "../compontents/AddPresc";
+import {NavbarCl} from "../../compontents/Navbar/NavbarCl";
+import {AddPresc} from "../../compontents/Prescriptions/Add/AddPresc";
 
 export function Presc() {
     return <h1>

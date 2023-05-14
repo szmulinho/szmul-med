@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
-import { deleteDrug, getDrug } from '../data/drugstore';
-import { Drug } from '../data/drugstore';
+import { deleteDrug, getDrug } from '../../../data/drugstore';
+import { Drug } from '../../../data/drugstore';
 
 export function DeleteDrug() {
     const [drugId, setDrugId] = useState('');

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
-import { deleteDrug, getDrug, updateDrug, Drug } from '../data/drugstore';
+import { deleteDrug, getDrug, updateDrug, Drug } from '../../../data/drugstore';
 
 export function UpdateDrug() {
     const [drugId, setDrugId] = useState('');

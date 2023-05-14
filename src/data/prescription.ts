@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { Drug } from './drugstore';
+
 
 export interface CreatePrescInput {
-    preid: string;
-    drugs: string[];
+    preid: number;
+    drugs: {name: string, price: string}[];
     expiration: string;
 }
+
 
 export async function getPresc(): Promise<CreatePrescInput[]> {
     const response = await axios.get('http://localhost:8080/prescs');
@@ -15,7 +18,6 @@ export async function postPresc(postData: CreatePrescInput): Promise<CreatePresc
     const response = await axios.post('http://localhost:8080/presc', postData);
     return response.data;
 }
-
 
 export async function GetPrescID(preId: string): Promise<CreatePrescInput> {
     const response = await axios.get(`http://localhost:8080/presc/${preId}`);

@@ -1,4 +1,4 @@
-import { getPresc, CreatePrescInput } from '../data/prescription';
+import { getPresc, CreatePrescInput } from '../../../data/prescription';
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';

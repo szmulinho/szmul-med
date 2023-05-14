@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import {Button, Container} from 'react-bootstrap';
-import { postDrug, Drug } from '../data/drugstore';
+import { postDrug, Drug } from '../../../data/drugstore';
 
 export function AddDrug() {
     const [postData, setPostData] = useState<Drug>({
-        drugid: '',
+        drugid: 0,
         name: '',
         price: '',
     });
@@ -18,16 +18,6 @@ export function AddDrug() {
         <Container className="mt-auto d-flex flex-column align-items-center justify-content-center">
             <form onSubmit={handleSubmit} className="mt-auto d-flex flex-column align-items-center justify-content-center">
                 <div>
-                    <label>Drug ID:</label>
-                    <input
-                        type="text"
-                        value={postData.drugid || ''}
-                        onChange={(event) =>
-                            setPostData({...postData, drugid: event.target.value})
-                        }
-                    />
-                </div>
-                <div>
                     <label>Name:</label>
                     <input
                         type="text"
@@ -40,10 +30,12 @@ export function AddDrug() {
                 <div>
                     <label>Price:</label>
                     <input
-                        type="text"
-                        value={postData.price || ''}
+                        type="number"
+                        value={postData.price || 1}
+                        step="0.01"
+                        min="0"
                         onChange={(event) =>
-                            setPostData({...postData, price: event.target.value})
+                            setPostData({...postData, price: (event.target.value)})
                         }
                     />
                 </div>

@@ -1,5 +1,5 @@
-import {NavbarCl} from "../compontents/Navbar/NavbarCl";
-import {DeletePresc} from "../compontents/DeletePresc";
+import {NavbarCl} from "../../compontents/Navbar/NavbarCl";
+import {DeletePresc} from "../../compontents/Prescriptions/Delete/DeletePresc";
 
 export function Delete_presc() {
     return (

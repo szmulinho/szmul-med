@@ -27,7 +27,7 @@ export function Login() {
             localStorage.setItem("token", data.token);
             navigate("/dashboard");
         } else {
-            alert("Invalid username or password");
+            alert("Invalid login or password");
         }
     };
 

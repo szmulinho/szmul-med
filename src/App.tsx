@@ -7,17 +7,17 @@ import {Navbar} from "./compontents/Navbar/Navbar"
 import {Contact} from "./pages/contact"
 import {About} from "./pages/about"
 import {ShoppingCartProvider} from "./context/ShoppingCartContext";
-import {Presc} from "./pages/presc";
-import {ShowPresc} from "./pages/show_presc";
-import {ShowPrescID} from "./compontents/ShowPrescID";
-import {ShowAllDrugs} from "./compontents/ShowAllDrugs";
+import {Presc} from "./pages/prescs/presc";
+import {ShowPresc} from "./pages/prescs/show_presc";
+import {ShowPrescID} from "./compontents/Prescriptions/Show/ShowPrescID";
+import {ShowAllDrugs} from "./compontents/Drugs/Show/ShowAllDrugs";
 import { NavbarCl } from "./compontents/Navbar/NavbarCl";
-import {Show_presc_id} from "./pages/show_presc_id";
-import {Show_all_drugs} from "./pages/show_all_drugs";
-import { Add_drug } from "./pages/add_drug";
-import {Delete_presc} from "./pages/delete_presc";
-import {Delete_drug} from "./pages/delete_drug";
-import {Update_drug} from "./pages/update_drug";
+import {Show_presc_id} from "./pages/prescs/show_presc_id";
+import {Show_all_drugs} from "./pages/drugs/show_all_drugs";
+import { Add_drug } from "./pages/drugs/add_drug";
+import {Delete_presc} from "./pages/prescs/delete_presc";
+import {Delete_drug} from "./pages/drugs/delete_drug";
+import {Update_drug} from "./pages/drugs/update_drug";
 import {Log} from "./pages/users/login";
 import {Register} from "./pages/users/register";
 

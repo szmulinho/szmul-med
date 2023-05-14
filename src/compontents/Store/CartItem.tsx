@@ -1,8 +1,8 @@
-import {useShoppingCart} from "../context/ShoppingCartContext";
-import storeItems from "../data/items.json";
+import {useShoppingCart} from "../../context/ShoppingCartContext";
+import storeItems from "../../data/items.json";
 import {teal} from "@mui/material/colors";
 import {Button, Stack} from "react-bootstrap";
-import {formatCurrency} from "../utillities/formatCurrency";
+import {formatCurrency} from "../../utillities/formatCurrency";
 
 type CartItemProps = {
     id: number

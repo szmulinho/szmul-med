@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GetPrescID, CreatePrescInput } from '../data/prescription';
+import { GetPrescID, CreatePrescInput } from '../../../data/prescription';
 import {Button} from "react-bootstrap";
 
 export function ShowPrescID() {

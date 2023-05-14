@@ -1,5 +1,5 @@
-import {NavbarCl} from "../compontents/Navbar/NavbarCl";
-import {UpdateDrug} from "../compontents/UpdateDrug";
+import {NavbarCl} from "../../compontents/Navbar/NavbarCl";
+import {UpdateDrug} from "../../compontents/Drugs/Update/UpdateDrug";
 
 export function Update_drug() {
     return (

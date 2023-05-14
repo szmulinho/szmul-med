@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export interface Drug {
-    drugid: string;
+    drugid: number;
     name: string;
     price: string;
 }

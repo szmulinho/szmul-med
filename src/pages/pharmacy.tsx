@@ -1,6 +1,6 @@
 import {Container, Nav, Button, Navbar as NavbarPc, Row, Col, InputGroup, Form} from "react-bootstrap"
 import storeItems from "../data/items.json"
-import {StoreItem} from "../compontents/StoreItem";
+import {StoreItem} from "../compontents/Store/StoreItem";
 import {useShoppingCart} from "../context/ShoppingCartContext";
 
 
