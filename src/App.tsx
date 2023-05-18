@@ -20,10 +20,13 @@ import {Delete_drug} from "./pages/drugs/delete_drug";
 import {Update_drug} from "./pages/drugs/update_drug";
 import {Log} from "./pages/users/login";
 import {Register} from "./pages/users/register";
+import {UserContextProvider} from "./context/UserContext";
+import { DocLog } from "./compontents/Doctors/DocLog";
 
 function App() {
  return (
      <>
+         <UserContextProvider>
          <ShoppingCartProvider>
      <Navbar />
      <Container className="mb4">
@@ -42,10 +45,12 @@ function App() {
        <Route path="/clinic/delete_drug" element={<Delete_drug/>}></Route>
        <Route path="/clinic/update_drug" element={<Update_drug/>}></Route>
        <Route path="/login" element={<Log/>}></Route>
+       <Route path="/doctor" element={<DocLog/>}></Route>
        <Route path="/register" element={<Register/>}></Route>
    </Routes>
   </Container>
          </ShoppingCartProvider>
+         </UserContextProvider>
      </>
  )}
 
