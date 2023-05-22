@@ -1,6 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { Drug } from './drugstore';
-
 
 export interface CreatePrescInput {
     preid: number;
@@ -8,6 +7,12 @@ export interface CreatePrescInput {
     expiration: string;
 }
 
+export interface User {
+    id: number;
+    login: string;
+    password: string;
+    role: string;
+}
 
 export async function getPresc(): Promise<CreatePrescInput[]> {
     const response = await axios.get('http://localhost:8080/prescs');
@@ -30,4 +35,15 @@ export async function deletePresc(id: string): Promise<void> {
     } catch (error) {
         console.error(`Error deleting prescription with ID ${id}: ${error}`);
     }
+}
+
+export async function GetUserData(token: string): Promise<User> {
+    const config: AxiosRequestConfig = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
+    const response = await axios.get('http://localhost:8080/user', config);
+    return response.data;
 }

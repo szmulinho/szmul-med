@@ -1,37 +1,47 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { Button, Form } from "react-bootstrap";
-
-interface User {
-    login: string;
-    password: string;
-}
+import React, { useState, useContext, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Form } from 'react-bootstrap';
+import { UserContext, UserContextProps } from '../../context/UserContext';
+import { GetUserData } from '../../data/prescription';
 
 export function DocLog() {
     const navigate = useNavigate();
-    const [user, setUser] = useState<User>({ login: "", password: "" });
+    const { login } = useContext(UserContext) as UserContextProps;
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const [user, setUser] = useState({ login: '', password: '' });
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const response = await fetch("http://localhost:8080/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user),
-        });
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem("token", data.token);
-            navigate("/dashboard");
-        } else {
-            alert("Invalid login or password");
+        try {
+            const response = await fetch('http://localhost:8080/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+                console.log('Token:', token);
+                localStorage.setItem('token', token);
+
+                // Pobieranie danych użytkownika po zalogowaniu
+                const userData = await GetUserData(token);
+                login(userData);
+                navigate('/doctor');
+            } else {
+                alert('Invalid login or password');
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            alert('Error logging in');
         }
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setUser((prevState) => ({ ...prevState, [name]: value }));
     };
@@ -72,4 +82,3 @@ export function DocLog() {
         </div>
     );
 }
-

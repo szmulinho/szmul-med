@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {Button, Container} from 'react-bootstrap';
 import { postPresc, CreatePrescInput } from '../../../data/prescription';
 import { Drug , getDrug } from '../../../data/drugstore';
 import {AddDrug} from "../../Drugs/Add/AddDrug";
 import {Image} from "react-bootstrap";
+import {Navigate} from "react-router-dom";
 
 export function AddPresc() {
 
