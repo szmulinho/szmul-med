@@ -17,45 +17,68 @@ import { Delete_drug } from "./pages/drugs/delete_drug";
 import { Update_drug } from "./pages/drugs/update_drug";
 import { Log } from "./pages/users/login";
 import { Register } from "./pages/users/register";
-import { UserContextProvider } from "./context/UserContext";
+import {UserContext, UserContextProps, UserContextProvider} from "./context/UserContext";
 import { DocLog } from "./compontents/Doctors/DocLog";
 import { Profile } from "./pages/doctors/profile";
 import { Choose } from "./pages/login";
 import { User } from "./data/prescription";
 import { NavbarCl } from "./compontents/Navbar/NavbarCl";
-import { useState } from "react";
+import {useContext, useState} from "react";
 import { Check } from "./pages/doctors/check";
+import { Sidebar } from "./compontents/Sidebar/DoctorSidebar";
+import { RightSidebar } from "./compontents/Sidebar/RightSideBar";
+import {DrugNamesComponent} from "./pages/users/check2";
+import {PrivateRoute} from "./compontents/PrivateRoute/PrivateRoute";
+
 
 function App() {
-    const [user, setUser] = useState<User | null>(null);
+    const userContext = useContext(UserContext);
+    const isDoctor = userContext?.user?.role === "doctor";
 
     return (
         <UserContextProvider>
             <ShoppingCartProvider>
                 <Navbar />
-                <Container className="mb4">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/pharmacy" element={<Pharmacy />} />
-                        <Route path="/clinic" element={<Clinic />} />
-                        <Route path="/contact" element={<Contact />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/clinic/add_presc" element={<Presc />} />
-                        <Route path="/clinic/show_presc" element={<ShowPresc />} />
-                        <Route path="/clinic/show_presc_id" element={<Show_presc_id />} />
-                        <Route path="/clinic/show_all_drugs" element={<Show_all_drugs />} />
-                        <Route path="/clinic/add_drug" element={<Add_drug />} />
-                        <Route path="/clinic/delete_presc" element={<Delete_presc />} />
-                        <Route path="/clinic/delete_drug" element={<Delete_drug />} />
-                        <Route path="/clinic/update_drug" element={<Update_drug />} />
-                        <Route path="/login" element={<Log />} />
-                        <Route path="/doctor_log" element={<DocLog />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/doctor" element={<Profile />} />
-                        <Route path="/log" element={<Choose />} />
-                        <Route path="/check" element={<Check />} />
-                    </Routes>
-                </Container>
+                <div className="d-flex">
+                    <Sidebar />
+                    <div className="flex-grow-1 d-flex justify-content-center m-4">
+                        <div className="w-100">
+                            <Container className="my-4">
+                                <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/pharmacy" element={<Pharmacy />} />
+                                    <Route path="/clinic" element={<PrivateRoute path="/clinic" element={<Clinic/>}
+                                                                                 requiredRole={"doctor"} />} />
+                                <Route path="/contact" element={<Contact />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/clinic/add_presc" element={<Presc />} />
+                                <Route path="/clinic/show_presc" element={<ShowPresc />} />
+                                <Route path="/clinic/show_presc_id" element={<Show_presc_id />} />
+                                <Route path="/clinic/show_all_drugs" element={<Show_all_drugs />} />
+                                    <Route path="/clinic/add_drug" element={<PrivateRoute path="/clinic/add_drug"
+                                                                                          element={<Add_drug/>}
+                                                                                          requiredRole={"doctor"} />} />
+                                <Route path="/clinic/delete_presc" element={<Delete_presc />} />
+                                <Route path="/clinic/delete_drug" element={<Delete_drug />} />
+                                <Route path="/clinic/update_drug" element={<Update_drug />} />
+                                <Route path="/login" element={<Log />} />
+                                <Route path="/doctor_log" element={<DocLog />} />
+                                <Route path="/register" element={<Register />} />
+                                <Route path="/doctor" element={<Profile />} />
+                                <Route path="/log" element={<Choose />} />
+                                <Route path="/check" element={<Check />} />
+                                <Route path="/check2" element={<DrugNamesComponent />} />
+                            </Routes>
+                            </Container>
+                        </div>
+                        <UserContext.Consumer>
+                            {(userContext) => {
+                                const isDoctor = userContext?.user?.role === "doctor";
+                                return isDoctor && <RightSidebar />;
+                            }}
+                        </UserContext.Consumer>
+                    </div>
+                </div>
             </ShoppingCartProvider>
         </UserContextProvider>
     );

@@ -6,8 +6,9 @@ export function Profile() {
     const token = localStorage.getItem(`token`);
 
     return (
-        <div>
-            <NavbarCl />
+        <div className="d-flex" >
             {token ? <UserProfile /> : <DocLog />}
+            <NavbarCl />
+
         </div>
     )}

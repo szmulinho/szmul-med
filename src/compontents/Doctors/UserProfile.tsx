@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetUserData, User } from '../../data/prescription';
+import {UserContext, UserContextProps} from "../../context/UserContext";
 
 export function UserProfile() {
     const navigate = useNavigate();
-    const [user, setUser] = useState<User | null>(null);
+    const { user, setUser, logout } = useContext(UserContext) as UserContextProps;
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -41,7 +43,7 @@ export function UserProfile() {
             <h2>User Profile</h2>
             <p>Welcome, {user.login}!</p>
             <p>Role: {user.role}</p>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={logout}>Logout</button>
         </div>
     );
 }

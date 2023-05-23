@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
+import {UserContext, UserContextProps} from '../../context/UserContext';
 
 export function Check() {
-    const { user, logout } = useContext(UserContext);
+    const { user, logout } = useContext(UserContext) as UserContextProps;
 
     // Sprawdzanie czy użytkownik jest zalogowany
     if (!user) {

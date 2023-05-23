@@ -1,13 +1,12 @@
-import {useState, useEffect, useContext} from 'react';
-import {Button, Container} from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Container } from 'react-bootstrap';
 import { postPresc, CreatePrescInput } from '../../../data/prescription';
-import { Drug , getDrug } from '../../../data/drugstore';
-import {AddDrug} from "../../Drugs/Add/AddDrug";
-import {Image} from "react-bootstrap";
-import {Navigate} from "react-router-dom";
+import { Drug, getDrug } from '../../../data/drugstore';
+import { AddDrug } from '../../Drugs/Add/AddDrug';
+import { Image } from 'react-bootstrap';
+import { Navigate } from 'react-router-dom';
 
 export function AddPresc() {
-
     const [postData, setPostData] = useState<CreatePrescInput>({
         preid: 0,
         drugs: [],
@@ -17,39 +16,55 @@ export function AddPresc() {
     const [drugsData, setDrugsData] = useState<Drug[]>([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await getDrug();
-            setDrugsData(result);
-        };
-
         fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try {
+            const result = await getDrug();
+            console.log("rezultat", result)
+            setDrugsData(result);
+        } catch (error) {
+            console.error('Error fetching drugs:', error);
+        }
+    };
+
+    console.log('drugsData:', drugsData);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const drugs = postData.drugs.map((drug) => drug.name);
+        const drugNames = drugsData.map((drug) => drug.name);
+
+
 
         const postDataToSend = {
             preid: postData.preid,
             expiration: postData.expiration,
-            drugs: postData.drugs,
+            drugs: postData.drugs.join(`,`),
         };
 
-        await postPresc(postDataToSend);
 
-    }
 
+
+        try {
+            console.log("Data to send", postDataToSend)
+            await postPresc(postDataToSend);
+        } catch (error) {
+            console.error('Error submitting prescription:', error);
+        }
+    };
 
     const handleDrugChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const drugName = event.target.value;
         const drug = drugsData.find((drug) => drug.name === drugName);
 
         if (drug) {
-            const newSelectedDrugs = postData.drugs.concat({ name: drug.name, price: drug.price });
+            const newSelectedDrugs = [...postData.drugs, drug.name];
             setPostData({ ...postData, drugs: newSelectedDrugs });
         }
     };
+
 
     return (
         <Container className="mt-auto d-flex flex-column align-items-center justify-content-center">
@@ -58,7 +73,7 @@ export function AddPresc() {
                     <label className="mt-auto d-flex flex-column align-items-center justify-content-center" htmlFor="drugs">
                         Drugs:
                     </label>
-                    {drugsData && drugsData.length > 0 ? (
+                    {drugsData.length > 0 ? (
                         <select
                             id="drugs"
                             className="form-control"
@@ -67,8 +82,8 @@ export function AddPresc() {
                             value={postData.drugs.map((drug) => drug.name)}
                             onChange={handleDrugChange}
                         >
-                            {drugsData.map((drug) => (
-                                <option key={drug.name} value={drug.name}>
+                            {drugsData.map((drug, index) => (
+                                <option key={index} value={drug.name}>
                                     {drug.name} - {drug.price}
                                 </option>
                             ))}

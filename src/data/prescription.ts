@@ -3,7 +3,7 @@ import { Drug } from './drugstore';
 
 export interface CreatePrescInput {
     preid: number;
-    drugs: {name: string, price: string}[];
+    drugs: string;
     expiration: string;
 }
 

@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 export interface Drug {
-    drugid: number;
     name: string;
     price: string;
 }
 
+
 export async function getDrug(): Promise<Drug[]> {
     const response = await axios.get('http://localhost:8081/drugs');
+    console.log("leki", response.data)
     return response.data;
 }
 

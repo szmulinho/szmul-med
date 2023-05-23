@@ -8,51 +8,61 @@ export interface UserContextProps {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     isLoggedIn: boolean;
     setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-    handleLogout: () => void;
+    isDoctor: boolean
+    role: string | null; // Dodaj role
     login: (userData: User) => void;
-    logout: () => void; // Dodajemy właściwość logout
+    logout: () => void;
 }
+
 
 export const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export function UserContextProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
+    const [isDoctor, setIsDoctor] = useState(false);
+    const [role, setRole] = useState<string | null>(null);
     const [isLoggedIn, setLoggedIn] = useState(false);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
-        setLoggedIn(false);
-    };
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
-            setLoggedIn(true);
-        }
-    }, []);
-
-    useEffect(() => {
         const loggedInUser = localStorage.getItem('user');
-        if (loggedInUser) {
+
+        if (token && loggedInUser) {
             setUser(JSON.parse(loggedInUser));
+
+            if (JSON.parse(loggedInUser)?.role === 'doctor') {
+                setIsDoctor(true);
+            }
         }
     }, []);
 
     const login = (userData: User) => {
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
+
+        if (userData.role === 'doctor' || userData.role === 'pharmacist') {
+            setRole(userData.role); // Ustaw rolę użytkownika
+        }
     };
 
-    const logout = () => { // Implementacja funkcji logout
+
+    const logout = () => {
         setUser(null);
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, isLoggedIn, setLoggedIn, handleLogout, login, logout }}>
+        <UserContext.Provider value={{ user, setUser, isLoggedIn, setLoggedIn, role, login, logout }}>
             {children}
         </UserContext.Provider>
+
     );
 }
+function setRole(role: string) {
+    throw new Error('Function not implemented.');
+}
+
