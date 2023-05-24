@@ -6,15 +6,17 @@ import { UserContext, UserContextProps } from "../../context/UserContext";
 import { User } from "../../data/prescription";
 
 export function Navbar() {
-    const { user } = useContext(UserContext) as UserContextProps;
+    const { user, setUser } = useContext(UserContext) as UserContextProps;
     const isDoctor = user?.role === "doctor";
 
+    const handleLogout = () => {
+        setUser(null);
+        localStorage.removeItem("token");
+        navigator("/home");
+    };
+
     return (
-        <NavbarBs
-            sticky="top"
-            className="shadow-sm mb-0"
-            style={{ height: "6rem", backgroundColor: "#aff09e" }}
-        >
+        <NavbarBs sticky="top" className="shadow-sm mb-0" style={{ height: "6rem", backgroundColor: "#aff09e" }}>
             <Container>
                 <Button
                     className={"mt-4s d-flex flex-column align-items-center justify-content-center"}
@@ -39,9 +41,13 @@ export function Navbar() {
                             Clinic
                         </Nav.Link>
                     )}
-                    <Nav.Link to={"/log"} as={NavLink}>
-                        Login
-                    </Nav.Link>
+                    {user ? (
+                        <Nav.Link style={{color: "red"}} onClick={handleLogout}>Logout</Nav.Link>
+                    ) : (
+                        <Nav.Link to={"/log"} as={NavLink}>
+                            Login
+                        </Nav.Link>
+                    )}
                 </Nav>
             </Container>
         </NavbarBs>

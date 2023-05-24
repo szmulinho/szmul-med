@@ -40,7 +40,7 @@ export function UserProfile() {
 
     return (
         <div>
-            <h2>User Profile</h2>
+            <h2>Doctor Profile</h2>
             <p>Welcome, {user.login}!</p>
             <p>Role: {user.role}</p>
             <button onClick={logout}>Logout</button>

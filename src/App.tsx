@@ -29,11 +29,13 @@ import { Sidebar } from "./compontents/Sidebar/DoctorSidebar";
 import { RightSidebar } from "./compontents/Sidebar/RightSideBar";
 import {DrugNamesComponent} from "./pages/users/check2";
 import {PrivateRoute} from "./compontents/PrivateRoute/PrivateRoute";
+import {CustomerProfile} from "./pages/users/profile";
 
 
 function App() {
     const userContext = useContext(UserContext);
     const isDoctor = userContext?.user?.role === "doctor";
+    const isCustomer = userContext?.user?.role === "customer";
 
     return (
         <UserContextProvider>
@@ -65,6 +67,7 @@ function App() {
                                 <Route path="/doctor_log" element={<DocLog />} />
                                 <Route path="/register" element={<Register />} />
                                 <Route path="/doctor" element={<Profile />} />
+                                <Route path="/profile" element={<CustomerProfile />} />
                                 <Route path="/log" element={<Choose />} />
                                 <Route path="/check" element={<Check />} />
                                 <Route path="/check2" element={<DrugNamesComponent />} />
@@ -74,6 +77,7 @@ function App() {
                         <UserContext.Consumer>
                             {(userContext) => {
                                 const isDoctor = userContext?.user?.role === "doctor";
+                                const isCustomer = userContext?.user?.role === "customer";
                                 return isDoctor && <RightSidebar />;
                             }}
                         </UserContext.Consumer>

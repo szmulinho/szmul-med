@@ -14,9 +14,9 @@ export function PrivateRoute({ path, element, requiredRole }: PrivateRouteProps)
     const isLoggedIn = userContext?.isLoggedIn;
 
     if (!isLoggedIn || !userRole || userRole !== requiredRole) {
-        return <Navigate to="/doctor_log" replace />;
-    }
+        return <Route path={path} element={element} />;
+           }
 
-    return <Route path={path} element={element} />;
+    return <Navigate to="/doctor_log" replace />;
 }
 

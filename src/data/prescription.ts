@@ -3,6 +3,7 @@ import { Drug } from './drugstore';
 
 export interface CreatePrescInput {
     preid: number;
+    patient: string;
     drugs: string;
     expiration: string;
 }
