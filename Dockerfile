@@ -1,4 +1,3 @@
-# Etap budowania
 FROM node:alpine as build
 
 WORKDIR /szmul-med
