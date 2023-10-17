@@ -1,10 +1,10 @@
-import { getPresc, CreatePrescInput } from '../../../data/prescription';
+import { getPresc, Prescription } from '../../../data/prescription';
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
 export const GetComp = () => {
-    const [posts, setPosts] = useState<CreatePrescInput[]>([]);
+    const [posts, setPosts] = useState<Prescription[]>([]);
     const [showResult, setShowResult] = useState(false);
     const [result, setResult] = useState('');
 

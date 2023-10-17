@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { deleteDrug } from '../../../data/drugstore';
-import { CreatePrescInput, deletePresc, getPresc } from '../../../data/prescription';
+import { Prescription, deletePresc, getPresc } from '../../../data/prescription';
 
 export function DeletePresc() {
     const [prescId, setPrescId] = useState('');
-    const [prescs, setPrescs] = useState<CreatePrescInput[] | null>(null);
+    const [prescs, setPrescs] = useState<Prescription[] | null>(null);
 
 
     useEffect(() => {

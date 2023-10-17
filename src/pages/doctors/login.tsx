@@ -1,10 +1,8 @@
-import { DocLog } from "../../compontents/Doctors/DocLog";
-import {NavbarCl} from "../../compontents/Navbar/NavbarCl";
+import { DoctorLogin } from "../../compontents/Doctors/DocLog";
 
 export function LogDoc() {
     return (
         <div>
-            <NavbarCl />
-            <DocLog />
+            <DoctorLogin />
         </div>
     )}

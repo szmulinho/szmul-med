@@ -2,24 +2,23 @@ import axios from 'axios';
 import {AxiosRequestConfig} from "axios/index";
 
 export interface Drug {
+    drug_id: number;
     name: string;
-    price: string;
+    price: number;
 }
 
-export interface User {
-    login: string
-}
-
-
-export async function getDrug(): Promise<Drug[]> {
+export async function getAllDrugs(): Promise<Drug[]> {
     const response = await axios.get('http://localhost:8081/drugs');
     console.log("leki", response.data)
     return response.data;
 }
 
-export async function getUsers(): Promise<User[]> {
-    const response = await axios.get('http://localhost:8081/users');
-    return response.data;
+export async function getDrugByName(id: string): Promise<void> {
+    try {
+        await axios.get(`http://localhost:8081/drugs/${name}`);
+    } catch (error) {
+        console.error(`Error deleting prescription with ID ${name}: ${error}`);
+    }
 }
 
 export async function postDrug(postData: Drug): Promise<Drug[]> {
@@ -37,17 +36,6 @@ export async function deleteDrug(id: string): Promise<void> {
 
 export async function updateDrug(id: string, updatedDrug: Partial<Drug>): Promise<Drug> {
     const response = await axios.patch(`http://localhost:8081/drugs/${id}`, updatedDrug);
-    return response.data;
-}
-
-export async function GetCustomerData(token: string): Promise<User> {
-    const config: AxiosRequestConfig = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
-
-    const response = await axios.get('http://localhost:8081/user', config);
     return response.data;
 }
 

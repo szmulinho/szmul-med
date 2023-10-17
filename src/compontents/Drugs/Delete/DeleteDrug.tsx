@@ -1,60 +1,60 @@
-import { useState, useEffect } from 'react';
-import { Button, Container } from 'react-bootstrap';
-import { deleteDrug, getDrug } from '../../../data/drugstore';
-import { Drug } from '../../../data/drugstore';
+import React, { useState, useEffect } from 'react';
+import { getAllDrugs, deleteDrug, Drug } from '../../../data/drugstore'; // Zaimportuj funkcję getAllDrugs oraz interfejs Drug z odpowiedniego pliku
 
-export function DeleteDrug() {
-    const [drugId, setDrugId] = useState('');
-    const [drugs, setDrugs] = useState<Drug[] | null>(null);
+interface DeleteDrugProps {
+    onDelete: () => void;
+}
+
+export const DeleteDrug: React.FC<DeleteDrugProps> = ({ onDelete }) => {
+    const [drugs, setDrugs] = useState<Drug[]>([]);
+    const [selectedDrug, setSelectedDrug] = useState<string>('');
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
-        const fetchDrugs = async () => {
-            const fetchedPrescs = await getDrug();
-            setDrugs(fetchedPrescs);
+        const fetchData = async () => {
+            try {
+                const drugsData = await getAllDrugs();
+                setDrugs(drugsData);
+                if (drugsData.length > 0) {
+                    // Ustaw domyślny lek do usunięcia na pierwszy lek z listy
+                    setSelectedDrug(drugsData[0].drug_id.toString());
+                }
+            } catch (error) {
+                console.error('Error fetching drugs:', error);
+            }
         };
-        fetchDrugs();
+
+        fetchData();
     }, []);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (drugId) {
-            const confirmed = window.confirm('Are you sure you want to delete this drug?');
-            if (confirmed) {
-                await deleteDrug(drugId);
-                alert('Drug deleted successfully');
-                window.location.reload();
-            }
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        try {
+            await deleteDrug(selectedDrug);
+            setIsDeleting(false);
+            onDelete();
+        } catch (error) {
+            console.error('Error deleting drug:', error);
+            setIsDeleting(false);
         }
     };
 
-
     return (
-        <Container className="mt-5">
-            <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
-                <div className="form-group">
-                    <label className="d-flex flex-column align-items-center" htmlFor="drugId">Select drugs:</label>
-                    {drugs === null ? (
-                        <p>No drugs avalible</p>
-                        ) : (
-                    <select
-                        id="drugId"
-                        className="form-control"
-                        value={drugId}
-                        onChange={(event) => setDrugId(event.target.value)}
-                    >
-                        <option value="">-- Select a Prescription --</option>
-                        {drugs.map((drug) => (
-                            <option key={drug.drugid} value={drug.drugid}>
-                                {drug.drugid} - {drug.name} - {drug.price}
-                            </option>
-                        ))}
-                    </select>
-                        )}
-                </div>
-                <Button variant="danger" type="submit" className="mt-3">
-                    Delete drug
-                </Button>
-            </form>
-        </Container>
+        <div>
+            <label>
+                Wybierz lek do usunięcia:
+                <select value={selectedDrug} onChange={(e) => setSelectedDrug(e.target.value)}>
+                    {drugs.map((drug) => (
+                        <option key={drug.drug_id} value={drug.drug_id.toString()}>
+                            {drug.name} (ID: {drug.drug_id})
+                        </option>
+                    ))}
+                </select>
+            </label>
+            <button onClick={handleDelete} disabled={isDeleting}>
+                {isDeleting ? 'Usuwanie...' : 'Usuń'}
+            </button>
+        </div>
     );
-}
+};
+

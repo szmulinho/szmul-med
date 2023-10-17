@@ -2,7 +2,8 @@ import React, { useState, useContext, ChangeEvent, FormEvent, useEffect } from '
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import { UserContext, UserContextProps } from '../../context/UserContext';
-import { GetCustomerData } from '../../data/drugstore';
+import { GetCustomerData } from '../../data/users';
+import GitHubLoginButton from './LoginGithub';
 
 export function Login() {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ export function Login() {
         event.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8081/login', {
+            const response = await fetch('http://localhost:8082/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,6 +47,34 @@ export function Login() {
         setUser((prevState) => ({ ...prevState, [name]: value }));
     };
 
+    // Define an interface for the GitHub login response
+    interface GitHubLoginResponse {
+        code: string; // Assuming 'code' is a property returned by GitHub OAuth
+        // Add other properties if they are present in the GitHub response
+    }
+
+    const handleGitHubLoginSuccess = async (response: GitHubLoginResponse) => {
+        try {
+            const token = response.code; // GitHub code can be used as a token
+            console.log('GitHub Token:', token);
+            localStorage.setItem('token', token);
+
+            // Pobieranie danych użytkownika po zalogowaniu
+            const userData = await GetCustomerData(token);
+            login(userData);
+            navigate('/profile');
+        } catch (error) {
+            console.error('Error logging in with GitHub:', error);
+            alert('Error logging in with GitHub');
+        }
+    };
+
+    const handleGitHubLoginFailure = (response: GitHubLoginResponse) => {
+        console.error('GitHub login failed:', response);
+        alert('GitHub login failed');
+    };
+
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
@@ -72,7 +101,6 @@ export function Login() {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-
                         <Button variant="primary" type="submit">
                             Login
                         </Button>

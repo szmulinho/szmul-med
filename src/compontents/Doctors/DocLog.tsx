@@ -1,25 +1,25 @@
 import React, { useState, useContext, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
-import { UserContext, UserContextProps } from '../../context/UserContext';
-import { GetUserData } from '../../data/prescription';
+import { GetDoctorData } from '../../data/doctors';
+import {DoctorContext, DoctorContextProps} from "../../context/DoctorContext";
 
-export function DocLog() {
+export function DoctorLogin() {
     const navigate = useNavigate();
-    const { login } = useContext(UserContext) as UserContextProps;
+    const { login } = useContext(DoctorContext) as DoctorContextProps;
 
-    const [user, setUser] = useState({ login: '', password: '' });
+    const [doctor, setDoctor] = useState({ login: '', password: '' });
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch('http://localhost:8085/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(doctor),
             });
 
             if (response.ok) {
@@ -29,8 +29,8 @@ export function DocLog() {
                 localStorage.setItem('token', token);
 
                 // Pobieranie danych użytkownika po zalogowaniu
-                const userData = await GetUserData(token);
-                login(userData);
+                const doctorData = await GetDoctorData(token);
+                login(doctorData);
                 navigate('/doctor');
             } else {
                 alert('Invalid login or password');
@@ -43,7 +43,7 @@ export function DocLog() {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setUser((prevState) => ({ ...prevState, [name]: value }));
+        setDoctor((prevState) => ({ ...prevState, [name]: value }));
     };
 
     return (
@@ -57,7 +57,7 @@ export function DocLog() {
                                 type="text"
                                 placeholder="Enter login"
                                 name="login"
-                                value={user.login}
+                                value={doctor.login}
                                 onChange={handleChange}
                             />
                         </Form.Group>
@@ -68,7 +68,7 @@ export function DocLog() {
                                 type="password"
                                 placeholder="Password"
                                 name="password"
-                                value={user.password}
+                                value={doctor.password}
                                 onChange={handleChange}
                             />
                         </Form.Group>

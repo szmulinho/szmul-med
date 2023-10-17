@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { GetPrescID, CreatePrescInput } from '../../../data/prescription';
+import { GetPrescID, Prescription } from '../../../data/prescription';
 import {Button} from "react-bootstrap";
 
 export function ShowPrescID() {
     const [preId, setPostId] = useState<number>(1);
-    const [post, setPost] = useState<CreatePrescInput | null>(null);
+    const [post, setPost] = useState<Prescription | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -29,6 +29,7 @@ export function ShowPrescID() {
     </form>
     {post && (
         <>
+            <h3>{post.patient}</h3>
             <h3>{post.drugs}</h3>
         <p>{post.expiration}</p>
         </>

@@ -92,7 +92,9 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
             }}
         >
             {children}
-            <ShoppingCart isOpen={isOpen} />
+            <ShoppingCart isOpen={isOpen} onSubmitOrder={function (): void {
+                throw new Error("Function not implemented.");
+            }} />
         </ShoppingCartContext.Provider>
     );
 }

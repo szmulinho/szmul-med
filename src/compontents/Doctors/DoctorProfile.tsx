@@ -1,15 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetUserData, User } from '../../data/prescription';
-import {UserContext, UserContextProps} from "../../context/UserContext";
+import { GetDoctorData, Doctor } from '../../data/doctors';
+import {DoctorContext, DoctorContextProps} from "../../context/DoctorContext";
 
-export function UserProfile() {
+export function DoctorProfile() {
     const navigate = useNavigate();
-    const { user, setUser, logout } = useContext(UserContext) as UserContextProps;
+    const { doctor, setDoctor, logout } = useContext(DoctorContext) as DoctorContextProps;
 
 
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchDoctorData = async () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
@@ -17,32 +17,30 @@ export function UserProfile() {
                     return;
                 }
 
-                const userData = await GetUserData(token);
-                setUser(userData);
             } catch (error) {
-                console.error('Error fetching user data:', error);
+                console.error('Error fetching doctor data:', error);
                 navigate('/doctor_log');
             }
         };
 
-        fetchUserData();
+        fetchDoctorData();
     }, [navigate]);
 
     const handleLogout = () => {
-        setUser(null);
+        setDoctor(null);
         localStorage.removeItem('token');
         navigate('/doctor_log');
     };
 
-    if (!user) {
+    if (!doctor) {
         return <div>Loading...</div>;
     }
 
     return (
         <div>
             <h2>Doctor Profile</h2>
-            <p>Welcome, {user.login}!</p>
-            <p>Role: {user.role}</p>
+            <p>Welcome, {doctor.login}!</p>
+            <p>Role: {doctor.role}</p>
             <button onClick={logout}>Logout</button>
         </div>
     );

@@ -1,4 +1,4 @@
-import { getDrug, Drug } from '../../../data/drugstore';
+import { getAllDrugs, Drug } from '../../../data/drugstore';
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
@@ -9,7 +9,7 @@ export const ShowAllDrugs = () => {
     const [result, setResult] = useState('');
 
     const handleClick = async () => {
-        const data = await getDrug();
+        const data = await getAllDrugs();
         setPosts(data);
         setShowResult(true);
     };

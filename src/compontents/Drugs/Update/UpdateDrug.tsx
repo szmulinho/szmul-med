@@ -1,72 +1,120 @@
-import { useState, useEffect } from 'react';
-import { Button, Container } from 'react-bootstrap';
-import { deleteDrug, getDrug, updateDrug, Drug } from '../../../data/drugstore';
+import React, { useState, useEffect } from 'react';
+import { Button, Container, Form } from 'react-bootstrap';
+import { getAllDrugs, getDrugByName, updateDrug, Drug } from '../../../data/drugstore';
 
 export function UpdateDrug() {
-    const [drugId, setDrugId] = useState('');
-    const [drugs, setDrugs] = useState<Drug[] | null>(null);
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
+    const [selectedDrugName, setSelectedDrugName] = useState('');
+    const [newDrugName, setNewDrugName] = useState('');
+    const [newDrugPrice, setNewDrugPrice] = useState('');
+    const [drug, setDrug] = useState<Drug | null>(null);
+    const [drugsList, setDrugsList] = useState<Drug[]>([]);
 
     useEffect(() => {
-        const fetchDrugs = async () => {
-            const fetchedDrugs = await getDrug();
-            setDrugs(fetchedDrugs);
+        const fetchData = async () => {
+            try {
+                const drugs = await getAllDrugs();
+                setDrugsList(drugs);
+            } catch (error) {
+                console.error(`Error fetching drugs: ${error}`);
+            }
         };
-        fetchDrugs();
+
+        fetchData();
     }, []);
 
     const handleUpdate = async () => {
-        if (!drugId) return;
-        await updateDrug(drugId, { name, price: price.toString() });
-        alert('Drug updated successfully');
-        window.location.reload();
-    };
+        if ((!drug || !newDrugName || !newDrugPrice) && !selectedDrugName) {
+            alert('Please fill out all fields.');
+            return;
+        }
 
+        try {
+            const updatedDrug = {
+                name: newDrugName || selectedDrugName,
+                price: parseFloat(newDrugPrice),
+            };
 
-    const handleSelect = (event: React.FormEvent<HTMLSelectElement>) => {
-        const selectedDrug = drugs.find((drug) => drug.drugid === event.currentTarget.value);
-        if (selectedDrug) {
-            setDrugId(selectedDrug.drugid);
-            setName(selectedDrug.name);
-            setPrice(selectedDrug.price.toString());
+            const drugs = await getAllDrugs();
+            const foundDrug = drugs.find((drug) => drug.name === selectedDrugName);
+            if (foundDrug) {
+                const updatedDrugResponse = await updateDrug(foundDrug.drug_id.toString(), updatedDrug);
+                setDrug(updatedDrugResponse);
+                alert('Drug updated successfully');
+                // Optionally, you can reset the form fields here
+            } else {
+                alert('Drug not found');
+            }
+        } catch (error) {
+            console.error(`Error updating drug: ${error}`);
         }
     };
 
+    const handleDrugSelect = async () => {
+        if (selectedDrugName) {
+            try {
+                const drugs = await getAllDrugs();
+                const foundDrug: Drug | undefined = drugs.find((drug) => drug.name === selectedDrugName);
+                setDrug(foundDrug || null); // Use null if foundDrug is undefined
+            } catch (error) {
+                console.error(`Error fetching drug: ${error}`);
+                setDrug(null);
+            }
+        } else {
+            setDrug(null);
+        }
+    };
+
+
     return (
         <Container className="mt-5">
-            {drugs === null ?
-                <div>No drugs available</div> :
-                <form onSubmit={handleUpdate} className="d-flex flex-column align-items-center">
-                    <div className="form-group">
-                        <label className="d-flex flex-column align-items-center" htmlFor="drugId">Select drug:</label>
-                        <select  id="drugId" className="form-control" value={drugId} onChange={handleSelect}>
-                            <option value="">-- Select drug --</option>
-                            {drugs.map((drug) => (
-                                <option key={drug.drugid} value={drug.drugid}>
-                                    {drug.drugid} - {drug.name} - {drug.price}
-                                </option>
-                            ))}
-                        </select>
+            <Form className="d-flex flex-column align-items-center">
+                <Form.Group className="mb-3" controlId="drugSelect">
+                    <Form.Label>Choose or Enter Drug Name:</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={selectedDrugName}
+                        onChange={(e) => setSelectedDrugName(e.target.value)}
+                    >
+                        <option value="">-- Select Drug --</option>
+                        {drugsList.map((drug) => (
+                            <option key={drug.drug_id} value={drug.name}>
+                                {drug.name}
+                            </option>
+                        ))}
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="newDrugName">
+                    <Form.Label>Enter New Drug Name (Optional):</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={newDrugName}
+                        onChange={(e) => setNewDrugName(e.target.value)}
+                        placeholder="Enter new drug name"
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="newDrugPrice">
+                    <Form.Label>Enter New Drug Price (Optional):</Form.Label>
+                    <Form.Control
+                        type="number"
+                        value={newDrugPrice}
+                        onChange={(e) => setNewDrugPrice(e.target.value)}
+                        placeholder="Enter new drug price"
+                    />
+                </Form.Group>
+                <Button variant="success" onClick={handleUpdate}>
+                    Update Drug
+                </Button>
+                <Button variant="primary" className="mt-2" onClick={handleDrugSelect}>
+                    Search
+                </Button>
+                {drug && (
+                    <div className="mt-3">
+                        <h4>Drug Details:</h4>
+                        <p>Name: {drug.name}</p>
+                        <p>Price: {drug.price}</p>
                     </div>
-                    <div className="form-group">
-                        <label className="d-flex flex-column align-items-center" htmlFor="name">Drug Name:</label>
-                        <input type="text" id="name" className="form-control" value={name} onChange={(event) => setName(event.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label className="d-flex flex-column align-items-center" htmlFor="price">Drug Price:</label>
-                        <input
-                            type="text"
-                            id="price"
-                            className="form-control"
-                            value={price}
-                            onChange={(event) => setPrice(event.target.value)}
-                        />
-                    </div>
-                    <Button variant="outline-success" type="submit" className="mt-3">
-                        Update Drug
-                    </Button>
-                </form>
-            }
+                )}
+            </Form>
         </Container>
-    )};
+    );
+}

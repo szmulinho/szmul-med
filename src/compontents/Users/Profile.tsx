@@ -1,67 +1,87 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetUserData, User, GetPrescriptionsByUser } from '../../data/prescription';
 import { UserContext, UserContextProps } from "../../context/UserContext";
-import { GetCustomerData } from "../../data/drugstore";
+import { GetPatientPresc, Prescription } from "../../data/prescription"; // Assume API functions are imported from the correct path
+import { Modal, Button } from 'react-bootstrap';
 
 export function CuProfile() {
     const navigate = useNavigate();
     const { user, setUser, logout } = useContext(UserContext) as UserContextProps;
-    const [prescriptions, setPrescriptions] = useState([]);
+    const [prescription, setPrescription] = useState<Prescription | null>(null);
+    const [showResult, setShowResult] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    navigate('/login');
-                    return;
-                }
+    if (user === null || user === undefined) {
+        navigate('/login');
+        return null;
+    }
 
-                const userData = await GetCustomerData(token);
-                setUser(userData);
-
-                if (userData && userData.id) {
-                    const userPrescriptions = await GetPrescriptionsByUser(userData.id);
-                    setPrescriptions(userPrescriptions);
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+    const handleShowPrescriptions = async () => {
+        try {
+            setLoading(true);
+            const token = localStorage.getItem('token');
+            if (!token || !user) {
+                console.error("Token or user not available");
                 navigate('/login');
+                return;
             }
-        };
 
-        fetchUserData();
-    }, [navigate]);
+            console.log("Fetching prescription for user:", user.login);
+            const fetchedPrescription = await GetPatientPresc(user.login);
+            console.log("Fetched prescription data:", fetchedPrescription);
+
+            setPrescription(fetchedPrescription);
+            setShowResult(true);
+        } catch (error) {
+            console.error('Error fetching patient prescription:', error);
+            navigate('/login');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    const handleResultClose = () => {
+        setShowResult(false);
+    };
 
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem('token');
-        navigate('/login');
     };
 
-    if (!user) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div>
             <h2>User Profile</h2>
             <p>Welcome, {user.login}!</p>
-            <p>Role: {user.role}</p>
 
-            <h3>Prescriptions:</h3>
-            {prescriptions.length > 0 ? (
-                <ul>
-                    {prescriptions.map((prescription) => (
-                        <li key={prescription.id}>
-                            Prescription ID: {prescription.id}, Expiration: {prescription.expiration}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No prescriptions found.</p>
-            )}
+            <Button variant="secondary" onClick={handleShowPrescriptions}>Show my prescriptions</Button>
+
+            <Modal show={showResult} onHide={handleResultClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Prescription</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {loading ? (
+                        <p>Loading prescription data...</p>
+                    ) : prescription ? (
+                        <div>
+                            <pre>{JSON.stringify(prescription, null, 2)}</pre>
+                        </div>
+                    ) : (
+                        <p>No prescription found for {user.login}.</p>
+                    )}
+                </Modal.Body>
+
+
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleResultClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
             <button onClick={handleLogout}>Logout</button>
         </div>
