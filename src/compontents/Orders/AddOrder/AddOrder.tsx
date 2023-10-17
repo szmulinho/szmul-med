@@ -4,17 +4,16 @@ import { postOrder, Order } from '../../../data/orders';
 import { UserContext } from '../../../context/UserContext';
 
 export function AddOrder() {
-    const { user } = useContext(UserContext); // Access the user object from the UserContext
     const [postData, setPostData] = useState<Order>({
         id: 0,
-        name: user ? user.login : '', // Set the name field to the logged-in user's login
+        name: '', // Set the name field to the logged-in user's login
         email: '',
         address: '',
         items: '',
         price: '',
     });
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         await postOrder(postData);
     };

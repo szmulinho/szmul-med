@@ -1,21 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { Link, LinkProps, NavLink, NavLinkProps } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import GitHubLoginButton from "../compontents/Users/LoginGithub";
+import { useNavigate } from 'react-router-dom';
+
 
 export function Choose() {
 
     function handleGitHubLoginSuccess(response: any) {
-        // Obsłuż udane logowanie przez GitHub
         console.log("GitHub login success:", response);
-        // Tutaj możesz podjąć odpowiednie działania po udanym logowaniu, na przykład przekierowanie użytkownika lub zapisanie tokenu dostępu w stanie aplikacji
     }
 
     function handleGitHubLoginFailure(response: any) {
-        // Obsłuż nieudane logowanie przez GitHub
         console.error("GitHub login error:", response);
-        // Tutaj możesz podjąć odpowiednie działania po nieudanym logowaniu
     }
+
+    const navigate = useNavigate();
+
+    function handleLoginClick(path: string) {
+        navigate(path);
+    }
+
+
     return (
         <Container>
             <Row className="justify-content-center mt-5">
@@ -25,11 +31,9 @@ export function Choose() {
                             <h2 className="text-secondary">Login for doctors</h2>
                         </div>
                         <Button
-                            as={Link}
-                            to="/doctor_log"
                             variant="outline-success"
                             size="lg"
-                            block="true"
+                            onClick={() => handleLoginClick('/doctor_log')}
                         >
                             Login
                         </Button>
@@ -40,18 +44,21 @@ export function Choose() {
                         <div className="d-flex justify-content-center mb-3">
                             <h2 className="text-secondary">Login for users</h2>
                         </div>
-                        <Button as={Link} to="/login" variant="outline-success" size="lg" block="true">
+                        <Button variant="outline-success" size="lg" onClick={() => handleLoginClick('/login')} >
                             Login
                         </Button>
-                        <Button as={Link} to="/register" variant="outline-success" size="lg" block="true">
+                        <Button
+                            variant="outline-success"
+                            size="lg"
+                            onClick={() => handleLoginClick('/register')}
+                        >
                             You don't have an account? Sign up!
                         </Button>
                         <div style={{ textAlign: 'justify' }}>
-                        <GitHubLoginButton onSuccess={function(response: any): void {
-                            throw new Error('Function not implemented.');
-                        } } onFailure={function(response: any): void {
-                            throw new Error('Function not implemented.');
-                        } } />
+                            <GitHubLoginButton
+                                onSuccess={handleGitHubLoginSuccess}
+                                onFailure={handleGitHubLoginFailure}
+                            />
                         </div>
                     </div>
                 </Col>
