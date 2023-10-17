@@ -1,20 +1,14 @@
+# Etap budowania
 FROM node:alpine as build
 
-WORKDIR /app
+WORKDIR /szmul-med
 
 COPY package.json ./
-COPY . ./
+COPY . .
 
 RUN npm install
-
 RUN npm run build
 
-FROM nginx:alpine
+EXPOSE 8000
 
-WORKDIR /usr/share/nginx/html
-
-COPY --from=build /app/dist ./
-
-EXPOSE 8888
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "dev"]
