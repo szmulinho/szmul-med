@@ -16,12 +16,12 @@ export async function GetCustomerData(token: string): Promise<User> {
         }
     };
 
-    const response = await axios.get('http://localhost:8082/user', config);
+    const response = await axios.get('https://szmul-med-users.onrender.com/user', config);
     return response.data;
 }
 
 export async function getUsers(): Promise<User[]> {
-    const response = await axios.get('http://localhost:8082/users');
+    const response = await axios.get('https://szmul-med-users.onrender.com/users');
     return response.data;
 }
 
