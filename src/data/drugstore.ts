@@ -8,34 +8,34 @@ export interface Drug {
 }
 
 export async function getAllDrugs(): Promise<Drug[]> {
-    const response = await axios.get('https://szmul-med-drugstore.onrender.com');
+    const response = await axios.get('http://localhost:8081/drugs');
     console.log("leki", response.data)
     return response.data;
 }
 
 export async function getDrugByName(id: string): Promise<void> {
     try {
-        await axios.get(`https://szmul-med-drugstore.onrender.com/${name}`);
+        await axios.get(`http://localhost:8081/drugs/${name}`);
     } catch (error) {
         console.error(`Error deleting prescription with ID ${name}: ${error}`);
     }
 }
 
 export async function postDrug(postData: Drug): Promise<Drug[]> {
-    const response = await axios.post('https://szmul-med-drugstore.onrender.com', postData);
+    const response = await axios.post('http://localhost:8081/drug', postData);
     return response.data;
 }
 
 export async function deleteDrug(id: string): Promise<void> {
     try {
-        await axios.delete(`https://szmul-med-drugstore.onrender.com/${id}`);
+        await axios.delete(`http://localhost:8081/drugs/${id}`);
     } catch (error) {
         console.error(`Error deleting prescription with ID ${id}: ${error}`);
     }
 }
 
 export async function updateDrug(id: string, updatedDrug: Partial<Drug>): Promise<Drug> {
-    const response = await axios.patch(`https://szmul-med-drugstore.onrender.com/${id}`, updatedDrug);
+    const response = await axios.patch(`http://localhost:8081/drugs/${id}`, updatedDrug);
     return response.data;
 }
 
