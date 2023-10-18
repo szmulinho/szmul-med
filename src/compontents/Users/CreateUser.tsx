@@ -10,7 +10,7 @@ export function CreateUser() {
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const response = await fetch("http://localhost:8082/register", {
+        const response = await fetch("https://szmul-med-users.onrender.com/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

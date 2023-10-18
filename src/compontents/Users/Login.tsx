@@ -15,7 +15,7 @@ export function Login() {
         event.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8082/login', {
+            const response = await fetch('https://szmul-med-users.onrender.com/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
