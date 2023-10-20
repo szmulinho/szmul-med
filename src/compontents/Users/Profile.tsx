@@ -58,7 +58,8 @@ export function CuProfile() {
     return (
         <div>
             <h2>User Profile</h2>
-            <p>Welcome, {user.login}!</p>
+            <p>Welcome, {user ? user.login : 'Guest'}!</p>
+
 
             <Button variant="secondary" onClick={handleShowPrescriptions}>Show my prescriptions</Button>
 
@@ -74,7 +75,7 @@ export function CuProfile() {
                             <pre>{JSON.stringify(prescription, null, 2)}</pre>
                         </div>
                     ) : (
-                        <p>No prescription found for {user.login}.</p>
+                        <p>No prescription found for {user ? user.login : 'Guest'}.</p>
                     )}
                 </Modal.Body>
 
