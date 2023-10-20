@@ -1,27 +1,31 @@
-import axios, {AxiosRequestConfig} from "axios";
-import {Prescription} from "./prescription";
-
-
 export interface GithubUser {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
+    ID: number;
+    Name: string;
+    Email: string;
+    Role: string;
 }
 
-export async function getGithubUserData(token: string): Promise<GithubUser> {
-    const config: AxiosRequestConfig = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
-
-    const response = await axios.get('https://szmul-med-github-user.onrender.com/github', config);
-    return response.data;
+async function loginToGithub(): Promise<void> {
+    try {
+        const response = await fetch('https://szmul-med-github-login.onrender.com/github');
+        const data: GithubUser = await response.json();
+        console.log('Logged in user data:', data);
+        // Tutaj możesz obsłużyć dane użytkownika po zalogowaniu.
+    } catch (error) {
+        console.error('Błąd podczas logowania:', error);
+    }
 }
 
-export async function getGithubUser(): Promise<GithubUser[]> {
-    const response = await axios.get('https://szmul-med-github-user.onrender.com/github');
-    return response.data;
+async function fetchDataFromCallback(): Promise<void> {
+    try {
+        const response = await fetch('https://szmul-med-github-login.onrender.com/callback');
+        const data: GithubUser = await response.json();
+        console.log('Callback response data:', data);
+        // Tutaj możesz obsłużyć dane po pomyślnym callbacku.
+    } catch (error) {
+        console.error('Błąd podczas pobierania danych z callbacku:', error);
+    }
 }
 
+loginToGithub();
+fetchDataFromCallback();

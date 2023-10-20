@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import { UserContext, UserContextProps } from '../../context/UserContext';
 import { GetCustomerData } from '../../data/users';
-import GitHubLoginButton from './LoginGithub';
+import GitHubLoginButton from './LoginGithubButton';
 
 export function Login() {
     const navigate = useNavigate();
