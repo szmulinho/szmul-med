@@ -5,7 +5,6 @@ const LoginWithGithub = () => {
 
     const handleLogin = () => {
         setIsLoading(true);
-        // Wywołaj HandleLogin z API
         window.location.href = 'https://szmul-med-github-login.onrender.com/github';
     };
 

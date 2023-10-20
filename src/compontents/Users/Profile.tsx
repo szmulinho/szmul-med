@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext, UserContextProps } from "../../context/UserContext";
 import { GetPatientPresc, Prescription } from "../../data/prescription"; // Assume API functions are imported from the correct path
 import { Modal, Button } from 'react-bootstrap';
+import {GithubUserContext, GithubUserContextProps} from "../../context/GithubUserContext";
 
 export function CuProfile() {
     const navigate = useNavigate();
     const { user, setUser, logout } = useContext(UserContext) as UserContextProps;
+    const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
     const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
