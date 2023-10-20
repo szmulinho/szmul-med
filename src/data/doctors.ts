@@ -10,7 +10,7 @@ export interface Doctor {
 
 
 export async function registerDoctor(postData: Doctor): Promise<Doctor[]> {
-    const response = await axios.post('https://szmul-med-doctors.onrender.com//register', postData);
+    const response = await axios.post('https://szmul-med-doctors.onrender.com/register', postData);
     return response.data;
 }
 
@@ -22,7 +22,7 @@ export async function GetDoctorData(token: string): Promise<Doctor> {
         }
     };
 
-    const response = await axios.get('https://szmul-med-doctors.onrender.com//doctor', config);
+    const response = await axios.get('https://szmul-med-doctors.onrender.com/doctor', config);
     return response.data;
 }
 
