@@ -2,10 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetDoctorData, Doctor } from '../../data/doctors';
 import {DoctorContext, DoctorContextProps} from "../../context/DoctorContext";
+import {UserContext, UserContextProps} from "../../context/UserContext";
 
 export function DoctorProfile() {
     const navigate = useNavigate();
-    const { doctor, setDoctor, logout } = useContext(DoctorContext) as DoctorContextProps;
+    const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps;
+    const { logout } = useContext(UserContext) as UserContextProps;
 
 
     useEffect(() => {
