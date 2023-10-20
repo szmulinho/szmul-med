@@ -3,6 +3,7 @@ import { Link, LinkProps, NavLink, NavLinkProps } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import GitHubLoginButton from "../compontents/Users/LoginGithubButton";
 import { useNavigate } from 'react-router-dom';
+import LoginWithGithub from "../compontents/Users/LoginGithub";
 
 
 export function Choose() {
@@ -55,9 +56,7 @@ export function Choose() {
                             You don't have an account? Sign up!
                         </Button>
                         <div style={{ textAlign: 'justify' }}>
-                            <GitHubLoginButton
-                                onSuccess={handleGitHubLoginSuccess}
-                                onFailure={handleGitHubLoginFailure}
+                            <LoginWithGithub
                             />
                         </div>
                     </div>

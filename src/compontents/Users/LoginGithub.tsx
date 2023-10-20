@@ -1,25 +1,34 @@
-// App.tsx
+import React, { useState } from 'react';
 
-import React from 'react';
-import GithubLoginButton from './LoginGithubButton';
+const LoginWithGithub = () => {
+    const [isLoading, setIsLoading] = useState(false);
 
-const App: React.FC = () => {
-    const handleGitHubLoginSuccess = (response: any) => {
-        console.log('GitHub login success:', response);
-        // Tutaj możesz dodać kod obsługujący sukces logowania
+    const handleLogin = () => {
+        setIsLoading(true);
+        // Wywołaj HandleLogin z API
+        window.location.href = 'https://szmul-med-github-login.onrender.com/login';
     };
 
-    const handleGitHubLoginFailure = (response: any) => {
-        console.error('GitHub login error:', response);
-        // Tutaj możesz dodać kod obsługujący błąd logowania
+    const handleCallback = async () => {
+        try {
+            const response = await fetch('https://szmul-med-github-login.onrender.com/callback');
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Wystąpił błąd podczas uzyskiwania dostępu do GitHub:', error);
+        }
     };
 
     return (
-        <div className="App">
-            <h1>GitHub Login Example</h1>
-            <GithubLoginButton onSuccess={handleGitHubLoginSuccess} onFailure={handleGitHubLoginFailure} />
-        </div>
+        <React.Fragment>
+            {isLoading ? (
+                <p>Proszę czekać...</p>
+            ) : (
+                <button onClick={handleLogin}>Zaloguj się z GitHub</button>
+            )}
+        </React.Fragment>
     );
-}
+};
 
-export default App;
+
+export default LoginWithGithub;
