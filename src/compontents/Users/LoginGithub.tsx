@@ -2,9 +2,10 @@ import React, { ReactElement } from 'react';
 import GitHubLogin from 'react-github-login';
 import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { getGithubUserData } from '../../data/github-login'; // Import funkcji pobierającej dane z API
 
 interface GitHubLoginButtonProps {
-    onSuccess: (response: any) => void;
+    onSuccess: (user: any) => void;
     onFailure: (response: any) => void;
 }
 
@@ -13,31 +14,35 @@ const GitHubLoginButton: React.FC<GitHubLoginButtonProps> = ({ onSuccess, onFail
 
     const onSuccessHandler = (response: any): void => {
         console.log(response);
-        // Handle successful login, e.g., store user data in state or localStorage
-        onSuccess(response);
+        // Pobierz dane użytkownika po udanym zalogowaniu
+        getGithubUserData(response.code) // Przekazujemy code do funkcji pobierającej dane użytkownika
+            .then((user) => {
+                // Handle successful login, e.g., store user data in state or localStorage
+                onSuccess(user); // Przekazujemy dane użytkownika do przekazanej funkcji onSuccess
+            })
+            .catch((error) => {
+                console.error(error);
+                // Handle error if unable to fetch user data
+                onFailure(error); // Przekazujemy błąd do przekazanej funkcji onFailure
+            });
     };
 
     const onFailureHandler = (response: any): void => {
         console.error(response);
         // Handle failed login
-        onFailure(response);
+        onFailure(response); // Przekazujemy błąd do przekazanej funkcji onFailure
     };
 
     return (
         <div style={{ textAlign: 'justify' }}>
-            <Button
-                variant="contained"
-                startIcon={<GitHubIcon />}
-                sx={{
-                    backgroundColor: '#24292e', // GitHub color
-                    color: '#ffffff', // White text color
-                    '&:hover': {
-                        backgroundColor: '#1c2024', // Darker GitHub color on hover
-                    },
-                }}
-            >
-                Login with GitHub
-            </Button>
+            <GitHubLogin
+                clientId={clientId}
+                onSuccess={onSuccessHandler}
+                onFailure={onFailureHandler}
+                redirectUri="" // Twój URI przekierowania, jeśli wymagane
+                buttonText="Login with GitHub"
+                className="github-login-button"
+            />
         </div>
     );
 };
