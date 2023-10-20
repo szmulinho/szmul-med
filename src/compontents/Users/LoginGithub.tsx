@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const LoginWithGithub = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,15 +21,23 @@ const LoginWithGithub = () => {
     };
 
     return (
-        <React.Fragment>
-            {isLoading ? (
-                <p>Proszę czekać...</p>
-            ) : (
-                <button onClick={handleLogin}>Zaloguj się z GitHub</button>
-            )}
-        </React.Fragment>
+        <div style={{ textAlign: 'justify' }}>
+            <Button
+                variant="contained"
+                startIcon={<GitHubIcon />}
+                sx={{
+                    backgroundColor: '#24292e', // GitHub color
+                    color: '#ffffff', // White text color
+                    '&:hover': {
+                        backgroundColor: '#1c2024', // Darker GitHub color on hover
+                    },
+                }}
+                onClick={handleLogin}
+            >
+                Login with GitHub
+            </Button>
+        </div>
     );
 };
-
 
 export default LoginWithGithub;
