@@ -7,27 +7,27 @@ export interface GithubUserContextProps {
     githubUser: GithubUser | null;
     setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
     isLoggedIn: boolean;
-    login: (userData: GithubUser) => void;
+    login: (githubUserData: GithubUser) => void;
 }
 
 export const GithubUserContext = createContext<GithubUserContextProps | undefined>(undefined);
 
-export function UserContextProvider({ children }: { children: React.ReactNode }) {
+export function GithubUserContextProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate();
-    const [user, setUser] = useState<GithubUser | null>(() => {
-        const storedUser = localStorage.getItem('user');
-        return storedUser ? JSON.parse(storedUser) : null;
+    const [githubUser, setGithubUser] = useState<GithubUser | null>(() => {
+        const storedGithubUser = localStorage.getItem('githubUser');
+        return storedGithubUser ? JSON.parse(storedGithubUser) : null;
     });
-    const [isLoggedIn, setLoggedIn] = useState<boolean>(() => !!user);
+    const [isLoggedIn, setLoggedIn] = useState<boolean>(() => !!githubUser);
 
-    const login = (userData: GithubUser) => {
-        setUser(userData);
+    const login = (githubUserData: GithubUser) => {
+        setGithubUser(githubUserData);
         setLoggedIn(true);
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('githubUser', JSON.stringify(githubUserData));
     };
 
     return (
-        <GithubUserContext.Provider value={{ user, setUser, isLoggedIn, login }}>
+        <GithubUserContext.Provider value={{ githubUser, setGithubUser, isLoggedIn, login }}>
             {children}
         </GithubUserContext.Provider>
     );
