@@ -1,11 +1,10 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import GitHubLogin from 'react-github-login';
 import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { getGithubUserData } from '../../data/github-login'; // Import funkcji pobierającej dane z API
 
 interface GitHubLoginButtonProps {
-    onSuccess: (user: any) => void;
+    onSuccess: (response: any) => void;
     onFailure: (response: any) => void;
 }
 
@@ -14,35 +13,40 @@ const GitHubLoginButton: React.FC<GitHubLoginButtonProps> = ({ onSuccess, onFail
 
     const onSuccessHandler = (response: any): void => {
         console.log(response);
-        // Pobierz dane użytkownika po udanym zalogowaniu
-        getGithubUserData(response.code) // Przekazujemy code do funkcji pobierającej dane użytkownika
-            .then((user) => {
-                // Handle successful login, e.g., store user data in state or localStorage
-                onSuccess(user); // Przekazujemy dane użytkownika do przekazanej funkcji onSuccess
-            })
-            .catch((error) => {
-                console.error(error);
-                // Handle error if unable to fetch user data
-                onFailure(error); // Przekazujemy błąd do przekazanej funkcji onFailure
-            });
+        // Handle success, pass the response to the parent component
+        onSuccess(response);
     };
 
     const onFailureHandler = (response: any): void => {
         console.error(response);
-        // Handle failed login
-        onFailure(response); // Przekazujemy błąd do przekazanej funkcji onFailure
+        // Handle failure, pass the response to the parent component
+        onFailure(response);
     };
+
+    useEffect(() => {
+        // Check if the URL contains code parameter after redirect from GitHub
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        if (code) {
+            // If code parameter exists, perform a fetch request to the backend to complete the GitHub login process
+            fetch('https://szmul-med-github-user.onrender.com/github' + code)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the user data received from the backend
+                    console.log(data);
+                    // You can pass this data to the parent component or perform any other actions
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Handle error if needed
+                });
+        }
+    }, []); // Empty dependency array ensures this effect runs once after the initial render
 
     return (
         <div style={{ textAlign: 'justify' }}>
-            <GitHubLogin
-                clientId={clientId}
-                onSuccess={onSuccessHandler}
-                onFailure={onFailureHandler}
-                redirectUri="" // Twój URI przekierowania, jeśli wymagane
-                buttonText="Login with GitHub"
-                className="github-login-button"
-            />
+            <GitHubLogin clientId={clientId} onSuccess={onSuccessHandler} onFailure={onFailureHandler} redirectUri="" scope="" buttonText="Login with GitHub" />
         </div>
     );
 };

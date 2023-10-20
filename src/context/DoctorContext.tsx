@@ -30,16 +30,8 @@ export function DoctorContextProvider({ children }: { children: React.ReactNode 
         localStorage.setItem('doctor', JSON.stringify(doctorData));
     };
 
-    const logout = () => {
-        setDoctor(null);
-        setLoggedIn(false);
-        localStorage.removeItem('doctor');
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
-
     return (
-        <DoctorContext.Provider value={{ doctor, setDoctor, isLoggedIn, login, logout }}>
+        <DoctorContext.Provider value={{ doctor, setDoctor, isLoggedIn, login }}>
             {children}
         </DoctorContext.Provider>
     );
