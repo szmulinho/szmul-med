@@ -11,7 +11,6 @@ export interface DoctorContextProps {
     setDoctor: React.Dispatch<React.SetStateAction<Doctor | null>>;
     isLoggedIn: boolean;
     login: (doctorData: Doctor) => void;
-    logout: () => void;
 }
 
 export const DoctorContext = createContext<DoctorContextProps | undefined>(undefined);
