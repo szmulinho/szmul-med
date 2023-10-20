@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext, UserContextProps } from "../../context/UserContext";
 import { GetPatientPresc, Prescription } from "../../data/prescription"; // Assume API functions are imported from the correct path
@@ -13,10 +13,12 @@ export function CuProfile() {
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    if (user === null || user === undefined) {
-        navigate('/login');
-        return null;
-    }
+    useEffect(() => {
+        // Sprawdź czy zarówno user, jak i githubUser istnieją, jeśli nie, przekieruj użytkownika na inną stronę
+        if (!user || !githubUser) {
+            navigate('/login'); // Przekieruj na stronę logowania
+        }
+    }, [user, githubUser, navigate]);
 
     const handleShowPrescriptions = async () => {
         try {
