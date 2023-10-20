@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Link, LinkProps, NavLink, NavLinkProps } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import LoginWithGithub from "../compontents/Users/LoginGithub";
+import LoginWithGithub from "../compontents/GithubUsers/LoginGithub";
 
 
 export function Choose() {

@@ -1,24 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext, UserContextProps } from "../../context/UserContext";
 import { GetPatientPresc, Prescription } from "../../data/prescription"; // Assume API functions are imported from the correct path
 import { Modal, Button } from 'react-bootstrap';
-import {GithubUserContext, GithubUserContextProps} from "../../context/GithubUserContext";
 
 export function CuProfile() {
     const navigate = useNavigate();
     const { user, setUser, logout } = useContext(UserContext) as UserContextProps;
-    const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
     const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        // Sprawdź czy zarówno user, jak i githubUser istnieją, jeśli nie, przekieruj użytkownika na inną stronę
-        if (!user || !githubUser) {
-            navigate('/login'); // Przekieruj na stronę logowania
-        }
-    }, [user, githubUser, navigate]);
+    if (user === null || user === undefined) {
+        navigate('/login');
+        return null;
+    }
 
     const handleShowPrescriptions = async () => {
         try {
@@ -58,8 +54,7 @@ export function CuProfile() {
     return (
         <div>
             <h2>User Profile</h2>
-            <p>Welcome, {user ? user.login : 'Guest'}!</p>
-
+            <p>Welcome, {user.login}!</p>
 
             <Button variant="secondary" onClick={handleShowPrescriptions}>Show my prescriptions</Button>
 
@@ -75,7 +70,7 @@ export function CuProfile() {
                             <pre>{JSON.stringify(prescription, null, 2)}</pre>
                         </div>
                     ) : (
-                        <p>No prescription found for {user ? user.login : 'Guest'}.</p>
+                        <p>No prescription found for {user.login}.</p>
                     )}
                 </Modal.Body>
 

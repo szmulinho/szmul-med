@@ -1,8 +1,8 @@
 export interface GithubUser {
-    ID: number;
-    Name: string;
-    Email: string;
-    Role: string;
+    id: number;
+    name: string;
+    email: string;
+    role: string;
 }
 
 async function loginToGithub(): Promise<void> {

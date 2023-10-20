@@ -28,6 +28,7 @@ import { Check } from "./pages/doctors/check";
 import {CustomerProfile} from "./pages/users/profile";
 import {Add_Order} from "./pages/orders/order";
 import {Add_Feedback} from "./pages/feedback/feedback";
+import {GithubUserProf} from "./pages/githubUsers/profile";
 
 function App() {
     return (
@@ -62,6 +63,7 @@ function App() {
                                         <Route path="/log" element={<Choose />} />
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
+                                        <Route path="/github_user" element={<GithubUserProf />} />
                                     </Routes>
                                 </Container>
                             </div>
