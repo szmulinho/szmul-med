@@ -1,3 +1,4 @@
+import React, { ReactElement } from 'react';
 import GitHubLogin from 'react-github-login';
 import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
