@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {UserContext, UserContextProps} from "../../context/UserContext";
-import {GithubUserContext, GithubUserContextProps} from "../../context/GithubUserContext";
+import {GithubUserContext, GithubUserContextProps, GithubUserContextProvider} from "../../context/GithubUserContext";
 
-export function GithubUserProfile() {
+function GithubUserProfile() {
     const navigate = useNavigate();
     const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
     const { logout } = useContext(UserContext) as UserContextProps;
@@ -38,11 +38,14 @@ export function GithubUserProfile() {
     }
 
     return (
+        <GithubUserContextProvider>
         <div>
             <h2>Doctor Profile</h2>
             <p>Welcome, {githubUser.name}!</p>
             <p>Role: {githubUser.role}</p>
             <button onClick={logout}>Logout</button>
         </div>
+        </GithubUserContextProvider>
     );
 }
+
