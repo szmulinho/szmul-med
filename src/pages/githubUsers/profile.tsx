@@ -1,11 +1,12 @@
 import { GithubUserProfile } from "../../compontents/GithubUsers/GithubUserProfile";
+import LoginGithub from "../../compontents/GithubUsers/LoginGithub";
 
 export function GithubUserProf() {
     const token = localStorage.getItem(`token`);
 
     return (
         <div className="d-flex" >
-          <GithubUserProfile />
+            {token ? <GithubUserProfile />: <LoginGithub />}
 
         </div>
     )}
