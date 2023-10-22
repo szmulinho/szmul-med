@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {UserContext, UserContextProps} from "../../context/UserContext";
 import {GithubUserContext, GithubUserContextProps, GithubUserContextProvider} from "../../context/GithubUserContext";
 
-function GithubUserProfile() {
+export function GithubUserProfile() {
     const navigate = useNavigate();
     const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
     const { logout } = useContext(UserContext) as UserContextProps;
