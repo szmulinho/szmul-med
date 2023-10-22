@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {GithubUser} from "../data/github-login";
 
+export interface GithubUser {
+    login: string;
+    role: string;
+}
 
 export interface GithubUserContextProps {
     githubUser: GithubUser | null;

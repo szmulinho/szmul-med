@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetDoctorData, Doctor } from '../../data/doctors';
 import {UserContext, UserContextProps} from "../../context/UserContext";
 import {GithubUserContext, GithubUserContextProps} from "../../context/GithubUserContext";
 
