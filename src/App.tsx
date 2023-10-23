@@ -29,10 +29,12 @@ import {CustomerProfile} from "./pages/users/profile";
 import {Add_Order} from "./pages/orders/order";
 import {Add_Feedback} from "./pages/feedback/feedback";
 import {GithubUserProf} from "./pages/githubUsers/profile";
+import {GithubUserContextProvider} from "./context/GithubUserContext";
 
 function App() {
     return (
         <UserContextProvider>
+            <GithubUserContextProvider>
                 <ShoppingCartProvider>
                     <DoctorContextProvider>
                     <Navbar />
@@ -71,6 +73,7 @@ function App() {
                     </div>
                     </DoctorContextProvider>
                 </ShoppingCartProvider>
+            </GithubUserContextProvider>
         </UserContextProvider>
 
     );

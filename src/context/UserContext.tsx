@@ -1,10 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../data/users';
 
-export interface User {
-    login: string;
-    role: string;
-}
 
 export interface UserContextProps {
     user: User | null;
@@ -14,7 +11,8 @@ export interface UserContextProps {
     logout: () => void;
 }
 
-export const UserContext = createContext<UserContextProps | undefined>(undefined);
+
+export const UserContext = createContext<UserContextProps | null>(null);
 
 export function UserContextProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate();
