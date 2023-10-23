@@ -1,5 +1,5 @@
 export interface GithubUser {
-    id: number;
+    githubuserid: number;
     name: string;
     email: string;
     role: string;
