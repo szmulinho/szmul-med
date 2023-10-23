@@ -31,8 +31,8 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     const logout = () => {
         setUser(null);
         setLoggedIn(false);
-        localStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         localStorage.removeItem('doctor');
         localStorage.removeItem('githubUser');
         navigate('/login');

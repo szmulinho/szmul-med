@@ -11,12 +11,17 @@ const LoginWithGithub = () => {
         const handleCallback = async () => {
             try {
                 const response = await fetch('https://szmul-med-github-login.onrender.com/callback');
-                const data = await response.json();
-                login(data); // Logowanie użytkownika za pomocą kontekstu
+                if (response.ok) {
+                    const data = await response.json();
+                    login(data); // Logowanie użytkownika za pomocą kontekstu
+                } else {
+                    console.error('Błąd podczas pobierania danych z GitHub. Kod odpowiedzi:', response.status);
+                }
             } catch (error) {
                 console.error('Wystąpił błąd podczas uzyskiwania dostępu do GitHub:', error);
             }
         };
+
 
         if (githubUser === null) {
             handleCallback();
