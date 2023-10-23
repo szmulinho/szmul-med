@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Nav, Button, Navbar as NavbarBs, Image, NavDropdown } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import myLogo from './images/logo.png';
@@ -9,16 +9,32 @@ import { DoctorContext, DoctorContextProps } from "../../context/DoctorContext";
 import { GithubUserContext, GithubUserContextProps } from "../../context/GithubUserContext";
 
 export function Navbar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps;
     const { user, setUser } = useContext(UserContext) as UserContextProps;
     const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
+
+    useEffect(() => {
+        console.log('user:', user);
+        console.log('doctor:', doctor);
+        console.log('githubUser:', githubUser);
+
+        if (user || doctor || githubUser) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, [user, doctor, githubUser, setIsLoggedIn]);
 
     const handleLogout = () => {
         setUser(null);
         setDoctor(null);
         setGithubUser(null);
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('doctor');
+        localStorage.removeItem('githubUser');
     };
 
     return (
@@ -50,12 +66,11 @@ export function Navbar() {
                             <NavDropdown.Item as={NavLink} to="/clinic/show_presc_id">Show prescription by ID</NavDropdown.Item>
                         </NavDropdown>
                     ): null}
-                    {((user && user.role) || (doctor && doctor.role) || (githubUser && githubUser.role)) ? (
-                    <Nav.Link style={{ color: 'red' }} onClick={handleLogout}>Logout</Nav.Link>
-                    ) : null}
+                        {isLoggedIn && <Nav.Link style={{ color: 'red' }} onClick={handleLogout}>Logout</Nav.Link>}
                     <Nav.Link to={'/log'} as={NavLink}>Login</Nav.Link>
                 </Nav>
             </Container>
         </NavbarBs>
     );
 }
+

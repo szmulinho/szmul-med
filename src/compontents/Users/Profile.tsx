@@ -48,6 +48,7 @@ export function CuProfile() {
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
     };
 
 

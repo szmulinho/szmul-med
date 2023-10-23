@@ -31,6 +31,7 @@ export function DoctorProfile() {
     const handleLogout = () => {
         setDoctor(null);
         localStorage.removeItem('token');
+        localStorage.removeItem('doctor');
         navigate('/doctor_log');
     };
 

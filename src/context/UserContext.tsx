@@ -34,6 +34,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         localStorage.removeItem('doctor');
+        localStorage.removeItem('githubUser');
         navigate('/login');
     };
 
