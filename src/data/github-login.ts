@@ -26,6 +26,3 @@ async function fetchDataFromCallback(): Promise<void> {
         console.error('Błąd podczas pobierania danych z callbacku:', error);
     }
 }
-
-loginToGithub();
-fetchDataFromCallback();
