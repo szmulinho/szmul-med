@@ -7,9 +7,6 @@ export function GithubUserProf() {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
-    if (!token) {
-        navigate('/login');
-    }
 
     return (
         <div className="d-flex">
