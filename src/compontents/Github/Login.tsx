@@ -26,9 +26,14 @@ const LoginWithGithub: React.FC = () => {
         <div>
             <Button
                 variant="contained"
-                color="primary"
-                startIcon={<GitHubIcon />}  // Dodajemy ikonę GitHub jako startIcon
-                onClick={handleLoginClick}
+                startIcon={<GitHubIcon />}
+                sx={{
+                    backgroundColor: '#24292e', // GitHub color
+                    color: '#ffffff', // White text color
+                    '&:hover': {
+                        backgroundColor: '#1c2024', // Darker GitHub color on hover
+                    },
+                }}
             >
                 Login with GitHub
             </Button>
