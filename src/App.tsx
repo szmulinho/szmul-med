@@ -28,8 +28,12 @@ import { Check } from "./pages/doctors/check";
 import {CustomerProfile} from "./pages/users/profile";
 import {Add_Order} from "./pages/orders/order";
 import {Add_Feedback} from "./pages/feedback/feedback";
-import {GithubUserProf} from "./pages/githubUsers/profile";
+import GithubProfile from "./pages/githubUsers/profile";
 import {GithubUserContextProvider} from "./context/GithubUserContext";
+import {GithubProfileProps} from "./pages/githubUsers/profile"
+import {GithubUser} from "./data/github-login";
+
+const [githubUser, setGithubUser] = useState<GithubUser>();
 
 function App() {
     return (
@@ -65,7 +69,7 @@ function App() {
                                         <Route path="/log" element={<Choose />} />
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
-                                        <Route path="/github_user" element={<GithubUserProf />} />
+                                        <Route path="/github_user" element={<GithubProfile githubUser={githubUser} />} />
                                     </Routes>
                                 </Container>
                             </div>

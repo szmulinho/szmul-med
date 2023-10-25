@@ -1,22 +1,25 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { GithubUser } from '../../data/github-login';
+import GithubProfile from '../../pages/githubUsers/profile';
 
-const GithubLogin = () => {
+const GithubLogin: React.FC = () => {
+    const [githubUser, setGithubUser] = useState<GithubUser>();
 
     const handleLogin = async () => {
-        try {
-            const response = await axios.get("/api/github/login");
-            window.location.href = response.data.redirectUrl;
-        } catch (error) {
-            console.error(error);
-        }
+        const response = await axios.get('/login');
+        const githubUser = response.data as GithubUser;
+
+        setGithubUser(githubUser);
     };
 
     return (
         <div>
-            <h2>Login with Github</h2>
-            <button onClick={handleLogin}>Login</button>
+            <button onClick={handleLogin}>Login with GitHub</button>
+
+            {githubUser && (
+                <GithubProfile githubUser={githubUser} />
+            )}
         </div>
     );
 };

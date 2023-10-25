@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import GithubProfile from "../../compontents/GithubUsers/GithubUserProfile"; // Upewnij się, że importujesz GithubProfile z odpowiedniego miejsca
-import LoginGithub from "../../compontents/GithubUsers/LoginGithub";
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { GithubUser } from '../../data/github-login';
 
-export function GithubUserProf() {
-    const navigate = useNavigate();
-
+const GithubProfile: React.FC<{ githubUser: GithubUser }> = ({ githubUser }) => {
     return (
-        <div className="d-flex">
-            <GithubProfile />
+        <div>
+            <h1>{githubUser.username}</h1>
+            <p>{githubUser.email}</p>
+            <p>{githubUser.role}</p>
         </div>
     );
-}
+};
+
+export default GithubProfile;
