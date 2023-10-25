@@ -1,24 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext, UserContextProps } from "../../context/UserContext";
-import { GithubUserContext, GithubUserContextProps, GithubUserContextProvider } from "../../context/GithubUserContext";
+import { GithubUserContext, GithubUserContextProps } from "../../context/GithubUserContext";
 
 export function GithubUserProfile() {
     const navigate = useNavigate();
-    const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
-    const { logout } = useContext(UserContext) as UserContextProps;
+    const { githubUser, setGithubUser, logout } = useContext(GithubUserContext) as GithubUserContextProps;
 
     useEffect(() => {
-        const fetchDataFromCallback = async () => {
+        const fetchData = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) {
+                if (!token || !githubUser) {
                     navigate('/doctor_log');
                     return;
                 }
 
                 // Fetch additional user data from your API
-                const response = await fetch('/api/github/user', {
+                const response = await fetch(`/api/github/user/${githubUser.id}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -39,8 +37,8 @@ export function GithubUserProfile() {
             }
         };
 
-        fetchDataFromCallback();
-    }, [navigate, setGithubUser]);
+        fetchData();
+    }, [githubUser, setGithubUser, navigate]);
 
     const handleLogout = () => {
         setGithubUser(null);
@@ -53,14 +51,12 @@ export function GithubUserProfile() {
     }
 
     return (
-        <GithubUserContextProvider>
-            <div>
-                <h2>User Profile</h2>
-                <p>Welcome, {githubUser.name}!</p>
-                <p>Email: {githubUser.email}</p>
-                <p>Role: {githubUser.role}</p>
-                <button onClick={logout}>Logout</button>
-            </div>
-        </GithubUserContextProvider>
+        <div>
+            <h2>User Profile</h2>
+            <p>Welcome, {githubUser.username}!</p>
+            <p>Email: {githubUser.email}</p>
+            <p>Role: {githubUser.role}</p>
+            <button onClick={logout}>Logout</button>
+        </div>
     );
 }
