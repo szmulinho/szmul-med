@@ -8,6 +8,8 @@ const LoginWithGithub: React.FC = () => {
             const response = await fetch('https://szmul-med-github-login.onrender.com/github/login/');
             if (response.ok) {
                 const result = await response.json();
+                const code = result.code; // Załóżmy, że 'code' jest polem w odpowiedzi z GitHub OAuth
+                localStorage.setItem('githubCode', code);
                 setGithubData(JSON.stringify(result, null, 2));
             } else {
                 console.error('Failed to fetch data from GitHub API');
