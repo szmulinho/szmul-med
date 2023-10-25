@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleCallback } from "../../data/github";
+import { handleCallback } from '../../data/github';
 
 export const GithubProfile: React.FC = () => {
     const [userData, setUserData] = useState<any>(null);
+    const [code, setCode] = useState<string | null>(null);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setCode(localStorage.getItem('githubCode'));
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,7 +24,7 @@ export const GithubProfile: React.FC = () => {
         };
 
         fetchData();
-    }, [navigate]);
+    }, [code, navigate]);
 
     return (
         <div>

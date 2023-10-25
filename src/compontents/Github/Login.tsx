@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 const LoginWithGithub: React.FC = () => {
     const [githubData, setGithubData] = useState<string>('');
+    const [code, setCode] = useState('');
+
 
     const handleLoginClick = async () => {
         try {
@@ -18,6 +20,8 @@ const LoginWithGithub: React.FC = () => {
             console.error('Error occurred while fetching data:', error);
         }
     };
+
+
 
     return (
         <div>
