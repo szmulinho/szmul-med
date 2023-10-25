@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const LoginWithGithub: React.FC = () => {
     const [githubData, setGithubData] = useState<string>('');
     const [code, setCode] = useState('');
-
 
     const handleLoginClick = async () => {
         try {
@@ -21,11 +22,16 @@ const LoginWithGithub: React.FC = () => {
         }
     };
 
-
-
     return (
         <div>
-            <button onClick={handleLoginClick}>Login with GitHub</button>
+            <Button
+                variant="contained"
+                color="primary"
+                startIcon={<GitHubIcon />}  // Dodajemy ikonę GitHub jako startIcon
+                onClick={handleLoginClick}
+            >
+                Login with GitHub
+            </Button>
             {githubData ? (
                 <pre>{githubData}</pre>
             ) : (
