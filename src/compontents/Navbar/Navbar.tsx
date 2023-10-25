@@ -6,7 +6,6 @@ import { useContext } from 'react';
 import { UserContext, UserContextProps } from '../../context/UserContext';
 import { User } from '../../data/users';
 import { DoctorContext, DoctorContextProps } from "../../context/DoctorContext";
-import { GithubUserContext, GithubUserContextProps } from "../../context/GithubUserContext";
 import styles from '../../style.css'
 
 export function Navbar() {
@@ -15,24 +14,21 @@ export function Navbar() {
 
     const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps;
     const { user, setUser } = useContext(UserContext) as UserContextProps;
-    const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
 
     useEffect(() => {
         console.log('user:', user);
         console.log('doctor:', doctor);
-        console.log('githubUser:', githubUser);
 
-        if (user || doctor || githubUser) {
+        if (user || doctor ) {
             setIsLoggedIn(true);
         } else {
             setIsLoggedIn(false);
         }
-    }, [user, doctor, githubUser, setIsLoggedIn]);
+    }, [user, doctor, setIsLoggedIn]);
 
     const handleLogout = () => {
         setUser(null);
         setDoctor(null);
-        setGithubUser(null);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('doctor');
@@ -68,7 +64,7 @@ export function Navbar() {
                     <Nav.Link to={'/pharmacy'} as={NavLink}>Pharmacy</Nav.Link>
                     <Nav.Link to={'/contact'} as={NavLink}>Contact</Nav.Link>
                     <Nav.Link to={'/about'} as={NavLink}>About</Nav.Link>
-                    {(doctor && doctor.role === 'doctor') || (githubUser && githubUser.role === 'admin') ? (
+                    {(doctor && doctor.role === 'doctor') ? (
                         <NavDropdown title="Clinic" id="clinic-dropdown">
                             <NavDropdown.Item as={NavLink} to="/clinic/add_drug">Add drug</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/clinic/delete_drug">Delete drug</NavDropdown.Item>
