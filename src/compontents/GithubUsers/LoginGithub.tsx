@@ -7,7 +7,7 @@ const LoginWithGithub = () => {
 
     const handleLogin = () => {
         setIsLoading(true);
-        window.location.href = 'https://szmul-med-github-login.onrender.com/login/github';
+        window.location.href = 'https://szmul-med-github-login.onrender.com/github/login';
     };
 
     const handleCallback = async () => {
