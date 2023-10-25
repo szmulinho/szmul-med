@@ -1,62 +1,36 @@
-import React, { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GithubUserContext, GithubUserContextProps } from "../../context/GithubUserContext";
+import React, { useEffect, useState } from "react";
+import { GithubUser, loginToGithub } from "../../data/github-login";
 
-export function GithubUserProfile() {
-    const navigate = useNavigate();
-    const { githubUser, setGithubUser, logout } = useContext(GithubUserContext) as GithubUserContextProps;
+const GithubProfile = () => {
+    const [user, setUser] = useState<GithubUser | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (!token || !githubUser) {
-                    navigate('/doctor_log');
-                    return;
-                }
-
-                // Fetch additional user data from your API
-                const response = await fetch(`/api/github/user/${githubUser.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const userData = await response.json();
-                    setGithubUser(userData);
-                } else {
-                    console.error('Error fetching user data:', response.statusText);
-                    navigate('/doctor_log');
-                }
-
+                const userData: GithubUser = await loginToGithub(); // Określenie typu danych zwracanych przez funkcję loginToGithub
+                setUser(userData);
             } catch (error) {
-                console.error('Error fetching user data:', error);
-                navigate('/doctor_log');
+                console.error(error);
+                // Możesz obsłużyć błąd tutaj, na przykład, ustawiając błąd w stanie.
             }
         };
 
         fetchData();
-    }, [githubUser, setGithubUser, navigate]);
+    }, []);
 
-    const handleLogout = () => {
-        setGithubUser(null);
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
-
-    if (!githubUser) {
+    if (!user) {
         return <div>Loading...</div>;
     }
 
     return (
         <div>
-            <h2>User Profile</h2>
-            <p>Welcome, {githubUser.username}!</p>
-            <p>Email: {githubUser.email}</p>
-            <p>Role: {githubUser.role}</p>
-            <button onClick={logout}>Logout</button>
+            <h2>Github Profile</h2>
+            <p>ID: {user.id}</p>
+            <p>Username: {user.username}</p>
+            <p>Email: {user.email}</p>
+            <p>Role: {user.role}</p>
         </div>
     );
-}
+};
+
+export default GithubProfile;

@@ -5,20 +5,20 @@ export interface GithubUser {
     role: string;
 }
 
-async function loginToGithub(): Promise<void> {
+export async function loginToGithub(): Promise<GithubUser> {
     try {
         const response = await fetch('https://szmul-med-github-login.onrender.com/github');
         const data: GithubUser = await response.json();
-        console.log('Logged in user data:', data);
-        // Tutaj możesz obsłużyć dane użytkownika po zalogowaniu.
+        return data; // Zwraca obiekt typu GithubUser
     } catch (error) {
         console.error('Błąd podczas logowania:', error);
+        throw error;
     }
 }
 
-async function fetchDataFromCallback(): Promise<void> {
+export async function fetchDataFromCallback(): Promise<void> {
     try {
-        const response = await fetch('https://szmul-med-github-login.onrender.com/callback');
+        const response = await fetch('https://szmul-med-github-login.onrender.com/github/callback');
         const data: GithubUser = await response.json();
         console.log('Callback response data:', data);
         // Tutaj możesz obsłużyć dane po pomyślnym callbacku.
@@ -26,3 +26,5 @@ async function fetchDataFromCallback(): Promise<void> {
         console.error('Błąd podczas pobierania danych z callbacku:', error);
     }
 }
+
+

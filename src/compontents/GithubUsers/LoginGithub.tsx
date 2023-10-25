@@ -1,43 +1,25 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const LoginWithGithub = () => {
-    const [isLoading, setIsLoading] = useState(false);
+const GithubLogin = () => {
+    const history = useNavigate();
 
-    const handleLogin = () => {
-        setIsLoading(true);
-        window.location.href = 'https://szmul-med-github-login.onrender.com/github/login';
-    };
-
-    const handleCallback = async () => {
+    const handleLogin = async () => {
         try {
-            const response = await fetch('https://szmul-med-github-login.onrender.com/login/github/callback');
-            const data = await response.json();
-            console.log(data);
+            const response = await axios.get("/api/github/login");
+            window.location.href = response.data.redirectUrl;
         } catch (error) {
-            console.error('Wystąpił błąd podczas uzyskiwania dostępu do GitHub:', error);
+            console.error(error);
         }
     };
 
     return (
-        <div style={{ textAlign: 'justify' }}>
-            <Button
-                startIcon={<GitHubIcon />}
-                variant="contained"
-                sx={{
-                    backgroundColor: '#24292e', // GitHub color
-                    color: '#ffffff', // White text color
-                    '&:hover': {
-                        backgroundColor: '#1c2024', // Darker GitHub color on hover
-                    },
-                }}
-                onClick={handleLogin}
-            >
-                Login with GitHub
-            </Button>
+        <div>
+            <h2>Login with Github</h2>
+            <button onClick={handleLogin}>Login</button>
         </div>
     );
 };
 
-export default LoginWithGithub;
+export default GithubLogin;
