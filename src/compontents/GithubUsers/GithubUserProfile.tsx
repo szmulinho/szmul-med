@@ -1,13 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {UserContext, UserContextProps} from "../../context/UserContext";
-import {GithubUserContext, GithubUserContextProps, GithubUserContextProvider} from "../../context/GithubUserContext";
+import { UserContext, UserContextProps } from "../../context/UserContext";
+import { GithubUserContext, GithubUserContextProps, GithubUserContextProvider } from "../../context/GithubUserContext";
 
 export function GithubUserProfile() {
     const navigate = useNavigate();
     const { githubUser, setGithubUser } = useContext(GithubUserContext) as GithubUserContextProps;
     const { logout } = useContext(UserContext) as UserContextProps;
-
 
     useEffect(() => {
         const fetchDataFromCallback = async () => {
@@ -18,14 +17,30 @@ export function GithubUserProfile() {
                     return;
                 }
 
+                // Fetch additional user data from your API
+                const response = await fetch('/api/github/user', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    setGithubUser(userData);
+                } else {
+                    console.error('Error fetching user data:', response.statusText);
+                    navigate('/doctor_log');
+                }
+
             } catch (error) {
-                console.error('Error fetching doctor data:', error);
+                console.error('Error fetching user data:', error);
                 navigate('/doctor_log');
             }
         };
 
         fetchDataFromCallback();
-    }, [navigate]);
+    }, [navigate, setGithubUser]);
 
     const handleLogout = () => {
         setGithubUser(null);
@@ -39,13 +54,13 @@ export function GithubUserProfile() {
 
     return (
         <GithubUserContextProvider>
-        <div>
-            <h2>Doctor Profile</h2>
-            <p>Welcome, {githubUser.name}!</p>
-            <p>Role: {githubUser.role}</p>
-            <button onClick={logout}>Logout</button>
-        </div>
+            <div>
+                <h2>User Profile</h2>
+                <p>Welcome, {githubUser.name}!</p>
+                <p>Email: {githubUser.email}</p>
+                <p>Role: {githubUser.role}</p>
+                <button onClick={logout}>Logout</button>
+            </div>
         </GithubUserContextProvider>
     );
 }
-
