@@ -6,7 +6,6 @@ import { handleCallback } from "../../data/github";
 export const GithubProfile: React.FC = () => {
     const [userData, setUserData] = useState<GithubUser | null>(null);
     const [code, setCode] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null); // Dodaj nowy stan do przechowywania błędu
 
     const navigate = useNavigate();
 
@@ -17,19 +16,25 @@ export const GithubProfile: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userData = await handleCallback(code ?? undefined);
+                const token = localStorage.getItem('githubAccessToken');
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                    },
+                });
+                const userData = await response.json();
                 if (userData) {
                     setUserData(userData);
                 } else {
-                    setError('User data is empty.'); // Ustaw błąd, jeśli dane użytkownika są puste
                     navigate('/error');
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
-                setError('Error fetching user data: ' + error.message); // Ustaw błąd na podstawie komunikatu błędu
                 navigate('/error');
             }
         };
+
+
 
         fetchData();
     }, [code, navigate]);
@@ -37,9 +42,7 @@ export const GithubProfile: React.FC = () => {
     return (
         <div>
             <h2>User Profile</h2>
-            {error ? (
-                <div>Error: {error}</div> // Pokaż błąd, jeśli istnieje
-            ) : userData ? (
+            {userData ? (
                 <div>
                     <h3>{userData.username}</h3>
                     <h3>{userData.email}</h3>
