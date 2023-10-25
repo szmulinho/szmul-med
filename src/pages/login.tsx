@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
-import { Link, LinkProps, NavLink, NavLinkProps } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import React from 'react';
+import Button from '@mui/material/Button';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-
 export function Choose() {
-
     const navigate = useNavigate();
 
     function handleLoginClick(path: string) {
@@ -16,7 +15,6 @@ export function Choose() {
         window.location.href = 'https://szmul-med-github-login.onrender.com/github/login/';
     }
 
-
     return (
         <Container>
             <Row className="justify-content-center mt-5">
@@ -26,8 +24,9 @@ export function Choose() {
                             <h2 className="text-secondary">Login for doctors</h2>
                         </div>
                         <Button
-                            variant="outline-success"
-                            size="lg"
+                            variant="outlined"
+                            color="success"
+                            size="large"
                             onClick={() => handleLoginClick('/doctor_log')}
                         >
                             Login
@@ -39,19 +38,31 @@ export function Choose() {
                         <div className="d-flex justify-content-center mb-3">
                             <h2 className="text-secondary">Login for users</h2>
                         </div>
-                        <Button variant="outline-success" size="lg" onClick={() => handleLoginClick('/login')} >
+                        <Button
+                            variant="outlined"
+                            color="success"
+                            size="large"
+                            onClick={() => handleLoginClick('/login')}
+                        >
                             Login
                         </Button>
                         <Button
-                            variant="outline-success"
-                            size="lg"
+                            variant="outlined"
+                            color="success"
+                            size="large"
                             onClick={() => handleLoginClick('/register')}
                         >
                             You don't have an account? Sign up!
                         </Button>
-                        <div style={{ textAlign: 'justify' }}>
-                        </div>
-                        <Button variant="outline-success" size="lg" onClick={handleGithubLoginClick}>
+                        <div style={{ textAlign: 'justify' }}></div>
+                        <Button
+                            variant="outlined"
+                            color="success"
+                            size="large"
+                            startIcon={<GitHubIcon />}
+                            onClick={handleGithubLoginClick}
+                            style={{ marginTop: '1rem' }}
+                        >
                             Login with GitHub
                         </Button>
                     </div>
@@ -59,4 +70,4 @@ export function Choose() {
             </Row>
         </Container>
     );
-};
+}
