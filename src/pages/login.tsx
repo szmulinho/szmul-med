@@ -12,6 +12,10 @@ export function Choose() {
         navigate(path);
     }
 
+    function handleGithubLoginClick() {
+        window.location.href = '/github/login/';
+    }
+
 
     return (
         <Container>
@@ -47,6 +51,9 @@ export function Choose() {
                         </Button>
                         <div style={{ textAlign: 'justify' }}>
                         </div>
+                        <Button variant="outline-success" size="lg" onClick={handleGithubLoginClick}>
+                            Login with GitHub
+                        </Button>
                     </div>
                 </Col>
             </Row>
