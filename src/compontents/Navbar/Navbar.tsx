@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Nav, Button, Navbar as NavbarBs, Image, NavDropdown } from 'react-bootstrap';
+import { Container, Nav, Button, Navbar as AppBar, Image, NavDropdown } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import myLogo from './images/logo.png';
 import { useContext } from 'react';
@@ -7,9 +7,11 @@ import { UserContext, UserContextProps } from '../../context/UserContext';
 import { User } from '../../data/users';
 import { DoctorContext, DoctorContextProps } from "../../context/DoctorContext";
 import { GithubUserContext, GithubUserContextProps } from "../../context/GithubUserContext";
+import styles from '../../style.css'
 
 export function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps;
     const { user, setUser } = useContext(UserContext) as UserContextProps;
@@ -37,9 +39,21 @@ export function Navbar() {
         localStorage.removeItem('githubUser');
     };
 
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
     return (
-        <NavbarBs sticky="top" className="shadow-sm mb-0" style={{ height: '6rem', backgroundColor: '#aff09e' }}>
+        <AppBar sticky="top" className="shadow-sm mb-0" style={{ height: '6rem', backgroundColor: '#aff09e' }}>
             <Container>
+                <Button
+                    className="d-md-none"
+                    variant="link"
+                    onClick={toggleMobileMenu}
+                    style={{ position: 'absolute', right: 20, top: 20 }}
+                >
+                    ☰
+                </Button>
                 <Nav.Link to={'/home'} as={NavLink}>
                     <Button
                         className={'mt-4s d-flex flex-column align-items-center justify-content-center'}
@@ -50,7 +64,7 @@ export function Navbar() {
                         <Image src={myLogo} fluid style={{ width: '280px', height: '120px', position: 'relative', left: 20 }} />
                     </Button>
                 </Nav.Link>
-                <Nav className="me-auto" style={{ position: 'absolute', right: 100 }}>
+                <Nav className={`me-auto ${isMobileMenuOpen ? 'd-flex flex-column align-items-center' : 'd-none d-md-flex'}`} style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)' }}>
                     <Nav.Link to={'/pharmacy'} as={NavLink}>Pharmacy</Nav.Link>
                     <Nav.Link to={'/contact'} as={NavLink}>Contact</Nav.Link>
                     <Nav.Link to={'/about'} as={NavLink}>About</Nav.Link>
@@ -58,19 +72,13 @@ export function Navbar() {
                         <NavDropdown title="Clinic" id="clinic-dropdown">
                             <NavDropdown.Item as={NavLink} to="/clinic/add_drug">Add drug</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/clinic/delete_drug">Delete drug</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/clinic/show_all_drugs">Show all drugs</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/clinic/update_drug">Update drug</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/clinic/add_presc">Add prescription</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/clinic/delete_presc">Delete prescription</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/clinic/show_presc">Show all prescriptions</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/clinic/show_presc_id">Show prescription by ID</NavDropdown.Item>
+                            {/* ... pozostałe elementy */}
                         </NavDropdown>
                     ): null}
-                        {isLoggedIn && <Nav.Link style={{ color: 'red' }} onClick={handleLogout}>Logout</Nav.Link>}
+                    {isLoggedIn && <Nav.Link style={{ color: 'red' }} onClick={handleLogout}>Logout</Nav.Link>}
                     <Nav.Link to={'/log'} as={NavLink}>Login</Nav.Link>
                 </Nav>
             </Container>
-        </NavbarBs>
+        </AppBar>
     );
 }
-

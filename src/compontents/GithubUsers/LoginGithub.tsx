@@ -7,12 +7,12 @@ const LoginWithGithub = () => {
 
     const handleLogin = () => {
         setIsLoading(true);
-        window.location.href = 'https://szmul-med-github-login.onrender.com/github';
+        window.location.href = 'https://szmul-med-github-login.onrender.com/login/github';
     };
 
     const handleCallback = async () => {
         try {
-            const response = await fetch('https://szmul-med-github-login.onrender.com/callback');
+            const response = await fetch('https://szmul-med-github-login.onrender.com/login/github/callback');
             const data = await response.json();
             console.log(data);
         } catch (error) {
@@ -23,8 +23,8 @@ const LoginWithGithub = () => {
     return (
         <div style={{ textAlign: 'justify' }}>
             <Button
-                variant="contained"
                 startIcon={<GitHubIcon />}
+                variant="contained"
                 sx={{
                     backgroundColor: '#24292e', // GitHub color
                     color: '#ffffff', // White text color
