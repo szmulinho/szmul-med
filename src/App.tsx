@@ -29,6 +29,7 @@ import {CustomerProfile} from "./pages/users/profile";
 import {Add_Order} from "./pages/orders/order";
 import {Add_Feedback} from "./pages/feedback/feedback";
 import { AuthProvider } from './context/Github';
+import { GithubUserProfile } from './pages/github/profile';
 
 function App() {
     return (
@@ -64,6 +65,7 @@ function App() {
                                         <Route path="/log" element={<Choose />} />
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
+                                        <Route path="/github" element={<GithubUserProfile />} />
                                     </Routes>
                                 </Container>
                             </div>
