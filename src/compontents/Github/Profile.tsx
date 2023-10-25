@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleCallback } from '../../data/github';
+import { GithubUser } from '../../data/github';
+import { handleCallback } from "../../data/github";
 
 export const GithubProfile: React.FC = () => {
-    const [userData, setUserData] = useState<any>(null);
+    const [userData, setUserData] = useState<GithubUser | null>(null);
     const [code, setCode] = useState<string | null>(null);
 
     const navigate = useNavigate();
@@ -15,8 +16,12 @@ export const GithubProfile: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await handleCallback();
-                setUserData(response);
+                const userData = await handleCallback(code ?? undefined);
+                if (userData) {
+                    setUserData(userData);
+                } else {
+                    navigate('/error');
+                }
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 navigate('/error');
@@ -31,8 +36,7 @@ export const GithubProfile: React.FC = () => {
             <h2>User Profile</h2>
             {userData ? (
                 <div>
-                    <img src={userData.avatar_url} alt="User Avatar"/>
-                    <h3>{userData.login}</h3>
+                    <h3>{userData.username}</h3>
                     <h3>{userData.email}</h3>
                     <h3>{userData.role}</h3>
                 </div>

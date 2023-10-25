@@ -8,8 +8,12 @@ export interface GithubUser {
 }
 
 
-export async function handleCallback(): Promise<GithubUser[]> {
-    const response = await axios.get('https://szmul-med-github-login.onrender.com/github/callback');
-    console.log("data", response.data)
-    return response.data;
+export async function handleCallback(code?: string | null): Promise<GithubUser | null> {
+    const headers = code ? { Authorization: `Bearer ${code}` } : {};
+    const response = await axios.get('https://szmul-med-github-login.onrender.com/github/callback', { headers });
+    if (response.status === 200) {
+        return response.data;
+    } else {
+        return null;
+    }
 }
