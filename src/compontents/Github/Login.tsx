@@ -5,7 +5,7 @@ const LoginWithGithub: React.FC = () => {
 
     const handleLoginClick = async () => {
         try {
-            const response = await fetch('/github/login/');
+            const response = await fetch('https://szmul-med-github-login.onrender.com/github/login/');
             if (response.ok) {
                 const result = await response.json();
                 setGithubData(JSON.stringify(result, null, 2));
