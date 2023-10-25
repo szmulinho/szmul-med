@@ -2,18 +2,9 @@ import React, { useRef } from 'react';
 import { Link, LinkProps, NavLink, NavLinkProps } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import LoginWithGithub from "../compontents/GithubUsers/LoginGithub";
 
 
 export function Choose() {
-
-    function handleGitHubLoginSuccess(response: any) {
-        console.log("GitHub login success:", response);
-    }
-
-    function handleGitHubLoginFailure(response: any) {
-        console.error("GitHub login error:", response);
-    }
 
     const navigate = useNavigate();
 
@@ -55,8 +46,6 @@ export function Choose() {
                             You don't have an account? Sign up!
                         </Button>
                         <div style={{ textAlign: 'justify' }}>
-                            <LoginWithGithub
-                            />
                         </div>
                     </div>
                 </Col>
