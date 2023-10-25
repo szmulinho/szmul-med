@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-const LoginWithGithub: React.FC = () => {
+export function LoginWithGithub() {
     const [githubData, setGithubData] = useState<string>('');
     const [code, setCode] = useState('');
 
@@ -34,6 +34,7 @@ const LoginWithGithub: React.FC = () => {
                         backgroundColor: '#1c2024', // Darker GitHub color on hover
                     },
                 }}
+                onClick={handleLoginClick}
             >
                 Login with GitHub
             </Button>
@@ -44,6 +45,4 @@ const LoginWithGithub: React.FC = () => {
             )}
         </div>
     );
-};
-
-export default LoginWithGithub;
+}
