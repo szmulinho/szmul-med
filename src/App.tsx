@@ -32,6 +32,7 @@ import { AuthProvider } from './context/Github';
 import { GithubUserProfile } from './pages/github/profile';
 
 function App() {
+
     return (
         <UserContextProvider>
             <AuthProvider>

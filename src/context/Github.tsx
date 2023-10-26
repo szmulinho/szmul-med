@@ -1,49 +1,68 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState } from 'react';
+import axios from 'axios';
 
-interface GithubUser {
+export interface GithubUser {
+    id: number;
     username: string;
+    email: string;
+    role: string;
 }
 
-interface AuthContextProps {
-    user: GithubUser | null;
-    login: (user: GithubUser) => void;
+export interface GitHubUserContextProps {
+    user?: GithubUser;
+    isLoggedIn: boolean;
+    login: () => void;
     logout: () => void;
+    handleCallback: (code: string) => void;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const defaultContext: GitHubUserContextProps = {
+    isLoggedIn: false,
+    login: () => {},
+    logout: () => {},
+    handleCallback: (code: string) => {},
+};
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<GithubUser | null>(null);
+const githubClientId = '065d047663d40d183c04';
+const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
-    useEffect(() => {
-        // Sprawdź, czy zalogowany użytkownik jest zapisany w localStorage
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
-    const login = (user: GithubUser) => {
-        setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
+export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [user, setUser] = useState<GithubUser | undefined>(undefined);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const login = () => {
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`;
     };
 
     const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user');
+        setIsLoggedIn(false);
+        setUser(undefined);
     };
 
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    const handleCallback = async (code: string) => {
+        try {
+            const response = await axios.get(`/github/callback?code=${code}`);
+            const userData: GithubUser = response.data; // Adjust this based on your API response structure
+            setUser(userData);
+            setIsLoggedIn(true);
+        } catch (error) {
+            console.error('Error occurred while fetching data:', error);
+        }
+    };
+
+    const contextValues: GitHubUserContextProps = {
+        user,
+        isLoggedIn,
+        login,
+        logout,
+        handleCallback,
+    };
+
+    return <GitHubUserContext.Provider value={contextValues}>{children}</GitHubUserContext.Provider>;
 };
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+export const useGitHubUserContext = () => {
+    return useContext(GitHubUserContext);
 };
