@@ -31,7 +31,7 @@ const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
 export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
-const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GithubUser | undefined>(undefined);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
