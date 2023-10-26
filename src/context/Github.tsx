@@ -27,7 +27,7 @@ const defaultContext: GitHubUserContextProps = {
 
 
 const githubClientId = '065d047663d40d183c04';
-const redirectUri = 'https://szmul-med.onrender.com/github_user';
+const redirectUri = 'https://szmul-med-github-login.onrender.com/github/callback';
 
 export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
@@ -56,6 +56,8 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
             setIsLoggedIn(true);
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
+            // Handle error, maybe set an error state or redirect to an error page
+            // setIsLoggedIn(false);
         }
     };
 
