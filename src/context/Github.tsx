@@ -27,7 +27,7 @@ const defaultContext: GitHubUserContextProps = {
 
 
 const githubClientId = '065d047663d40d183c04';
-const redirectUri = 'https://szmul-med.onrender.com/github_user';
+const redirectUri = 'https://szmul-med-github-login.onrender.com/github/callback';
 
 export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
