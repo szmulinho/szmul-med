@@ -25,9 +25,9 @@ const defaultContext: GitHubUserContextProps = {
     setGithubUser: () => {}, // You can use setState, so it doesn't return anything
 };
 
-const userProfileUrl = 'https://szmul-med.onrender.com/github_user';
+
 const githubClientId = '065d047663d40d183c04';
-const redirectUri = `https://szmul-med-github-login.onrender.com/github/callback?redirect=${encodeURIComponent(userProfileUrl)}`;
+const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
 export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
@@ -36,8 +36,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const login = () => {
-        const oauthUrl = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-        window.location.href = oauthUrl;
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`;
     };
 
     const logout = () => {
@@ -55,22 +54,12 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
             const userData: GithubUser = response.data;
             setUser(userData);
             setIsLoggedIn(true);
-
-            // Sprawdź, czy jest parametr przekierowania w adresie URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const redirectUrl = urlParams.get('redirect');
-
-            // Jeśli istnieje przekierowanie, przekieruj użytkownika na tę stronę
-            if (redirectUrl) {
-                window.location.href = redirectUrl;
-            }
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
             // Handle error, maybe set an error state or redirect to an error page
             // setIsLoggedIn(false);
         }
     };
-
 
 
 
