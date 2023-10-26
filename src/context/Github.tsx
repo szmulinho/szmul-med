@@ -13,18 +13,17 @@ export interface GitHubUserContextProps {
     isLoggedIn: boolean;
     login: () => void;
     logout: () => void;
-    handleCallback: (code: string) => Promise<void> // Return a Promise
+    handleCallback: (code: string) => void;
     setGithubUser: Dispatch<SetStateAction<GithubUser | undefined>>;
 }
 
 const defaultContext: GitHubUserContextProps = {
     isLoggedIn: false,
-    login: async () => {}, // Return a Promise<void>
-    logout: async () => {}, // Return a Promise<void>
-    handleCallback: async (code: string) => {}, // Return a Promise<void>
-    setGithubUser: () => {}, // You can use setState, so it doesn't return anything
+    login: () => {},
+    logout: () => {},
+    handleCallback: (code: string) => {},
+    setGithubUser: () => {},
 };
-
 
 const githubClientId = '065d047663d40d183c04';
 const redirectUri = 'https://szmul-med.onrender.com/github_user';
@@ -50,20 +49,14 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
 
     const handleCallback = async (code: string) => {
         try {
-            const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
+            const response = await axios.get(`/github/callback?code=${code}`);
             const userData: GithubUser = response.data;
             setUser(userData);
             setIsLoggedIn(true);
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
-            // Handle error, maybe set an error state or redirect to an error page
-            // setIsLoggedIn(false);
         }
     };
-
-
-
-
 
     const contextValues: GitHubUserContextProps = {
         isLoggedIn,
