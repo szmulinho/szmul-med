@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 
 export interface GithubUser {
@@ -9,11 +9,12 @@ export interface GithubUser {
 }
 
 export interface GitHubUserContextProps {
-    user?: GithubUser;
+    githubUser?: GithubUser;
     isLoggedIn: boolean;
     login: () => void;
     logout: () => void;
     handleCallback: (code: string) => void;
+    setGithubUser: Dispatch<SetStateAction<GithubUser | undefined>>;
 }
 
 const defaultContext: GitHubUserContextProps = {
@@ -21,6 +22,7 @@ const defaultContext: GitHubUserContextProps = {
     login: () => {},
     logout: () => {},
     handleCallback: (code: string) => {},
+    setGithubUser: () => {},
 };
 
 const githubClientId = '065d047663d40d183c04';
@@ -41,6 +43,10 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
         setUser(undefined);
     };
 
+    const setGithubUser: GitHubUserContextProps['setGithubUser'] = (userData) => {
+        setUser(userData);
+    };
+
     const handleCallback = async (code: string) => {
         try {
             const response = await axios.get(`/github/callback?code=${code}`);
@@ -53,11 +59,11 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     };
 
     const contextValues: GitHubUserContextProps = {
-        user,
         isLoggedIn,
         login,
         logout,
         handleCallback,
+        setGithubUser,
     };
 
     return <GitHubUserContext.Provider value={contextValues}>{children}</GitHubUserContext.Provider>;

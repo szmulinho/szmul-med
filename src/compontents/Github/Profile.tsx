@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useGitHubUserContext } from '../../context/Github';
 
 export const GithubProfile: React.FC = () => {
-    const { user, isLoggedIn, handleCallback } = useGitHubUserContext();
+    const { githubUser, isLoggedIn, handleCallback } = useGitHubUserContext();
 
     useEffect(() => {
         const code = localStorage.getItem('githubCode');
@@ -15,11 +15,11 @@ export const GithubProfile: React.FC = () => {
     return (
         <div>
             <h2>User Profile</h2>
-            {isLoggedIn && user ? (
+            {isLoggedIn && githubUser ? (
                 <div>
-                    <h3>{user.username}</h3>
-                    <h3>{user.email}</h3>
-                    <h3>{user.role}</h3>
+                    <h3>{githubUser.username}</h3>
+                    <h3>{githubUser.email}</h3>
+                    <h3>{githubUser.role}</h3>
                 </div>
             ) : (
                 <div>Loading user data...</div>

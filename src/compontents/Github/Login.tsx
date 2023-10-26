@@ -4,7 +4,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { GitHubUserContext, GithubUser, GitHubUserContextProps } from '../../context/Github';
 
 const LoginWithGithub: React.FC = () => {
-    const { login, user, handleCallback, isLoggedIn, logout } = useContext(GitHubUserContext) as GitHubUserContextProps;
+    const { login, githubUser, handleCallback, isLoggedIn, logout } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     useEffect(() => {
         // Handle logic on component mount if needed
@@ -53,7 +53,7 @@ const LoginWithGithub: React.FC = () => {
                     </Button>
                     <div>
                         <strong>User Info:</strong>
-                        <pre>{JSON.stringify(user, null, 2)}</pre>
+                        <pre>{JSON.stringify(githubUser, null, 2)}</pre>
                     </div>
                 </div>
             )}
