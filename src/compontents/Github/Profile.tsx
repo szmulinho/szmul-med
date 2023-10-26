@@ -1,52 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GithubUser } from '../../data/github';
-import { handleCallback } from "../../data/github";
+import React, { useEffect } from 'react';
+import { useGitHubUserContext } from '../../context/Github';
 
 export const GithubProfile: React.FC = () => {
-    const [userData, setUserData] = useState<GithubUser | null>(null);
-    const [code, setCode] = useState<string | null>(null);
-
-    const navigate = useNavigate();
+    const { user, isLoggedIn, handleCallback } = useGitHubUserContext();
 
     useEffect(() => {
-        setCode(localStorage.getItem('githubCode'));
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem('githubAccessToken');
-                const response = await fetch('https://api.github.com/user', {
-                    headers: {
-                        'Authorization': `token ${token}`,
-                    },
-                });
-                const userData = await response.json();
-                if (userData) {
-                    setUserData(userData);
-                } else {
-                    navigate('/error');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                navigate('/error');
-            }
-        };
-
-
-
-        fetchData();
-    }, [code, navigate]);
+        const code = localStorage.getItem('githubCode');
+        if (code && !isLoggedIn) {
+            // Call the handleCallback function to exchange code for user data
+            handleCallback(code);
+        }
+    }, [handleCallback, isLoggedIn]);
 
     return (
         <div>
             <h2>User Profile</h2>
-            {userData ? (
+            {isLoggedIn && user ? (
                 <div>
-                    <h3>{userData.username}</h3>
-                    <h3>{userData.email}</h3>
-                    <h3>{userData.role}</h3>
+                    <h3>{user.username}</h3>
+                    <h3>{user.email}</h3>
+                    <h3>{user.role}</h3>
                 </div>
             ) : (
                 <div>Loading user data...</div>

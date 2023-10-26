@@ -44,7 +44,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     const handleCallback = async (code: string) => {
         try {
             const response = await axios.get(`/github/callback?code=${code}`);
-            const userData: GithubUser = response.data; // Adjust this based on your API response structure
+            const userData: GithubUser = response.data;
             setUser(userData);
             setIsLoggedIn(true);
         } catch (error) {
