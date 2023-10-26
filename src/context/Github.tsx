@@ -56,8 +56,6 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
             setIsLoggedIn(true);
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
-            // Handle error, maybe set an error state or redirect to an error page
-            // setIsLoggedIn(false);
         }
     };
 

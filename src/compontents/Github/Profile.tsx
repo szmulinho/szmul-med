@@ -6,11 +6,18 @@ export const GithubProfile: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log('GithubProfile Component Mounted');
+
         const code = localStorage.getItem('githubCode');
+        console.log('Stored GitHub Code:', code);
+
         if (code && !isLoggedIn) {
+            console.log('Code exists and user is not logged in. Proceeding with handleCallback.');
+
             // Call the handleCallback function to exchange code for user data
             handleCallback(code)
                 .then(() => {
+                    console.log('handleCallback successful. User data loaded:', githubUser);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -18,9 +25,10 @@ export const GithubProfile: React.FC = () => {
                     setLoading(false);
                 });
         } else {
+            console.log('Code does not exist or user is already logged in. Setting loading to false.');
             setLoading(false);
         }
-    }, [handleCallback, isLoggedIn]);
+    }, [handleCallback, isLoggedIn, githubUser]);
 
     return (
         <div>
