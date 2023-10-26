@@ -48,15 +48,16 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
         setUser(userData);
     };
 
-    const handleCallback: GitHubUserContextProps['handleCallback'] = async (code: string): Promise<void> => {
+    const handleCallback = async (code: string) => {
         try {
-            const response = await axios.get(`/github/callback?code=${code}`);
+            const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
             const userData: GithubUser = response.data;
             setUser(userData);
             setIsLoggedIn(true);
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
-            throw error; // Re-throw the error to be caught by the caller
+            // Handle error, maybe set an error state or redirect to an error page
+            // setIsLoggedIn(false);
         }
     };
 
