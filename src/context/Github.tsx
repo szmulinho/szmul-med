@@ -41,7 +41,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     const logout = () => {
         setIsLoggedIn(false);
         setUser(undefined);
-    };
+    }   ;
 
     const setGithubUser: GitHubUserContextProps['setGithubUser'] = (userData) => {
         setUser(userData);
@@ -49,7 +49,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
 
     const handleCallback = async (code: string) => {
         try {
-            const response = await axios.get(`/github/callback?code=${code}`);
+            const response = await axios.get(`https://szmul-med.onrender.com/github/callback?code=${code}`);
             const userData: GithubUser = response.data;
             setUser(userData);
             setIsLoggedIn(true);
