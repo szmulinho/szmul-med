@@ -2,7 +2,7 @@ import React from 'react';
 import { useGitHubUserContext, GithubUser } from '../../context/Github';
 import LoginWithGithub from '../Github/Login'; // Make sure to import your Login component
 
-const GithubUserProfile: React.FC = () => {
+export function GithubUserProfile(): React.ReactElement {
     const { githubUser, isLoggedIn, login, logout, handleCallback } = useGitHubUserContext();
 
     const renderProfile = () => {
@@ -21,6 +21,4 @@ const GithubUserProfile: React.FC = () => {
     };
 
     return <div>{renderProfile()}</div>;
-};
-
-export default GithubUserProfile;
+}
