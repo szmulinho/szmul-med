@@ -35,7 +35,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const login = () => {
-        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`;
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=https://szmul-med.onrender.com/github_user`;
     };
 
     const logout = () => {
