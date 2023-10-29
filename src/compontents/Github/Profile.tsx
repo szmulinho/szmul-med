@@ -1,31 +1,26 @@
-import React, { useEffect } from 'react';
-import { useGitHubUserContext } from '../../context/Github';
+import React from 'react';
+import { useGitHubUserContext, GithubUser } from '../../context/Github';
+import LoginWithGithub from '../Github/Login'; // Make sure to import your Login component
 
-export const GithubProfile: React.FC = () => {
-    const { githubUser, isLoggedIn, handleCallback } = useGitHubUserContext();
+const GithubUserProfile: React.FC = () => {
+    const { githubUser, isLoggedIn, login, logout, handleCallback } = useGitHubUserContext();
 
-    useEffect(() => {
-        const code = localStorage.getItem('githubCode');
-        if (code && !isLoggedIn) {
-            // Call the handleCallback function to exchange code for user data
-            handleCallback(code);
-        }
-    }, [handleCallback, isLoggedIn]);
-
-    return (
-        <div>
-            <h2>User Profile</h2>
-            {isLoggedIn && githubUser ? (
+    const renderProfile = () => {
+        if (isLoggedIn && githubUser) {
+            return (
                 <div>
-                    <h3>{githubUser.username}</h3>
-                    <h3>{githubUser.email}</h3>
-                    <h3>{githubUser.role}</h3>
+                    <h1>Welcome, {githubUser.username}!</h1>
+                    <p>Email: {githubUser.email}</p>
+                    <p>Role: {githubUser.role}</p>
+                    <button onClick={logout}>Logout</button>
                 </div>
-            ) : (
-                <div>Loading user data...</div>
-            )}
-        </div>
-    );
+            );
+        } else {
+            return <LoginWithGithub />;
+        }
+    };
+
+    return <div>{renderProfile()}</div>;
 };
 
-export default GithubProfile;
+export default GithubUserProfile;
