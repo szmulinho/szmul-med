@@ -62,18 +62,20 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
 
     const handleCallback = async (code: string) => {
         try {
-            const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback`);
-            const githubUser: GithubUser = response.data;
-
-            // Save user data to localStorage
-            localStorage.setItem('githubUser', JSON.stringify(githubUser));
-
-            setUser(githubUser);
-            setIsLoggedIn(true);
+            const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
+            if (response.status === 200) {
+                const userData: GithubUser = response.data;
+                localStorage.setItem('githubUser', JSON.stringify(userData));
+                setUser(userData);
+                setIsLoggedIn(true);
+            } else {
+                console.error('Invalid response status:', response.status);
+            }
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
         }
     };
+
 
 
     const contextValues: GitHubUserContextProps = {
