@@ -5,11 +5,24 @@ export const GithubProfile: React.FC = () => {
     const { githubUser, isLoggedIn, handleCallback } = useGitHubUserContext();
 
     useEffect(() => {
-        const code = localStorage.getItem('code');
-        if (code && !isLoggedIn) {
-            // Call the handleCallback function to exchange code for user data
-            handleCallback(code);
-        }
+        const fetchData = async () => {
+            if (isLoggedIn) {
+                try {
+                    // Retrieve code from localStorage
+                    const code = localStorage.getItem('code');
+                    if (code) {
+                        // Call the handleCallback function with the code parameter
+                        await handleCallback(code);
+                    } else {
+                        console.error('Code not found in localStorage.');
+                    }
+                } catch (error) {
+                    console.error('Error occurred while fetching user data:', error);
+                }
+            }
+        };
+
+        fetchData(); // Call the fetchData function when component mounts
     }, [handleCallback, isLoggedIn]);
 
     return (

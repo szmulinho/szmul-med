@@ -33,7 +33,6 @@ export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultCo
 export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GithubUser | undefined>(undefined);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const code = localStorage.getItem('code');
 
 
     const login = () => {
