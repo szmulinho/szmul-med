@@ -66,7 +66,7 @@ function App() {
                                         <Route path="/log" element={<Choose />} />
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
-                                        <Route path="/github_user" element={<GithubUserProfile />} />
+                                        <Route path="/github" element={<GithubUserProfile />} />
                                     </Routes>
                                 </Container>
                             </div>
