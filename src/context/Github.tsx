@@ -26,7 +26,7 @@ const defaultContext: GitHubUserContextProps = {
 };
 
 const githubClientId = '065d047663d40d183c04';
-const redirectUri = 'https://szmul-med.onrender.com/github';
+const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
 export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
@@ -35,7 +35,8 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const login = () => {
-        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`;
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`
+        ;
     };
 
     const logout = () => {
