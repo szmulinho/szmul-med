@@ -51,7 +51,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
 
     const handleCallback = async (code: string) => {
         try {
-            const response = await axios.get(`/github/callback?code=${code}`);
+            const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
             const userData: GithubUser = response.data;
 
             // Save user data to localStorage
