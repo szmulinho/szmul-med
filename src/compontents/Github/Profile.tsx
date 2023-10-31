@@ -17,7 +17,7 @@ export const GithubProfile: React.FC = () => {
             <h2>User Profile</h2>
             {isLoggedIn && githubUser ? (
                 <div>
-                    <h3>{githubUser.username}</h3>
+                    <h3>{githubUser.login}</h3>
                     <h3>{githubUser.email}</h3>
                     <h3>{githubUser.role}</h3>
                 </div>
