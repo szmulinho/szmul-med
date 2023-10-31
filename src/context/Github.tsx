@@ -1,5 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+import {Doctor} from "./DoctorContext";
 
 export interface GithubUser {
     id: number;
@@ -9,21 +11,12 @@ export interface GithubUser {
 }
 
 export interface GitHubUserContextProps {
-    githubUser?: GithubUser;
+    githubUser: GithubUser | null;
+    setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
     isLoggedIn: boolean;
-    login: () => void;
-    logout: () => void;
+    login: (githubUserData: GithubUser) => void;
     handleCallback: (code: string) => void;
-    setGithubUser: Dispatch<SetStateAction<GithubUser | undefined>>;
 }
-
-const defaultContext: GitHubUserContextProps = {
-    isLoggedIn: false,
-    login: () => {},
-    logout: () => {},
-    handleCallback: (code: string) => {},
-    setGithubUser: () => {},
-};
 
 const githubClientId = '065d047663d40d183c04';
 const redirectUri = 'https://szmul-med.onrender.com/github_user';
@@ -39,40 +32,32 @@ if (receivedCode) {
 }
 
 
-export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
+export const GitHubUserContext = createContext<GitHubUserContextProps | null>(null);
 
-export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<GithubUser | undefined>(undefined);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-        // Check if the user is already logged in from localStorage
-        const storedUser = localStorage.getItem('githubUser');
-        return Boolean(storedUser);
+export function GithubUserContextProvider({ children }: { children: React.ReactNode }) {
+    const navigate = useNavigate();
+    const [githubUser, setGithubUser] = useState<GithubUser | null>(() => {
+        const storedGithubUser = localStorage.getItem('githubUser');
+        return storedGithubUser ? JSON.parse(storedGithubUser) : null;
     });
+    const [isLoggedIn, setLoggedIn] = useState<boolean>(() => !!githubUser);
 
 
-    const login = () => {
-        window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`
-        ;
-    };
-
-    const logout = () => {
-        localStorage.removeItem('githubUser'); // Remove user data from localStorage on logout
-        setIsLoggedIn(false); // Set isLoggedIn to false on logout
-        setUser(undefined);
-    };
-
-    const setGithubUser: GitHubUserContextProps['setGithubUser'] = (githubUser) => {
-        setUser(githubUser);
-    };
+    const login = (githubUserData: GithubUser) => {
+        setGithubUser(githubUserData)
+        setLoggedIn(true)
+        localStorage.setItem('githubUser', JSON.stringify(githubUserData))
+    }
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`
 
     const handleCallback = async (code: string) => {
         try {
             const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
             if (response.status === 200) {
-                const userData: GithubUser = response.data;
-                localStorage.setItem('githubUser', JSON.stringify(userData));
-                setUser(userData);
-                setIsLoggedIn(true); // Set isLoggedIn to true after successful login
+                const githubUserData: GithubUser = response.data;
+                localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+                setGithubUser(githubUserData);
+                setLoggedIn(true); // Set isLoggedIn to true after successful login
             } else {
                 console.error('Invalid response status:', response.status);
             }
@@ -81,19 +66,13 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
         }
     };
 
-
-
-    const contextValues: GitHubUserContextProps = {
-        isLoggedIn,
-        login,
-        logout,
-        handleCallback,
-        setGithubUser,
-    };
-
-    return <GitHubUserContext.Provider value={contextValues}>{children}</GitHubUserContext.Provider>;
-};
-
-export const useGitHubUserContext = () => {
-    return useContext(GitHubUserContext);
-};
+    return (
+        <GitHubUserContext.Provider value={{
+            githubUser,
+            setGithubUser,
+            isLoggedIn,
+            login,
+            handleCallback
+        }}>{children}</GitHubUserContext.Provider>
+    );
+}
