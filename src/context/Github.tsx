@@ -1,7 +1,6 @@
-import React, { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
-import {Doctor} from "./DoctorContext";
+import { useNavigate } from "react-router-dom";
 
 export interface GithubUser {
     id: number;
@@ -12,7 +11,6 @@ export interface GithubUser {
 
 export interface GitHubUserContextProps {
     githubUser: GithubUser | null;
-    setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
     isLoggedIn: boolean;
     login: (githubUserData: GithubUser) => void;
     handleCallback: (code: string) => void;
@@ -21,34 +19,30 @@ export interface GitHubUserContextProps {
 const githubClientId = '065d047663d40d183c04';
 const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
-const urlParams = new URLSearchParams(window.location.search);
-const receivedCode = urlParams.get('code');
-
-if (receivedCode) {
-    localStorage.setItem('code', receivedCode);
-} else {
-    console.error('Code not found in the URL.');
-    console.log(receivedCode)
-}
-
-
 export const GitHubUserContext = createContext<GitHubUserContextProps | null>(null);
 
-export function GithubUserContextProvider({ children }: { children: React.ReactNode }) {
+export function GithubUserContextProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
     const [githubUser, setGithubUser] = useState<GithubUser | null>(() => {
         const storedGithubUser = localStorage.getItem('githubUser');
         return storedGithubUser ? JSON.parse(storedGithubUser) : null;
     });
-    const [isLoggedIn, setLoggedIn] = useState<boolean>(() => !!githubUser);
+    const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
 
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const receivedCode = urlParams.get('code');
+
+        if (receivedCode) {
+            handleCallback(receivedCode); // Handle the received code when it's present
+        }
+    }, []); // Empty dependency array ensures this effect runs once, similar to componentDidMount
 
     const login = (githubUserData: GithubUser) => {
-        setGithubUser(githubUserData)
-        setLoggedIn(true)
-        localStorage.setItem('githubUser', JSON.stringify(githubUserData))
-    }
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`
+        setGithubUser(githubUserData);
+        setLoggedIn(true);
+        localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+    };
 
     const handleCallback = async (code: string) => {
         try {
@@ -57,7 +51,7 @@ export function GithubUserContextProvider({ children }: { children: React.ReactN
                 const githubUserData: GithubUser = response.data;
                 localStorage.setItem('githubUser', JSON.stringify(githubUserData));
                 setGithubUser(githubUserData);
-                setLoggedIn(true); // Set isLoggedIn to true after successful login
+                setLoggedIn(true);
             } else {
                 console.error('Invalid response status:', response.status);
             }
@@ -67,12 +61,8 @@ export function GithubUserContextProvider({ children }: { children: React.ReactN
     };
 
     return (
-        <GitHubUserContext.Provider value={{
-            githubUser,
-            setGithubUser,
-            isLoggedIn,
-            login,
-            handleCallback
-        }}>{children}</GitHubUserContext.Provider>
+        <GitHubUserContext.Provider value={{ githubUser, isLoggedIn, login, handleCallback }}>
+            {children}
+        </GitHubUserContext.Provider>
     );
 }
