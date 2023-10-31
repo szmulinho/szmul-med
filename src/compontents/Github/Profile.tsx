@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useGitHubUserContext } from '../../context/Github';
+import React, {useContext, useEffect} from 'react';
+import {GitHubUserContext, GitHubUserContextProps} from '../../context/Github';
 
 export const GithubProfile: React.FC = () => {
-    const { githubUser, isLoggedIn, handleCallback } = useGitHubUserContext();
+    const { githubUser, isLoggedIn, handleCallback } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     useEffect(() => {
         const fetchData = async () => {
