@@ -28,14 +28,14 @@ import { Check } from "./pages/doctors/check";
 import {CustomerProfile} from "./pages/users/profile";
 import {Add_Order} from "./pages/orders/order";
 import {Add_Feedback} from "./pages/feedback/feedback";
-import { GitHubUserProvider } from './context/Github';
+import { GithubUserContextProvider } from './context/Github';
 import { GithubUserProfile } from './pages/github/profile';
 
 function App() {
 
     return (
         <UserContextProvider>
-            <GitHubUserProvider>
+            <GithubUserContextProvider>
                 <ShoppingCartProvider>
                     <DoctorContextProvider>
                     <Navbar />
@@ -74,7 +74,7 @@ function App() {
                     </div>
                     </DoctorContextProvider>
                 </ShoppingCartProvider>
-                </GitHubUserProvider>
+                </GithubUserContextProvider>
         </UserContextProvider>
 
     );
