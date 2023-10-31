@@ -5,7 +5,7 @@ export const GithubProfile: React.FC = () => {
     const { githubUser, isLoggedIn, handleCallback } = useGitHubUserContext();
 
     useEffect(() => {
-        const code = localStorage.getItem('githubCode');
+        const code = localStorage.getItem('code');
         if (code && !isLoggedIn) {
             // Call the handleCallback function to exchange code for user data
             handleCallback(code);

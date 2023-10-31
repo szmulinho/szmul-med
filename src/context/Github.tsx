@@ -33,6 +33,8 @@ export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultCo
 export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GithubUser | undefined>(undefined);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const code = localStorage.getItem('code');
+
 
     const login = () => {
         window.location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${redirectUri}`
@@ -52,12 +54,17 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
         try {
             const response = await axios.get(`/github/callback?code=${code}`);
             const userData: GithubUser = response.data;
+
+            // Save user data to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
             setUser(userData);
             setIsLoggedIn(true);
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
         }
     };
+
 
     const contextValues: GitHubUserContextProps = {
         isLoggedIn,
