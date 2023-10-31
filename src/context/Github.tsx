@@ -28,6 +28,16 @@ const defaultContext: GitHubUserContextProps = {
 const githubClientId = '065d047663d40d183c04';
 const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
+const urlParams = new URLSearchParams(window.location.search);
+const receivedCode = urlParams.get('code');
+
+if (receivedCode) {
+    localStorage.setItem('code', receivedCode);
+} else {
+    console.error('Code not found in the URL.');
+}
+
+
 export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultContext);
 
 export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
