@@ -35,6 +35,7 @@ if (receivedCode) {
     localStorage.setItem('code', receivedCode);
 } else {
     console.error('Code not found in the URL.');
+    console.log(receivedCode)
 }
 
 
@@ -55,19 +56,19 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
         setUser(undefined);
     };
 
-    const setGithubUser: GitHubUserContextProps['setGithubUser'] = (userData) => {
-        setUser(userData);
+    const setGithubUser: GitHubUserContextProps['setGithubUser'] = (githubUser) => {
+        setUser(githubUser);
     };
 
     const handleCallback = async (code: string) => {
         try {
             const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback`);
-            const userData: GithubUser = response.data;
+            const githubUser: GithubUser = response.data;
 
             // Save user data to localStorage
-            localStorage.setItem('userData', JSON.stringify(userData));
+            localStorage.setItem('githubUser', JSON.stringify(githubUser));
 
-            setUser(userData);
+            setUser(githubUser);
             setIsLoggedIn(true);
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
