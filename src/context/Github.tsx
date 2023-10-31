@@ -1,6 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import {Doctor} from "./DoctorContext";
 
 export interface GithubUser {
     id: number;
