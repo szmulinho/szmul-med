@@ -1,62 +1,29 @@
-import React, { useEffect, useContext } from 'react';
-import Button from '@mui/material/Button';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import { GitHubUserContext, GithubUser, GitHubUserContextProps } from '../../context/Github';
+import React, { useContext } from 'react';
+import {GitHubUserContext, GitHubUserContextProps} from '../../context/Github';
 
-const LoginWithGithub: React.FC = () => {
-    const { login, githubUser, handleCallback, isLoggedIn, logout } = useContext(GitHubUserContext) as GitHubUserContextProps;
-
-    useEffect(() => {
-        // Handle logic on component mount if needed
-    }, []); // Empty dependency array ensures the effect runs once after initial render
+const LoginWithGithub = () => {
+    const { isLoggedIn, handleCallback } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     const handleLoginClick = () => {
-        login();
+        if (!isLoggedIn) {
+            // Redirect user to GitHub login page
+            window.location.href = 'https://szmul-med-github-login.onrender.com/github/login';
+        }
     };
 
-    const handleLogoutClick = () => {
-        logout();
-    };
+    const urlParams = new URLSearchParams(window.location.search);
+    const receivedCode = urlParams.get('code');
+
+    if (receivedCode) {
+        handleCallback(receivedCode);
+    }
 
     return (
         <div>
-            {!isLoggedIn ? (
-                <Button
-                    variant="contained"
-                    startIcon={<GitHubIcon />}
-                    sx={{
-                        backgroundColor: '#24292e',
-                        color: '#ffffff',
-                        '&:hover': {
-                            backgroundColor: '#1c2024',
-                        },
-                    }}
-                    onClick={handleLoginClick}
-                >
-                    Login with GitHub
-                </Button>
-            ) : (
-                <div>
-                    <Button
-                        variant="contained"
-                        startIcon={<GitHubIcon />}
-                        sx={{
-                            backgroundColor: '#24292e',
-                            color: '#ffffff',
-                            '&:hover': {
-                                backgroundColor: '#1c2024',
-                            },
-                        }}
-                        onClick={handleLogoutClick}
-                    >
-                        Logout
-                    </Button>
-                    <div>
-                        <strong>User Info:</strong>
-                        <pre>{JSON.stringify(githubUser, null, 2)}</pre>
-                    </div>
-                </div>
+            {!isLoggedIn && (
+                <button onClick={handleLoginClick}>Login with GitHub</button>
             )}
+            {isLoggedIn && <p>Logged in with GitHub!</p>}
         </div>
     );
 };
