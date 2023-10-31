@@ -43,7 +43,11 @@ export const GitHubUserContext = createContext<GitHubUserContextProps>(defaultCo
 
 export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<GithubUser | undefined>(undefined);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+        // Check if the user is already logged in from localStorage
+        const storedUser = localStorage.getItem('githubUser');
+        return Boolean(storedUser);
+    });
 
 
     const login = () => {
@@ -52,7 +56,8 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
     };
 
     const logout = () => {
-        setIsLoggedIn(false);
+        localStorage.removeItem('githubUser'); // Remove user data from localStorage on logout
+        setIsLoggedIn(false); // Set isLoggedIn to false on logout
         setUser(undefined);
     };
 
@@ -67,7 +72,7 @@ export const GitHubUserProvider: React.FC<{ children: ReactNode }> = ({ children
                 const userData: GithubUser = response.data;
                 localStorage.setItem('githubUser', JSON.stringify(userData));
                 setUser(userData);
-                setIsLoggedIn(true);
+                setIsLoggedIn(true); // Set isLoggedIn to true after successful login
             } else {
                 console.error('Invalid response status:', response.status);
             }
