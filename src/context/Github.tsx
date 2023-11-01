@@ -31,13 +31,33 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     });
     const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
 
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const receivedCode = urlParams.get('code');
+    const fetchData = async () => {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
 
-        if (receivedCode) {
-            handleCallback(receivedCode); // Handle the received code when it's present
+            if (code) {
+                const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
+                if (response.status === 200) {
+                    const githubUserData: GithubUser = response.data;
+                    localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+                    localStorage.setItem('code', JSON.stringify(githubUserData));
+                    setGithubUser(githubUserData);
+                    setLoggedIn(true);
+                } else {
+                    console.error('Invalid response status:', response.status);
+                }
+            } else {
+                console.error('Code not found in URL parameters.');
+            }
+        } catch (error) {
+            console.error('Error occurred while fetching data:', error);
         }
+    };
+
+
+    useEffect(() => {
+        fetchData(); // Call the fetchData function when component mounts
     }, []); // Empty dependency array ensures this effect runs once, similar to componentDidMount
 
     const login = (githubUserData: GithubUser) => {
@@ -52,23 +72,11 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
         localStorage.removeItem('code');
         localStorage.removeItem('githubUser');
         navigate('/login');
+        window.location.reload();
     };
 
     const handleCallback = async (code: string) => {
-        try {
-            const response = await axios.get(`https://szmul-med-github-login.onrender.com/github/callback?code=${code}`);
-            if (response.status === 200) {
-                const githubUserData: GithubUser = response.data;
-                localStorage.setItem('githubUser', JSON.stringify(githubUserData));
-                localStorage.setItem('code', JSON.stringify(githubUserData));
-                setGithubUser(githubUserData);
-                setLoggedIn(true);
-            } else {
-                console.error('Invalid response status:', response.status);
-            }
-        } catch (error) {
-            console.error('Error occurred while fetching data:', error);
-        }
+        fetchData();
     };
 
     return (
