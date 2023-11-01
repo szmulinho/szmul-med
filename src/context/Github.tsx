@@ -15,6 +15,7 @@ export interface GitHubUserContextProps {
     isLoggedIn: boolean;
     login: (githubUserData: GithubUser) => void;
     handleCallback: (code: string) => void;
+    handleLogout: () => void;
 }
 
 const githubClientId = '065d047663d40d183c04';
@@ -43,6 +44,14 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
         setGithubUser(githubUserData);
         setLoggedIn(true);
         localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+        localStorage.setItem('code', JSON.stringify(githubUserData));
+    };
+
+    const handleLogout = () => {
+        setGithubUser(null);
+        localStorage.removeItem('code');
+        localStorage.removeItem('githubUser');
+        navigate('/login');
     };
 
     const handleCallback = async (code: string) => {
@@ -51,6 +60,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
             if (response.status === 200) {
                 const githubUserData: GithubUser = response.data;
                 localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+                localStorage.setItem('code', JSON.stringify(githubUserData));
                 setGithubUser(githubUserData);
                 setLoggedIn(true);
             } else {
@@ -62,7 +72,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     };
 
     return (
-        <GitHubUserContext.Provider value={{ githubUser, isLoggedIn, login, handleCallback }}>
+        <GitHubUserContext.Provider value={{ githubUser, isLoggedIn, login, handleCallback, handleLogout }}>
             {children}
         </GitHubUserContext.Provider>
     );

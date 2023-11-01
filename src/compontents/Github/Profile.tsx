@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {GitHubUserContext, GitHubUserContextProps} from '../../context/Github';
 
 export const GithubProfile: React.FC = () => {
-    const { githubUser, isLoggedIn, handleCallback } = useContext(GitHubUserContext) as GitHubUserContextProps;
+    const { githubUser, isLoggedIn, handleCallback, handleLogout } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +25,7 @@ export const GithubProfile: React.FC = () => {
         fetchData(); // Call the fetchData function when component mounts
     }, [handleCallback, isLoggedIn]);
 
+
     return (
         <div>
             <h2>User Profile</h2>
@@ -34,6 +35,7 @@ export const GithubProfile: React.FC = () => {
                         <h3>{githubUser.role}</h3>
                         <h3>{githubUser.email}</h3>
                         <h3>{githubUser.login}</h3>
+                       <button onClick={handleLogout}>Logout</button>
                 </div>
             ) : (
                 <div>Loading user data...</div>

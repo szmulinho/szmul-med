@@ -22,12 +22,12 @@ export function Navbar() {
         console.log('doctor:', doctor);
         console.log('githubUser:', githubUser);
 
-        if (user || doctor ) {
+        if (user || doctor || githubUser ) {
             setIsLoggedIn(true);
         } else {
             setIsLoggedIn(false);
         }
-    }, [user, doctor, setIsLoggedIn]);
+    }, [user, doctor, githubUser, setIsLoggedIn]);
 
     const handleLogout = () => {
         setUser(null);
@@ -67,11 +67,10 @@ export function Navbar() {
                     <Nav.Link to={'/pharmacy'} as={NavLink}>Pharmacy</Nav.Link>
                     <Nav.Link to={'/contact'} as={NavLink}>Contact</Nav.Link>
                     <Nav.Link to={'/about'} as={NavLink}>About</Nav.Link>
-                    {(doctor && doctor.role === 'doctor') || (githubUser && githubUser.role === 'doctor') ? (
+                    {(doctor && doctor.role === 'doctor') || (githubUser && githubUser.role === 'admin') ? (
                         <NavDropdown title="Clinic" id="clinic-dropdown">
                             <NavDropdown.Item as={NavLink} to="/clinic/add_drug">Add drug</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/clinic/delete_drug">Delete drug</NavDropdown.Item>
-                            {/* ... pozostałe elementy */}
                         </NavDropdown>
                     ): null}
                     {isLoggedIn && <Nav.Link style={{ color: 'red' }} onClick={handleLogout}>Logout</Nav.Link>}
