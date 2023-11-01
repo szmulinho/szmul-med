@@ -2,7 +2,7 @@ import axios from "axios";
 
 export interface GithubUser {
     id: number;
-    username: string;
+    login: string;
     email: string;
     role: string;
 }
