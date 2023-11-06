@@ -1,10 +1,10 @@
 import axios, {AxiosRequestConfig} from "axios";
-import {Prescription} from "./prescription";
 
 
 export interface User {
     id: number;
     login: string;
+    email: string;
     password: string;
     role: string;
 }

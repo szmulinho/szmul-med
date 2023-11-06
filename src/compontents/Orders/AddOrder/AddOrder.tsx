@@ -1,17 +1,28 @@
-import React, {useContext, useState } from 'react';
+import React, {useContext, useEffect, useState } from 'react';
 import { Button, Container, TextField } from '@mui/material';
 import { postOrder, Order } from '../../../data/orders';
-import { UserContext } from '../../../context/UserContext';
+import {UserContext, UserContextProps} from '../../../context/UserContext';
+import {useLocation, useNavigate } from 'react-router-dom';
 
 export function AddOrder() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { user } = useContext(UserContext) as UserContextProps;
     const [postData, setPostData] = useState<Order>({
         id: 0,
-        name: '', // Set the name field to the logged-in user's login
-        email: '',
+        name: user?.login || '',
+        email: user?.email || '',
         address: '',
         items: '',
         price: '',
     });
+
+    useEffect(() => {
+        if (location.state) {
+            const { items, price } = location.state;
+            setPostData({ ...postData, items, price });
+        }
+    }, [location.state]);
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();

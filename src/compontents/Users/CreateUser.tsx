@@ -5,6 +5,7 @@ import { Button, Form } from "react-bootstrap";
 export function CreateUser() {
     const navigate = useNavigate();
     const [login, setLogin] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
@@ -17,6 +18,7 @@ export function CreateUser() {
             },
             body: JSON.stringify({
                 login: login,
+                email: email,
                 password: password,
             }),
         });
@@ -39,6 +41,15 @@ export function CreateUser() {
                         placeholder="Enter login"
                         value={login}
                         onChange={(event) => setLogin(event.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
                     />
                 </Form.Group>
                 <Form.Group controlId="formPassword">
