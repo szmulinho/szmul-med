@@ -11,6 +11,7 @@ export function CuProfile() {
     const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [order, setOrder] = useState<Order | null>(null);
     const [showResult, setShowResult] = useState(false);
+    const [showResult2, setShowResult2] = useState(false);
     const [loading, setLoading] = useState(false);
 
     if (user === null || user === undefined) {
@@ -33,7 +34,7 @@ export function CuProfile() {
             console.log("Fetched prescription data:", fetchedPrescription);
 
             setPrescription(fetchedPrescription);
-            setShowResult(true);
+            setShowResult2(true);
         } catch (error) {
             console.error('Error fetching patient prescription:', error);
             navigate('/login');
@@ -70,6 +71,7 @@ export function CuProfile() {
 
     const handleResultClose = () => {
         setShowResult(false);
+        setShowResult2(false);
     };
 
     const handleLogout = () => {
@@ -86,7 +88,7 @@ export function CuProfile() {
 
             <Button variant="secondary" onClick={handleShowPrescriptions}>Show my prescriptions</Button>
 
-            <Modal show={showResult} onHide={handleResultClose}>
+            <Modal show={showResult2} onHide={handleResultClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Prescription</Modal.Title>
                 </Modal.Header>
