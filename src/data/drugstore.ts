@@ -5,6 +5,7 @@ export interface Drug {
     drug_id: number;
     name: string;
     price: number;
+    image: string;
 }
 
 export async function getAllDrugs(): Promise<Drug[]> {

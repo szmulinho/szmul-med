@@ -1,12 +1,27 @@
 import {Container, Nav, Button, Navbar as NavbarPc, Row, Col, InputGroup, Form} from "react-bootstrap"
-import storeItems from "../data/items.json"
 import {StoreItem} from "../compontents/Store/StoreItem";
 import {useShoppingCart} from "../context/ShoppingCartContext";
+import {useEffect, useState } from "react";
+import {Drug, getAllDrugs} from "../data/drugstore";
 
 
 export function Pharmacy() {
     const { openCart, cartQuantity } = useShoppingCart()
-    // @ts-ignore
+    const [drugs, setDrugs] = useState<Drug[]>([]);
+
+    useEffect(() => {
+        async function fetchDrugs() {
+            try {
+                const response = await getAllDrugs();
+                setDrugs(response);
+            } catch (error) {
+                console.error('Error fetching drugs:', error);
+            }
+        }
+        fetchDrugs();
+    }, []);
+
+
     return <h1 style={{position: "relative"}}>
         Pharmacy
         <NavbarPc>
@@ -35,12 +50,17 @@ export function Pharmacy() {
         </Container>
         </NavbarPc>
         <Row md={2} xs={1} lg={4} className="g-3">
-            {storeItems.map(item => (
-                <Col key={item.id}><StoreItem key={item.id} id={item.id} name={item.name} price={Number(item.price)} imgUrl={item.imgUrl}/></Col>
+            {drugs.map(drug => (
+                <Col key={drug.drug_id}>
+                    <StoreItem
+                        drug_id={drug.drug_id}
+                        name={drug.name}
+                        price={drug.price}
+                        image={drug.image}
+                    />
+                </Col>
             ))}
         </Row>
-
-
     </h1>
 
 }
