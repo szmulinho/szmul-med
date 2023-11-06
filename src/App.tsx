@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Routes, Route, BrowserRouter, Router} from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { ShoppingCartProvider } from './context/ShoppingCartContext';
@@ -30,13 +30,28 @@ import {Add_Order} from "./pages/orders/order";
 import {Add_Feedback} from "./pages/feedback/feedback";
 import { GithubUserContextProvider } from './context/Github';
 import { GithubUserProfile } from './pages/github/profile';
+import axios from 'axios';
 
 function App() {
+    const [drugs, setDrugs] = useState([]);
+
+    useEffect(() => {
+        const fetchDrugs = async () => {
+            try {
+                const response = await axios.get('https://szmul-med-drugstore.onrender.com/drugs'); // Replace with your API endpoint
+                setDrugs(response.data);
+            } catch (error) {
+                console.error('Error fetching drugs:', error);
+            }
+        };
+
+        fetchDrugs();
+    }, []);
 
     return (
         <UserContextProvider>
             <GithubUserContextProvider>
-                <ShoppingCartProvider>
+                <ShoppingCartProvider drugs={drugs}>
                     <DoctorContextProvider>
                     <Navbar />
                     <div className="d-flex">
