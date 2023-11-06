@@ -8,6 +8,7 @@ export function AddDrug() {
         drug_id: 0,
         name: '',
         price: 0,
+        image: '',
     });
 
     const navigate = useNavigate();
@@ -40,6 +41,15 @@ export function AddDrug() {
 
                         margin="normal"
                         InputProps={{ inputProps: { min: 0 } }}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        label="Image URL"
+                        variant="outlined"
+                        value={postData.image}
+                        onChange={(event) => setPostData({ ...postData, image: event.target.value })}
+                        margin="normal"
                     />
                 </div>
                 <Button variant="contained" color="primary" type="submit" style={{ marginTop: '20px' }}>
