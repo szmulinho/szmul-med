@@ -27,6 +27,7 @@ export function AddOrder() {
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         await postOrder(postData);
+        navigate("/opinion")
     };
 
     return (

@@ -6,14 +6,11 @@ import Typography from '@mui/material/Typography';
 import { postOpinion, Opinion } from '../../data/feedback';
 import { useNavigate } from 'react-router-dom';
 
-interface Props {
-    onComplete: () => void;
-}
 
-export function CustomerSatisfactionFeedback({ onComplete }: Props) {
+export function CustomerSatisfactionFeedback() {
     const [rating, setRating] = useState<number | null>(null);
     const [comment, setComment] = useState<string>('');
-    const navigate = useNavigate(); // Access the history object
+    const navigate = useNavigate(); // Moved the hook call here
 
     const handleSubmit = async () => {
         if (rating === null) {
@@ -29,13 +26,13 @@ export function CustomerSatisfactionFeedback({ onComplete }: Props) {
         try {
             await postOpinion(feedback);
             // Handle successful feedback submission, if needed
-            onComplete();
             navigate('/pharmacy'); // Redirect to the specified URL
         } catch (error) {
             // Handle error during feedback submission, if needed
             console.error('Error submitting feedback:', error);
         }
     };
+
 
     return (
         <Container className="mt-auto d-flex flex-column align-items-center justify-content-center">

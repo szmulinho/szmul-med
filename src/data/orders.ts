@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {AxiosRequestConfig} from "axios/index";
+import {Prescription} from "./prescription";
 
 export interface Order {
     id: number;
@@ -17,6 +18,11 @@ export async function getOrder(): Promise<Order[]> {
 
 export async function postOrder(postData: Order): Promise<Order[]> {
     const response = await axios.post('https://szmul-med-orders.onrender.com/order', postData);
+    return response.data;
+}
+
+export async function GetOrderByName(name: string): Promise<Order> {
+    const response = await axios.get(`https://szmul-med-orders.onrender.com/orders/${name}`);
     return response.data;
 }
 

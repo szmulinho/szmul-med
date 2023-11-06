@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext, UserContextProps } from "../../context/UserContext";
 import { GetPatientPresc, Prescription } from "../../data/prescription"; // Assume API functions are imported from the correct path
 import { Modal, Button } from 'react-bootstrap';
+import {GetOrderByName, Order} from "../../data/orders";
 
 export function CuProfile() {
     const navigate = useNavigate();
     const { user, setUser, logout } = useContext(UserContext) as UserContextProps;
     const [prescription, setPrescription] = useState<Prescription | null>(null);
+    const [order, setOrder] = useState<Order | null>(null);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -39,6 +41,31 @@ export function CuProfile() {
             setLoading(false);
         }
     };
+
+    const handleShowOrders = async () => {
+        try {
+            setLoading(true);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error("Token not available");
+                return;
+            }
+
+            console.log("Fetching orders for user:", user.login);
+            const fetchedOrder = await GetOrderByName(user.login);
+            console.log("Fetched orders data:", fetchedOrder);
+
+            setOrder(fetchedOrder);
+            setShowResult(true);
+        } catch (error) {
+            console.error('Error fetching patient orders:', error);
+            navigate('/login');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
 
 
     const handleResultClose = () => {
@@ -72,6 +99,32 @@ export function CuProfile() {
                         </div>
                     ) : (
                         <p>No prescription found for {user.login}.</p>
+                    )}
+                </Modal.Body>
+
+
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleResultClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Button variant="secondary" onClick={handleShowOrders}>Show my orders</Button>
+
+            <Modal show={showResult} onHide={handleResultClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Orders</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {loading ? (
+                        <p>Loading orders data...</p>
+                    ) : order ? (
+                        <div>
+                            <pre>{JSON.stringify(order, null, 2)}</pre>
+                        </div>
+                    ) : (
+                        <p>No orders found for {user.login}.</p>
                     )}
                 </Modal.Body>
 
