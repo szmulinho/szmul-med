@@ -10,9 +10,10 @@ interface StoreItemProps {
     name: string;
     price: number;
     image: string;
+    description: string;
 }
 
-export function StoreItem({ drug_id, name, price, image }: StoreItemProps): JSX.Element {
+export function StoreItem({ drug_id, name, price, image, description }: StoreItemProps): JSX.Element {
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
     const quantity = getItemQuantity(drug_id);
 

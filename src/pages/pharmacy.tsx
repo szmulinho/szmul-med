@@ -53,10 +53,11 @@ export function Pharmacy() {
             {drugs.map(drug => (
                 <Col key={drug.drug_id}>
                     <StoreItem
-                        drug_id={drug.drug_id}
-                        name={drug.name}
-                        price={drug.price}
-                        image={drug.image} description={""}                    />
+    drug_id={drug.drug_id}
+    name={drug.name}
+    price={drug.price}
+    image={drug.image}
+    description={drug.description}/>
                 </Col>
             ))}
         </Row>

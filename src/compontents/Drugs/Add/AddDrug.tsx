@@ -9,6 +9,7 @@ export function AddDrug() {
         name: '',
         price: 0,
         image: '',
+        description: '',
     });
 
     const navigate = useNavigate();
@@ -49,6 +50,15 @@ export function AddDrug() {
                         variant="outlined"
                         value={postData.image}
                         onChange={(event) => setPostData({ ...postData, image: event.target.value })}
+                        margin="normal"
+                    />
+                </div>
+                <div>
+                    <TextField
+                        label="Description"
+                        variant="outlined"
+                        value={postData.description}
+                        onChange={(event) => setPostData({ ...postData, description: event.target.value })}
                         margin="normal"
                     />
                 </div>
