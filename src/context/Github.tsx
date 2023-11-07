@@ -18,7 +18,7 @@ export interface GitHubUserContextProps {
     handleLogout: () => void;
 }
 
-const githubClientId = '065d047663d40d183c04';
+const githubClientId = '33f5f8298ded51f76f30';
 const redirectUri = 'https://szmul-med.onrender.com/github_user';
 
 export const GitHubUserContext = createContext<GitHubUserContextProps | null>(null);
