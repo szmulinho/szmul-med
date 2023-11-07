@@ -6,20 +6,21 @@ export interface Drug {
     name: string;
     price: number;
     image: string;
+    description: string;
+}
+
+export async function getDrugByName(name: string): Promise<void> {
+    try {
+        await axios.get(`https://szmul-med-drugstore.onrender.com/drugs/${name}`);
+    } catch (error) {
+        console.error(`Error deleting prescription with ID ${name}: ${error}`);
+    }
 }
 
 export async function getAllDrugs(): Promise<Drug[]> {
     const response = await axios.get('https://szmul-med-drugstore.onrender.com/drugs');
     console.log("leki", response.data)
     return response.data;
-}
-
-export async function getDrugByName(id: string): Promise<void> {
-    try {
-        await axios.get(`https://szmul-med-drugstore.onrender.com/drugs/${name}`);
-    } catch (error) {
-        console.error(`Error deleting prescription with ID ${name}: ${error}`);
-    }
 }
 
 export async function postDrug(postData: Drug): Promise<Drug[]> {

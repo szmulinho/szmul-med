@@ -3,6 +3,7 @@ import { ShoppingCart } from "../compontents/Store/ShoppingCart";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { Drug } from "../data/drugstore";
 import axios from "axios";
+import { MenuItem } from "@mui/material";
 
 type ShoppingCartProviderProps = {
     children: ReactNode;
@@ -23,6 +24,7 @@ type ShoppingCartContext = {
     removeFromCart: (drug_id: number) => void;
     cartQuantity: number;
     drugItems: DrugItem[];
+    getQuantityMenuItems: (drug_id: number) => void;
 };
 
 const ShoppingCartContext = createContext({} as ShoppingCartContext);
@@ -55,6 +57,15 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
 
     function getItemQuantity(drug_id: number) {
         return drugItems.find((item) => item.drug.drug_id === drug_id)?.quantity || 0;
+    }
+
+    function getQuantityMenuItems(): JSX.Element[] {
+        const maxQuantity = 10; // Set the maximum quantity you want to display in the dropdown
+        const menuItems: JSX.Element[] = [];
+        for (let i = 1; i <= maxQuantity; i++) {
+            menuItems.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
+        }
+        return menuItems;
     }
 
     function increaseCartQuantity(drug_id: number) {
@@ -103,6 +114,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         <ShoppingCartContext.Provider
             value={{
                 getItemQuantity,
+                getQuantityMenuItems,
                 increaseCartQuantity,
                 decreaseCartQuantity,
                 removeFromCart,

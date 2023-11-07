@@ -71,6 +71,10 @@ export function Navbar() {
                         <NavDropdown title="Clinic" id="clinic-dropdown">
                             <NavDropdown.Item as={NavLink} to="/clinic/add_drug">Add drug</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/clinic/delete_drug">Delete drug</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/clinic/update_drug">Update drug</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/clinic/add_presc">Add prescription</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/clinic/delete_presc">Delete prescription</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/clinic/update_presc">Update prescription</NavDropdown.Item>
                         </NavDropdown>
                     ): null}
                     {isLoggedIn && <Nav.Link style={{ color: 'red' }} onClick={handleLogout}>Logout</Nav.Link>}

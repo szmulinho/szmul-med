@@ -1,34 +1,32 @@
-import {useShoppingCart} from "../../context/ShoppingCartContext";
-import {teal} from "@mui/material/colors";
-import {Button, Stack} from "react-bootstrap";
-import {formatCurrency} from "../../utillities/formatCurrency";
-import {Drug} from "../../data/drugstore";
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Drug } from '../../data/drugstore';
+import { useShoppingCart } from '../../context/ShoppingCartContext';
 
 type CartItemProps = {
-    drug: Drug
-    quantity: number
+    drug: Drug;
+    quantity: number;
 };
 
-export function CartItem({drug, quantity}: CartItemProps) {
-    const { removeFromCart } = useShoppingCart()
+export function CartItem({ drug, quantity }: CartItemProps): JSX.Element {
+    const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
 
     return (
-        <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
-            <img src={drug.image} style={{width: "125px", height: "72px", objectFit:"cover"}} />
-            <div className="me-auto">
-                <div>
-                    {drug.name} {quantity > 1 && <span className="text-muted" style={{fontSize: ".75rem"}}>x{quantity}</span>}
-                </div>
-                <div className="text-muted" style={{fontSize: ".75rem"}}>
-                    {formatCurrency(Number(drug.price))}
-
-
-
-                </div>
+        <div className="d-flex justify-content-between align-items-center">
+            <div>
+                <span className="fw-bold">{drug.name}</span> - Quantity: {quantity}
             </div>
-            <div> {formatCurrency(Number(drug.price) * Number(quantity))}
-                <Button variant="outline-danger" size="sm" onClick={()=> removeFromCart(drug.drug_id)}>&times;</Button>
+            <div>
+                <Button variant="outline-primary" onClick={() => increaseCartQuantity(drug.drug_id)}>
+                    +
+                </Button>{' '}
+                <Button variant="outline-primary" onClick={() => decreaseCartQuantity(drug.drug_id)}>
+                    -
+                </Button>{' '}
+                <Button variant="outline-danger" onClick={() => removeFromCart(drug.drug_id)}>
+                    Remove
+                </Button>
             </div>
-        </Stack>
-    )
+        </div>
+    );
 }

@@ -56,8 +56,7 @@ export function Pharmacy() {
                         drug_id={drug.drug_id}
                         name={drug.name}
                         price={drug.price}
-                        image={drug.image}
-                    />
+                        image={drug.image} description={""}                    />
                 </Col>
             ))}
         </Row>

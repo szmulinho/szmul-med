@@ -31,6 +31,13 @@ import {Add_Feedback} from "./pages/feedback/feedback";
 import { GithubUserContextProvider } from './context/Github';
 import { GithubUserProfile } from './pages/github/profile';
 import axios from 'axios';
+import {ApapProfile} from "./compontents/Drugs/DrugProfile/ApapProfile";
+import {IbupromProfile} from "./pages/drugs/ibuprom";
+import {GlimbaxProfile} from "./pages/drugs/glimbax";
+import {VitaminD3Profile} from "./pages/drugs/vitaminD3";
+import {CirrusProfile} from "./pages/drugs/cirrus";
+import {TabcinProfile} from "./pages/drugs/tabcin";
+import { MagneB6Profile } from './pages/drugs/magneb6';
 
 function App() {
     const [drugs, setDrugs] = useState([]);
@@ -82,6 +89,13 @@ function App() {
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
                                         <Route path="/github_user" element={<GithubUserProfile />} />
+                                        <Route path="/drug/apap" element={<ApapProfile />} />
+                                        <Route path="/drug/ibuprom" element={<IbupromProfile />} />
+                                        <Route path="/drug/Glimbax" element={<GlimbaxProfile />} />
+                                        <Route path="/drug/vitamin D3" element={<VitaminD3Profile />} />
+                                        <Route path="/drug/cirrus" element={<CirrusProfile />} />
+                                        <Route path="/drug/tabcin" element={<TabcinProfile />} />
+                                        <Route path="/drug/magne B6" element={<MagneB6Profile />} />
                                     </Routes>
                                 </Container>
                             </div>
