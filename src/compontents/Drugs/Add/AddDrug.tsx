@@ -7,6 +7,7 @@ export function AddDrug() {
     const [postData, setPostData] = useState<Drug>({
         drug_id: 0,
         name: '',
+        type: '',
         price: 0,
         image: '',
         description: '',
