@@ -4,6 +4,7 @@ import {AxiosRequestConfig} from "axios/index";
 export interface Drug {
     drug_id: number;
     name: string;
+    type: string;
     price: number;
     image: string;
     description: string;
