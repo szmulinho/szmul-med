@@ -3,11 +3,10 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 export interface GithubUser {
-    id: number;
     login: string;
-    avatar_url: string;
     email: string;
-    role: string;
+    avatar_url: string;
+    followers: number;
 }
 
 export interface GitHubUserContextProps {
