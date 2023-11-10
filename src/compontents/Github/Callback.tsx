@@ -28,18 +28,6 @@ export const GithubCallback: React.FC = () => {
 
     return (
         <div>
-            <h2>User Profile</h2>
-            {isLoggedIn && githubUser ? (
-                <div>
-                    <img src={githubUser.avatar_url}/>
-                    <h3>{githubUser.role}</h3>
-                    <h3>{githubUser.email}</h3>
-                    <h3>{githubUser.login}</h3>
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            ) : (
-                <div>Loading user data...</div>
-            )}
         </div>
     );
 };

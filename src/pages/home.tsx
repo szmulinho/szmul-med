@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Chip, Container, Grid, Stack, Typography } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import myLogo from "../compontents/Navbar/images/logo.png";
+import myLogo2 from "../compontents/Navbar/images/logo2.png";
 
 
 export function Home() {
@@ -21,11 +21,9 @@ export function Home() {
         <Container maxWidth="lg" style={containerStyle}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <div style={{ background: '#AFF09EFF', width: '100%', textAlign: 'center' }}>
                     <Typography variant="h1" component="h1" align="center">
-                        <img src={myLogo} alt="Logo" style={{ width: '280px', height: '120px', position: 'relative', left: 20 }} />
+                        <img src={myLogo2} alt="Logo" style={{ width: '280px', height: '120px', position: 'relative', left: 20 }} />
                     </Typography>
-                    </div>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="h2" component="h2" align="center">

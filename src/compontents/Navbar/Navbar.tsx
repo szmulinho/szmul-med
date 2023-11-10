@@ -65,7 +65,7 @@ export function Navbar() {
                 </Nav.Link>
                 <Nav className={`me-auto ${isMobileMenuOpen ? 'd-flex flex-column align-items-center' : 'd-none d-md-flex'}`} style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)' }}>
                     <Nav.Link to={'/pharmacy'} as={NavLink}>Pharmacy</Nav.Link>
-                    <Nav.Link to={'/contact'} as={NavLink}>Contact</Nav.Link>
+                    {isLoggedIn && <Nav.Link to={'/profile'} as={NavLink}>Profile</Nav.Link>}
                     <Nav.Link to={'/about'} as={NavLink}>About</Nav.Link>
                     {(doctor && doctor.role === 'doctor') || (githubUser && githubUser.role === 'admin') ? (
                         <NavDropdown title="Clinic" id="clinic-dropdown">
