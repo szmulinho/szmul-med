@@ -12,7 +12,7 @@ export function Choose() {
     }
 
     function handleGithubLoginClick() {
-        window.location.href = 'https://szmul-med-github-login.onrender.com/github/login/';
+        window.location.href = 'https://szmul-med-github-login.onrender.com/login/';
     }
 
     return (
