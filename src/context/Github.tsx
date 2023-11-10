@@ -77,6 +77,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
 
     const handleCallback = async (code: string) => {
         fetchData();
+        navigate("/githubprofile")
     };
 
     return (

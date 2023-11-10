@@ -38,6 +38,7 @@ import {VitaminD3Profile} from "./pages/drugs/vitaminD3";
 import {CirrusProfile} from "./pages/drugs/cirrus";
 import {TabcinProfile} from "./pages/drugs/tabcin";
 import { MagneB6Profile } from './pages/drugs/magneb6';
+import GithubCallback from './compontents/Github/Callback';
 
 function App() {
     const [drugs, setDrugs] = useState([]);
@@ -88,7 +89,8 @@ function App() {
                                         <Route path="/log" element={<Choose />} />
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
-                                        <Route path="/github_user" element={<GithubUserProfile />} />
+                                        <Route path="/github_user" element={<GithubCallback />} />
+                                        <Route path="/githubprofile" element={<GithubUserProfile />} />
                                         <Route path="/drug/apap" element={<ApapProfile />} />
                                         <Route path="/drug/ibuprom" element={<IbupromProfile />} />
                                         <Route path="/drug/Glimbax" element={<GlimbaxProfile />} />
