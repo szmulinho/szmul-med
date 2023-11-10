@@ -67,7 +67,7 @@ export function Navbar() {
                     <Nav.Link to={'/pharmacy'} as={NavLink}>Pharmacy</Nav.Link>
                     {isLoggedIn && <Nav.Link to={'/profile'} as={NavLink}>Profile</Nav.Link>}
                     <Nav.Link to={'/about'} as={NavLink}>About</Nav.Link>
-                    {(doctor && doctor.role === 'doctor') || (githubUser && githubUser.role === 'admin') ? (
+                    {(doctor && doctor.role === 'doctor') ? (
                         <NavDropdown title="Clinic" id="clinic-dropdown">
                             <NavDropdown.Item as={NavLink} to="/clinic/add_drug">Add drug</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/clinic/delete_drug">Delete drug</NavDropdown.Item>

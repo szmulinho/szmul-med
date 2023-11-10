@@ -32,9 +32,9 @@ export const GithubCallback: React.FC = () => {
             {isLoggedIn && githubUser ? (
                 <div>
                     <img src={githubUser.avatar_url}/>
-                    <h3>{githubUser.role}</h3>
                     <h3>{githubUser.email}</h3>
                     <h3>{githubUser.login}</h3>
+                    <h3>{githubUser.followers}</h3>
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             ) : (
