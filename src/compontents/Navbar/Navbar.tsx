@@ -53,7 +53,7 @@ export function Navbar() {
                 >
                     ☰
                 </Button>
-                <Nav.Link to={'/home'} as={NavLink}>
+                <Nav.Link to={'/'} as={NavLink}>
                     <Button
                         className={'mt-4s d-flex flex-column align-items-center justify-content-center'}
                         variant="link"

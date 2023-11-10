@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
 
 export function Choose() {
     const navigate = useNavigate();
@@ -24,9 +24,7 @@ export function Choose() {
                             <h2 className="text-secondary">Login for doctors</h2>
                         </div>
                         <Button
-                            variant="outlined"
-                            color="success"
-                            size="large"
+                            variant="outline-secondary"
                             onClick={() => handleLoginClick('/doctor_log')}
                         >
                             Login
@@ -39,32 +37,27 @@ export function Choose() {
                             <h2 className="text-secondary">Login for users</h2>
                         </div>
                         <Button
-                            variant="outlined"
-                            color="success"
-                            size="large"
+                            variant="outline-secondary"
+                            color="secondary"
                             onClick={() => handleLoginClick('/login')}
                         >
                             Login
                         </Button>
                         <Button
-                            variant="outlined"
+                            variant="outline-secondary"
                             color="success"
-                            size="large"
                             onClick={() => handleLoginClick('/register')}
                         >
                             You don't have an account? Sign up!
                         </Button>
                         <div style={{ textAlign: 'justify' }}></div>
-                        <Button
-                            variant="outlined"
-                            color="success"
-                            size="large"
-                            startIcon={<GitHubIcon />}
+                        <IconButton
                             onClick={handleGithubLoginClick}
-                            style={{ marginTop: '1rem' }}
+                            style={{ marginTop: '1rem', color: 'success' }}
                         >
+                            <GitHubIcon />
                             Login with GitHub
-                        </Button>
+                        </IconButton>
                     </div>
                 </Col>
             </Row>

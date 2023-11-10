@@ -75,7 +75,7 @@ function App() {
                                         <Route path="/clinic/delete_drug" element={<Delete_drug />} />
                                         <Route path="/clinic/update_drug" element={<Update_drug />} />
                                         <Route path="/pharmacy" element={<Pharmacy />} />
-                                        <Route path="/home" element={<Home />} />
+                                        <Route path="/" element={<Home />} />
                                         <Route path="/contact" element={<Contact />} />
                                         <Route path="/about" element={<About />} />
                                         <Route path="/clinic/add_presc" element={<Presc />} />
