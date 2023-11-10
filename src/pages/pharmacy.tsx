@@ -34,7 +34,7 @@ export function Pharmacy() {
                         <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange(null)}>
                             All Medicines
                         </Button>
-                        <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange("Type1")}>
+                        <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange("Painkillers")}>
                             Painkillers
                         </Button>
                         <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange("Type2")}>
