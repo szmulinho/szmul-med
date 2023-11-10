@@ -21,7 +21,7 @@ export function Pharmacy() {
         fetchDrugs();
     }, []);
 
-    const handleTypeChange = (type: string) => {
+    const handleTypeChange = (type: string | null) => {
         setSelectedType(type);
         // You can fetch drugs based on the selected type here if needed
     };
@@ -31,7 +31,7 @@ export function Pharmacy() {
             <Row>
                 <Col md={2}>
                     <div className="d-flex flex-column align-items-start p-3">
-                        <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange("type")}>
+                        <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange(null)}>
                             All Medicines
                         </Button>
                         <Button variant="outline-secondary" className="mb-2" onClick={() => handleTypeChange("Type1")}>
