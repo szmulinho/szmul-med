@@ -7,7 +7,6 @@ export interface PublicRepo {
     id: number;
     name: string;
     description: string;
-    githubUserLogin: string;
 }
 
 export interface GithubUser {
@@ -16,7 +15,6 @@ export interface GithubUser {
     avatar_url: string;
     followers: number;
     role: string;
-    publicRepos: PublicRepo[]
 }
 
 export interface GitHubUserContextProps {
