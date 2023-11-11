@@ -55,6 +55,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
                     setLoggedIn(true);
                 } else {
                     console.error('Invalid response status:', response.status);
+                    console.error('Response data:', response.data);
                 }
             } else {
                 console.error('Code not found in URL parameters.');
@@ -63,6 +64,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
             console.error('Error occurred while fetching data:', error);
         }
     };
+
 
 
     useEffect(() => {
