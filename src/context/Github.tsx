@@ -7,6 +7,7 @@ export interface GithubUser {
     email: string;
     avatar_url: string;
     followers: number;
+    role: string;
 }
 
 export interface GitHubUserContextProps {
