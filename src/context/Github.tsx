@@ -2,12 +2,21 @@ import React, { createContext, useContext, ReactNode, useState, useEffect } from
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
+export interface PublicRepo {
+    githubUser: GithubUser
+    id: number;
+    name: string;
+    description: string;
+    githubUserLogin: string;
+}
+
 export interface GithubUser {
     login: string;
     email: string;
     avatar_url: string;
     followers: number;
     role: string;
+    publicRepos: PublicRepo[]
 }
 
 export interface GitHubUserContextProps {
@@ -65,12 +74,14 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
         setLoggedIn(true);
         localStorage.setItem('githubUser', JSON.stringify(githubUserData));
         localStorage.setItem('code', JSON.stringify(githubUserData));
+        localStorage.setItem('token', JSON.stringify(githubUserData));
     };
 
     const handleLogout = () => {
         setGithubUser(null);
         localStorage.removeItem('code');
         localStorage.removeItem('githubUser');
+        localStorage.removeItem('token');
         navigate('/login');
         window.location.reload();
     };
