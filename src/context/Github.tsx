@@ -1,9 +1,8 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export interface PublicRepo {
-    githubUser: GithubUser
     id: number;
     name: string;
     description: string;
@@ -38,57 +37,49 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     });
     const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
 
-    const fetchData = async () => {
+    const fetchData = async (code: string) => {
         try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
-
-            if (code) {
-                const response = await axios.get(`https://szmul-med-github-login.onrender.com/callback?code=${code}`);
-                if (response.status === 200) {
-                    const githubUserData: GithubUser = response.data;
-                    localStorage.setItem('githubUser', JSON.stringify(githubUserData));
-                    localStorage.setItem('code', JSON.stringify(githubUserData));
-                    setGithubUser(githubUserData);
-                    setLoggedIn(true);
-                } else {
-                    console.error('Invalid response status:', response.status);
-                    console.error('Response data:', response.data);
-                }
+            const response = await axios.get(`https://szmul-med-github-login.onrender.com/callback?code=${code}`);
+            if (response.status === 200) {
+                const githubUserData: GithubUser = response.data;
+                localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+                setGithubUser(githubUserData);
+                setLoggedIn(true);
             } else {
-                console.error('Code not found in URL parameters.');
+                console.error('Invalid response status:', response.status);
+                console.error('Response data:', response.data);
             }
         } catch (error) {
             console.error('Error occurred while fetching data:', error);
         }
     };
 
-
-
     useEffect(() => {
-        fetchData(); // Call the fetchData function when component mounts
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        if (code) {
+            fetchData(code);
+        } else {
+            console.error('Code not found in URL parameters.');
+        }
     }, []); // Empty dependency array ensures this effect runs once, similar to componentDidMount
 
     const login = (githubUserData: GithubUser) => {
         setGithubUser(githubUserData);
         setLoggedIn(true);
         localStorage.setItem('githubUser', JSON.stringify(githubUserData));
-        localStorage.setItem('code', JSON.stringify(githubUserData));
-        localStorage.setItem('token', JSON.stringify(githubUserData));
     };
 
     const handleLogout = () => {
         setGithubUser(null);
-        localStorage.removeItem('code');
         localStorage.removeItem('githubUser');
-        localStorage.removeItem('token');
         navigate('/login');
-        window.location.reload();
     };
 
     const handleCallback = async (code: string) => {
-        fetchData();
-        navigate("/githubprofile")
+        fetchData(code);
+        navigate('/githubprofile');
     };
 
     return (
