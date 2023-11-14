@@ -1,6 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {User} from "../data/users";
 
 export interface PublicRepo {
     id: number;
@@ -18,7 +19,7 @@ export interface GithubUser {
 
 export interface GitHubUserContextProps {
     githubUser: GithubUser | null;
-    isLoggedIn: boolean;
+    setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
     login: (githubUserData: GithubUser) => void;
     handleCallback: (code: string) => void;
     handleLogout: () => void;
@@ -80,8 +81,9 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     };
 
     return (
-        <GitHubUserContext.Provider value={{ githubUser, isLoggedIn, login, handleCallback, handleLogout }}>
+        <GitHubUserContext.Provider value={{ githubUser, setGithubUser, login, handleCallback, handleLogout }}>
             {children}
         </GitHubUserContext.Provider>
     );
+
 }

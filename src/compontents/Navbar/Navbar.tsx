@@ -15,7 +15,7 @@ export function Navbar() {
 
     const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps;
     const { user, setUser } = useContext(UserContext) as UserContextProps;
-    const { githubUser } = useContext(GitHubUserContext) as GitHubUserContextProps;
+    const { githubUser, setGithubUser } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     useEffect(() => {
         console.log('user:', user);
@@ -32,6 +32,7 @@ export function Navbar() {
     const handleLogout = () => {
         setUser(null);
         setDoctor(null);
+        setGithubUser(null)
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('doctor');
