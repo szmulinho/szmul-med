@@ -23,7 +23,7 @@ export const GithubProfile: React.FC = () => {
             }
         };
 
-        fetchData(); // Call the fetchData function when component mounts
+        fetchData();
     }, [GetGithubUserData, githubUser]);
 
 
@@ -34,9 +34,9 @@ export const GithubProfile: React.FC = () => {
                 <div>
                     <img src={githubUser.avatar_url}/>
                         <h3>{githubUser.email}</h3>
-                    <h3>Hello{githubUser.login}!</h3>
-                    <h3>Followers:{githubUser.followers}</h3>
-                    <h3>GithubUser Role:{githubUser.role}</h3>
+                    <h1>Hello {githubUser.login}!</h1>
+                    <h2>Followers: {githubUser.followers}</h2>
+                    <h3>GithubUser Role: {githubUser.role}</h3>
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             ) : (
