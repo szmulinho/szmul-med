@@ -37,6 +37,7 @@ export const GithubProfile: React.FC = () => {
                     <h1>Hello {githubUser.login}!</h1>
                     <h2>Followers: {githubUser.followers}</h2>
                     <h3>GithubUser Role: {githubUser.role}</h3>
+                    <h3>HTML Url: {githubUser.html_url}</h3>
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             ) : (

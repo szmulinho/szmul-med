@@ -15,6 +15,7 @@ export interface GithubUser {
     avatar_url: string;
     followers: number;
     role: string;
+    html_url: string;
 }
 
 export interface GitHubUserContextProps {
