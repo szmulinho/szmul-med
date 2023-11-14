@@ -9,7 +9,6 @@ export const GithubProfile: React.FC = () => {
         const fetchData = async () => {
             if (githubUser) {
                 try {
-                    // Retrieve code from localStorage
                     const tokenString = localStorage.getItem('tokenString');
                     if (tokenString) {
                         // Call the handleCallback function with the code parameter
