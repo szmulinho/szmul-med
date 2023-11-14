@@ -22,10 +22,10 @@ export async function handleCallback(code?: string | null): Promise<GithubUser |
     }
 }
 
-export async function GetGithubUserData(tokenString: string): Promise<GithubUser> {
+export async function GetGithubUserData(token: string): Promise<GithubUser> {
     const config: AxiosRequestConfig = {
         headers: {
-            Authorization: `Bearer ${tokenString}`
+            Authorization: `Bearer ${token}`
         }
     };
 

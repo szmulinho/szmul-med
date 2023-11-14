@@ -9,10 +9,9 @@ export const GithubProfile: React.FC = () => {
         const fetchData = async () => {
             if (githubUser) {
                 try {
-                    const tokenString = localStorage.getItem('tokenString');
-                    if (tokenString) {
-                        // Call the handleCallback function with the code parameter
-                        await GetGithubUserData(tokenString);
+                    const token = localStorage.getItem('token');
+                    if (token) {
+                        await GetGithubUserData(token);
                     } else {
                         console.error('Token not found in localStorage.');
                     }
