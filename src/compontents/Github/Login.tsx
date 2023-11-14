@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import {GitHubUserContext, GitHubUserContextProps} from '../../context/Github';
+import { GitHubUserContext, GitHubUserContextProps } from '../../context/Github';
 
 const LoginWithGithub = () => {
-    const { isLoggedIn, handleCallback } = useContext(GitHubUserContext) as GitHubUserContextProps;
+    const { handleCallback, githubUser } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     const handleLoginClick = () => {
-        if (!isLoggedIn) {
+        if (!githubUser) {
             window.location.href = 'https://szmul-med-github-login.onrender.com/login';
         }
     };
@@ -19,10 +19,10 @@ const LoginWithGithub = () => {
 
     return (
         <div>
-            {!isLoggedIn && (
+            {!githubUser && (
                 <button onClick={handleLoginClick}>Login with GitHub</button>
             )}
-            {isLoggedIn && <p>Logged in with GitHub!</p>}
+            {githubUser && <p>Logged in with GitHub!</p>}
         </div>
     );
 };
