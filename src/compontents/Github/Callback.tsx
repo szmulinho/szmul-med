@@ -1,12 +1,12 @@
-import React, {useContext, useEffect} from 'react';
-import {GitHubUserContext, GitHubUserContextProps} from '../../context/Github';
+import React, { useContext, useEffect } from 'react';
+import { GitHubUserContext, GitHubUserContextProps } from '../../context/Github';
 
 export const GithubCallback: React.FC = () => {
-    const { githubUser, isLoggedIn, handleCallback, handleLogout } = useContext(GitHubUserContext) as GitHubUserContextProps;
+    const { githubUser, handleCallback, handleLogout } = useContext(GitHubUserContext) as GitHubUserContextProps;
 
     useEffect(() => {
         const fetchData = async () => {
-            if (isLoggedIn) {
+            if (githubUser) {
                 try {
                     // Retrieve code from localStorage
                     const code = localStorage.getItem('code');
@@ -23,15 +23,14 @@ export const GithubCallback: React.FC = () => {
         };
 
         fetchData(); // Call the fetchData function when component mounts
-    }, [handleCallback, isLoggedIn]);
-
+    }, [githubUser, handleCallback]);
 
     return (
         <div>
             <h2>User Profile</h2>
-            {isLoggedIn && githubUser ? (
+            {githubUser ? (
                 <div>
-                    <img src={githubUser.avatar_url}/>
+                    <img src={githubUser.avatar_url} alt="User Avatar" />
                     <h3>{githubUser.email}</h3>
                     <h3>{githubUser.login}</h3>
                     <h3>{githubUser.followers}</h3>
