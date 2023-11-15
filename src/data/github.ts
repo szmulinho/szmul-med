@@ -23,7 +23,7 @@ export async function handleCallback(code?: string | null): Promise<GithubUser |
     }
 }
 
-export async function GetGithubUserData(githubUser: GithubUser): Promise<GithubUser> {
+export async function GetGithubUserData(githubUser: GithubUser): Promise<{ user: GithubUser, token: string }> {
     const { token, accessToken, id, email, login, role, htmlUrl, avatarUrl } = githubUser;
 
     const config: AxiosRequestConfig = {
@@ -34,9 +34,13 @@ export async function GetGithubUserData(githubUser: GithubUser): Promise<GithubU
 
     try {
         const response = await axios.get('https://szmul-med-github-login.onrender.com/user', config);
-        return response.data;
+
+        const receivedToken = response.data.token;
+
+        return { user: response.data, token: receivedToken };
     } catch (error) {
         throw new Error(`Error fetching user data: ${error}`);
     }
 }
+
 
