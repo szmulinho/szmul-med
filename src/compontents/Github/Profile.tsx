@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { GitHubUserContext, GitHubUserContextProps } from '../../context/Github';
 import { GetGithubUserData, GithubUser } from '../../data/github';
 
-const Profile: React.FC = () => {
+export const Profile: React.FC = () => {
     const { githubUser, handleLogout } = useContext(GitHubUserContext) as GitHubUserContextProps;
     const [userData, setUserData] = useState<GithubUser | null>(null);
 
