@@ -9,7 +9,7 @@ export const GithubProfile: React.FC = () => {
         const fetchData = async () => {
             if (githubUser) {
                 try {
-                    await GetGithubUserData(githubUser as any);
+                    await GetGithubUserData(githubUser);
                 } catch (error) {
                     console.error('Error occurred while fetching user data:', error);
                 }

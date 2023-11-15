@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import {User} from "../data/users";
 
 export interface GithubUser {
+    id: number;
     login: string;
-    email: string;
     avatar_url: string;
-    followers: number;
-    role: string;
     html_url: string;
-    token: string;
+    email: string;
+    role: string;
+    accessToken: string
+    token: string
+    followers: number;
 }
 
 export interface GitHubUserContextProps {

@@ -4,12 +4,13 @@ import {User} from "./users";
 export interface GithubUser {
     id: number;
     login: string;
-    avatarUrl: string;
-    htmlUrl: string;
+    avatar_url: string;
+    html_url: string;
     email: string;
     role: string;
     accessToken: string
     token: string
+    followers: number;
 }
 
 
@@ -24,7 +25,7 @@ export async function handleCallback(code?: string | null): Promise<GithubUser |
 }
 
 export async function GetGithubUserData(githubUser: GithubUser): Promise<{ user: GithubUser, token: string }> {
-    const { token, accessToken, id, email, login, role, htmlUrl, avatarUrl } = githubUser;
+    const { token, accessToken, id, email, login, role, html_url, avatar_url, followers } = githubUser;
 
     const config: AxiosRequestConfig = {
         headers: {
