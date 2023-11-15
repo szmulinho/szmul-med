@@ -9,6 +9,7 @@ export interface GithubUser {
     email: string;
     role: string;
     accessToken: string
+    token: string
 }
 
 
@@ -22,13 +23,20 @@ export async function handleCallback(code?: string | null): Promise<GithubUser |
     }
 }
 
-export async function GetGithubUserData(tokenString: string): Promise<GithubUser> {
+export async function GetGithubUserData(githubUser: GithubUser): Promise<GithubUser> {
+    const { token, accessToken, id, email, login, role, htmlUrl, avatarUrl } = githubUser;
+
     const config: AxiosRequestConfig = {
         headers: {
-            Authorization: `Bearer ${tokenString}`
+            Authorization: `Bearer ${token}`
         }
     };
 
-    const response = await axios.get('https://szmul-med-github-login.onrender.com/user', config);
-    return response.data;
+    try {
+        const response = await axios.get('https://szmul-med-github-login.onrender.com/user', config);
+        return response.data;
+    } catch (error) {
+        throw new Error(`Error fetching user data: ${error}`);
+    }
 }
+
