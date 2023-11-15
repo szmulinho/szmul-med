@@ -22,23 +22,12 @@ export const GithubCallback: React.FC = () => {
             }
         };
 
-        fetchData(); // Call the fetchData function when component mounts
+        fetchData();
     }, [githubUser, handleCallback]);
 
     return (
         <div>
-            <h2>User Profile</h2>
-            {githubUser ? (
-                <div>
-                    <img src={githubUser.avatar_url} alt="User Avatar" />
-                    <h3>{githubUser.email}</h3>
-                    <h3>{githubUser.login}</h3>
-                    <h3>{githubUser.followers}</h3>
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            ) : (
-                <div>Loading user data...</div>
-            )}
+
         </div>
     );
 };

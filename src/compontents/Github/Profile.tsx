@@ -9,9 +9,9 @@ export const GithubProfile: React.FC = () => {
         const fetchData = async () => {
             if (githubUser) {
                 try {
-                    const token = localStorage.getItem('token');
-                    if (token) {
-                        await GetGithubUserData(token);
+                    const tokenString = localStorage.getItem('token');
+                    if (tokenString) {
+                        await GetGithubUserData(tokenString);
                     } else {
                         console.error('Token not found in localStorage.');
                     }
