@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {GitHubUserContextProps} from "./Github";
+import { Doctor } from '../data/doctors';
 
-export interface Doctor {
-    login: string;
-    role: string;
-}
+
 
 export interface DoctorContextProps {
     doctor: Doctor | null;
@@ -28,6 +26,16 @@ export function DoctorContextProvider({ children }: { children: React.ReactNode 
         setDoctor(doctorData);
         setLoggedIn(true);
         localStorage.setItem('doctor', JSON.stringify(doctorData));
+    };
+
+    const logout = () => {
+        setDoctor(null);
+        setLoggedIn(false);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('doctor');
+        localStorage.removeItem('githubUser');
+        navigate('/doclog');
     };
 
     return (
