@@ -7,7 +7,7 @@ import { Doctor } from '../data/doctors';
 
 
 export interface GitHubUserContextProps {
-    admin: GithubUser | null;
+    doctor: GithubUser | null;
     githubUser: GithubUser | null;
     setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
     login: (githubUserData: GithubUser) => void;
