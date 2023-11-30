@@ -15,7 +15,7 @@ export interface GithubUser {
 export async function handleCallback(code?: string | null): Promise<GithubUser | null> {
     const headers = code ? { Authorization: `Bearer ${code}` } : {};
     // const response = await axios.get('https://szmul-med-github-login.onrender.com/github/callback', { headers });
-    const response = await axios.get('http://localhost:8086/github/callback', { headers });
+    const response = await axios.get('http://localhost:8086/callback', { headers });
 
     if (response.status === 200) {
         const githubUser: GithubUser = response.data;

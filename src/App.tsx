@@ -38,8 +38,8 @@ import {VitaminD3Profile} from "./pages/drugs/vitaminD3";
 import {CirrusProfile} from "./pages/drugs/cirrus";
 import {TabcinProfile} from "./pages/drugs/tabcin";
 import { MagneB6Profile } from './pages/drugs/magneb6';
-import GithubCallback from './compontents/Github/Callback';
 import { SecureRoute } from './compontents/SecureRoute/SecureRoute';
+import {CreateGithubUser} from "./pages/github/registerGithubUser";
 
 export default function App() {
     const [drugs, setDrugs] = useState([]);
@@ -99,7 +99,6 @@ export default function App() {
                                         <Route path="/log" element={<Choose />} />
                                         <Route path="/check" element={<Check />} />
                                         <Route path="/opinion" element={<Add_Feedback />} />
-                                        <Route path="/github_user" element={<GithubCallback />} />
                                         <Route path="/githubprofile" element={<GithubUserProfile />} />
                                         <Route path="/drug/apap" element={<ApapProfile />} />
                                         <Route path="/drug/ibuprom" element={<IbupromProfile />} />
@@ -108,6 +107,7 @@ export default function App() {
                                         <Route path="/drug/cirrus" element={<CirrusProfile />} />
                                         <Route path="/drug/tabcin" element={<TabcinProfile />} />
                                         <Route path="/drug/magne B6" element={<MagneB6Profile />} />
+                                        <Route path="/github_register" element={<CreateGithubUser />} />
                                     </Routes>
                                 </Container>
                             </div>
