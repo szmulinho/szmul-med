@@ -3,9 +3,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {User} from "../data/users";
 import { GithubUser } from '../data/github';
+import { Doctor } from '../data/doctors';
 
 
 export interface GitHubUserContextProps {
+    doctor: GithubUser | null;
     githubUser: GithubUser | null;
     setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
     login: (githubUserData: GithubUser) => void;
@@ -18,6 +20,10 @@ export const GitHubUserContext = createContext<GitHubUserContextProps | null>(nu
 export function GithubUserContextProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
     const [githubUser, setGithubUser] = useState<GithubUser | null>(() => {
+        const storedGithubUser = localStorage.getItem('githubUser');
+        return storedGithubUser ? JSON.parse(storedGithubUser) : null;
+    });
+    const [doctor, setDoctor] = useState<GithubUser | null>(() => {
         const storedGithubUser = localStorage.getItem('githubUser');
         return storedGithubUser ? JSON.parse(storedGithubUser) : null;
     });
@@ -70,7 +76,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     };
 
     return (
-        <GitHubUserContext.Provider value={{ githubUser, setGithubUser, login, handleCallback, handleLogout }}>
+        <GitHubUserContext.Provider value={{ doctor, githubUser, setGithubUser, login, handleCallback, handleLogout }}>
             {children}
         </GitHubUserContext.Provider>
     );

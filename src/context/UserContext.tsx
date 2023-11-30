@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../data/users';
+import {GithubUser} from "../data/github";
 
 
 export interface UserContextProps {
-    user: User | null;
+    user: User | GithubUser | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     isLoggedIn: boolean;
     login: (userData: User) => void;
