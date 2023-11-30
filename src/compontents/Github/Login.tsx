@@ -6,7 +6,8 @@ const LoginWithGithub = () => {
 
     const handleLoginClick = () => {
         if (!githubUser) {
-            window.location.href = 'https://szmul-med-github-login.onrender.com/login';
+            window.location.href = 'http://localhost:8086/login';
+            // window.location.href = 'https://szmul-med-github-login.onrender.com/login';
         }
     };
 
