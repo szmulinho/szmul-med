@@ -35,7 +35,9 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
             const response = await axios.get(`http://localhost:8086/callback?code=${code}`);
             if (response.status === 200) {
                 const githubUserData: GithubUser = response.data;
-                handleUserData(githubUserData);
+                localStorage.setItem('githubUser', JSON.stringify(githubUserData));
+                setGithubUser(githubUserData);
+                setLoggedIn(true);
             } else {
                 console.error('Invalid response status:', response.status);
                 console.error('Response data:', response.data);
@@ -44,11 +46,6 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
             console.error('Error occurred while fetching data:', error);
         }
     };
-
-    const handleUserData = (githubUserData: GithubUser) => {
-        console.log('Received GitHub user data:', githubUserData);
-    };
-
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
