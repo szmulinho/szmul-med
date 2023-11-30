@@ -107,7 +107,6 @@ export default function App() {
                                         <Route path="/drug/cirrus" element={<CirrusProfile />} />
                                         <Route path="/drug/tabcin" element={<TabcinProfile />} />
                                         <Route path="/drug/magne B6" element={<MagneB6Profile />} />
-                                        <Route path="/github_register" element={<CreateGithubUser />} />
                                     </Routes>
                                 </Container>
                             </div>
