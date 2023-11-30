@@ -32,12 +32,10 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     const fetchData = async (code: string) => {
         try {
             // const response = await axios.get(`https://szmul-med-github-login.onrender.com/callback?code=${code}`);
-            const response = await axios.get(`http://localhost:8086/user`);
+            const response = await axios.get(`http://localhost:8086/callback?code=${code}`);
             if (response.status === 200) {
                 const githubUserData: GithubUser = response.data;
-                localStorage.setItem('githubUser', JSON.stringify(githubUserData));
-                setGithubUser(githubUserData);
-                setLoggedIn(true);
+                handleUserData(githubUserData);
             } else {
                 console.error('Invalid response status:', response.status);
                 console.error('Response data:', response.data);
@@ -46,6 +44,11 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
             console.error('Error occurred while fetching data:', error);
         }
     };
+
+    const handleUserData = (githubUserData: GithubUser) => {
+        console.log('Received GitHub user data:', githubUserData);
+    };
+
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);

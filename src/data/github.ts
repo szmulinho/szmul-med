@@ -12,42 +12,20 @@ export interface GithubUser {
     followers: number;
 }
 
-export async function handleCallback(code?: string | null): Promise<GithubUser | null> {
-    const headers = code ? { Authorization: `Bearer ${code}` } : {};
-    // const response = await axios.get('https://szmul-med-github-login.onrender.com/github/callback', { headers });
-    const response = await axios.get('http://localhost:8086/callback', { headers });
-
-    if (response.status === 200) {
-        const githubUser: GithubUser = response.data;
-
-        // Pass the obtained token to the next function
-        const token = githubUser.token;
-        const userData = await GetGithubUserData(githubUser);
-
-        return userData.user;
-    } else {
-        return null;
-    }
-}
-
-export async function GetGithubUserData(githubUser: GithubUser): Promise<{ user: GithubUser, token: string }> {
-    const { token, accessToken, id, email, login, role, html_url, avatar_url, followers } = githubUser;
-
-    const config: AxiosRequestConfig = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
-
+export async function GetUserData(code: string): Promise<GithubUser | null> {
     try {
-        // const response = await axios.get('https://szmul-med-github-login.onrender.com/user', config);
-        const response = await axios.get('http://localhost:8086/user', config);
+        const response = await fetch(`http://localhost:8086/user`);
 
-        const receivedToken = response.data.token;
+        if (!response.ok) {
+            console.error('Error:', response.statusText);
+            return null;
+        }
 
-        return { user: response.data, token: receivedToken };
+        const userData: GithubUser = await response.json();
+        return userData;
     } catch (error) {
-        throw new Error(`Error fetching user data: ${error}`);
+        console.error('Error occurred while fetching user data:', error);
+        return null;
     }
 }
 
