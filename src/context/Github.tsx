@@ -2,18 +2,8 @@ import React, { createContext, useContext, ReactNode, useState, useEffect } from
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {User} from "../data/users";
+import { GithubUser } from '../data/github';
 
-export interface GithubUser {
-    id: number;
-    login: string;
-    avatar_url: string;
-    html_url: string;
-    email: string;
-    role: string;
-    accessToken: string
-    token: string
-    followers: number;
-}
 
 export interface GitHubUserContextProps {
     githubUser: GithubUser | null;
