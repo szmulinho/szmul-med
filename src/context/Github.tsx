@@ -7,6 +7,7 @@ import { Doctor } from '../data/doctors';
 
 
 export interface GitHubUserContextProps {
+    user: GithubUser | null;
     doctor: GithubUser | null;
     githubUser: GithubUser | null;
     setGithubUser: React.Dispatch<React.SetStateAction<GithubUser | null>>;
@@ -26,6 +27,10 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     const [doctor, setDoctor] = useState<GithubUser | null>(() => {
         const storedGithubUser = localStorage.getItem('githubUser');
         return storedGithubUser ? JSON.parse(storedGithubUser) : null;
+    });
+    const [user, setUser] = useState<GithubUser | null>(() => {
+        const storedUser = localStorage.getItem('githubUser');
+        return storedUser ? JSON.parse(storedUser) : null;
     });
     const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
 
@@ -76,7 +81,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
     };
 
     return (
-        <GitHubUserContext.Provider value={{ doctor, githubUser, setGithubUser, login, handleCallback, handleLogout }}>
+        <GitHubUserContext.Provider value={{ user ,doctor, githubUser, setGithubUser, login, handleCallback, handleLogout }}>
             {children}
         </GitHubUserContext.Provider>
     );
