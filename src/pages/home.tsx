@@ -58,9 +58,6 @@ export function Home() {
                     <Typography variant="h4" component="h4" align="center">
                         Make an appointment today!
                     </Typography>
-                    <Button variant="contained" size="large" color="primary">
-                        Book an Appointment
-                    </Button>
                 </Grid>
             </Grid>
         </Container>
