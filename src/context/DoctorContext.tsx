@@ -7,8 +7,8 @@ import { GithubUser } from '../data/github';
 
 
 export interface DoctorContextProps {
-    doctor: Doctor | null;
-    setDoctor: React.Dispatch<React.SetStateAction<Doctor | null>>;
+    doctor: Doctor | GithubUser | null;
+    setDoctor: React.Dispatch<React.SetStateAction<Doctor | GithubUser | null>>;
     isLoggedIn: boolean;
     login: (doctorData: Doctor) => void;
 }
@@ -17,7 +17,7 @@ export const DoctorContext = createContext<DoctorContextProps | undefined>(undef
 
 export function DoctorContextProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate();
-    const [doctor, setDoctor] = useState<Doctor | null>(() => {
+    const [doctor, setDoctor] = useState<Doctor | GithubUser | null>(() => {
         const storedDoctor = localStorage.getItem('doctor');
         return storedDoctor ? JSON.parse(storedDoctor) : null;
     });

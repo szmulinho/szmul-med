@@ -6,7 +6,7 @@ import {GithubUser} from "../data/github";
 
 export interface UserContextProps {
     user: User | GithubUser | null;
-    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    setUser: React.Dispatch<React.SetStateAction<User | GithubUser | null>>;
     isLoggedIn: boolean;
     login: (userData: User) => void;
     logout: () => void;
@@ -17,7 +17,7 @@ export const UserContext = createContext<UserContextProps | null>(null);
 
 export function UserContextProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate();
-    const [user, setUser] = useState<User | null>(() => {
+    const [user, setUser] = useState<User | GithubUser | null>(() => {
         const storedUser = localStorage.getItem('user');
         return storedUser ? JSON.parse(storedUser) : null;
     });
