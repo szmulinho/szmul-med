@@ -25,11 +25,11 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
         return storedGithubUser ? JSON.parse(storedGithubUser) : null;
     });
     const [doctor, setDoctor] = useState<GithubUser | null>(() => {
-        const storedGithubUser = localStorage.getItem('githubUser');
+        const storedGithubUser = localStorage.getItem('doctor');
         return storedGithubUser ? JSON.parse(storedGithubUser) : null;
     });
     const [user, setUser] = useState<GithubUser | null>(() => {
-        const storedUser = localStorage.getItem('githubUser');
+        const storedUser = localStorage.getItem('user');
         return storedUser ? JSON.parse(storedUser) : null;
     });
     const [isLoggedIn, setLoggedIn] = useState<boolean>(false);

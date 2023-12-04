@@ -23,7 +23,7 @@ export function DoctorContextProvider({ children }: { children: React.ReactNode 
     });
     const [isLoggedIn, setLoggedIn] = useState<boolean>(() => !!doctor);
 
-    const login = (doctorData: Doctor) => {
+    const login = (doctorData: Doctor | GithubUser) => {
         setDoctor(doctorData);
         setLoggedIn(true);
         localStorage.setItem('doctor', JSON.stringify(doctorData));
