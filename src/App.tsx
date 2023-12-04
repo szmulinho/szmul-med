@@ -39,7 +39,6 @@ import {CirrusProfile} from "./pages/drugs/cirrus";
 import {TabcinProfile} from "./pages/drugs/tabcin";
 import { MagneB6Profile } from './pages/drugs/magneb6';
 import { SecureRoute } from './compontents/SecureRoute/SecureRoute';
-import {CreateGithubUser} from "./pages/github/registerGithubUser";
 
 export default function App() {
     const [drugs, setDrugs] = useState([]);
