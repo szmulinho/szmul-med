@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { GetDoctorData, Doctor } from '../../data/doctors';
 import {DoctorContext, DoctorContextProps} from "../../context/DoctorContext";
 import {UserContext, UserContextProps} from "../../context/UserContext";
+import {GitHubUserContext, GitHubUserContextProps} from "../../context/Github";
 
 export function DoctorProfile() {
     const navigate = useNavigate();
-    const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps;
+    const { doctor, setDoctor } = useContext(DoctorContext) as DoctorContextProps || useContext(GitHubUserContext) as GitHubUserContextProps;
     const { logout } = useContext(UserContext) as UserContextProps;
 
 
     useEffect(() => {
         const fetchDoctorData = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('token') || localStorage.getItem("code") || localStorage.getItem("githubUser") ;
                 if (!token) {
                     navigate('/doctor_log');
                     return;
