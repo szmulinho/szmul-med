@@ -36,8 +36,7 @@ export function GithubUserContextProvider({ children }: { children: ReactNode })
 
     const fetchData = async (code: string) => {
         try {
-            // const response = await axios.get(`https://szmul-med-github-login.onrender.com/callback?code=${code}`);
-            const response = await axios.get(`http://localhost:8086/callback?code=${code}`);
+            const response = await axios.get(`https://szmul-med-github-login.onrender.com/callback?code=${code}`);
             if (response.status === 200) {
                 const githubUserData: GithubUser = response.data;
                 localStorage.setItem('githubUser', JSON.stringify(githubUserData));
